@@ -1,8 +1,7 @@
 package edu.ics372.abdnn.medsched.singletons;
 
 import edu.ics372.abdnn.medsched.abstracts.NamedEntity;
-import edu.ics372.abdnn.medsched.collections.Bag;
-import edu.ics372.abdnn.medsched.collections.Container;
+import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.ExamRoom;
 import edu.ics372.abdnn.medsched.enums.RoomState;
 
@@ -12,7 +11,7 @@ import java.util.Iterator;
 
 public final class ExamRooms {
     private static ExamRooms INSTANCE;
-    private Container<ExamRoom> container;
+    private Bag<ExamRoom> bag;
 
     private static ExamRooms getInstance() {
         if (INSTANCE == null) {

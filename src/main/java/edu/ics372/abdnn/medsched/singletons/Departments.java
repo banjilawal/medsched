@@ -1,21 +1,15 @@
 package edu.ics372.abdnn.medsched.singletons;
 
-import edu.ics372.abdnn.medsched.abstracts.NamedEntity;
-import edu.ics372.abdnn.medsched.collections.Container;
+import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.Department;
-import edu.ics372.abdnn.medsched.entities.ExamRoom;
-import edu.ics372.abdnn.medsched.enums.RoomState;
-
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public enum Departments {
     INSTANCE;
-    private Container<Department> container;
+    private Bag<Department> bag;
 
     Departments () {
-        this.container = new Container<Department>();
+        this.bag = new Bag<Department>();
     }
-    public Container<Department> getContainer () { return container; }
+    public Bag<Department> getBag () { return bag; }
 
 } // end class

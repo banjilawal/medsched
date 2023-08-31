@@ -1,14 +1,14 @@
-package edu.ics372.abdnn.medsched.collections;
+package edu.ics372.abdnn.medsched.containers;
 
 import edu.ics372.abdnn.medsched.abstracts.Entity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Bag<E> {
+public class OldBag<E> {
     private ArrayList<E> contents;
 
-    public Bag () {
+    public OldBag () {
         this.contents = new ArrayList<E>();
     }
 
@@ -78,7 +78,7 @@ public class Bag<E> {
         return contents.iterator();
     }
 
-    public boolean sameContents (Bag<E> bag) {
+    public boolean sameContents (OldBag<E> bag) {
         for (E e : contents) {
             if (!bag.getContents().contains(e)) return false;
         }
