@@ -1,46 +1,65 @@
 package edu.ics372.abdnn.medsched.singletons;
 
-import edu.ics372.abdnn.medsched.abstracts.NamedEntity;
 import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.ExamRoom;
-import edu.ics372.abdnn.medsched.enums.RoomState;
+import edu.ics372.abdnn.medsched.enums.Availabilty;
+import edu.ics372.abdnn.medsched.interfaces.SingletonBagWrapper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.function.Predicate;
 
 
-public final class ExamRooms {
+public final class ExamRooms implements SingletonBagWrapper<ExamRoom> {
     private static ExamRooms INSTANCE;
-    private Bag<ExamRoom> bag;
 
-    private static ExamRooms getInstance() {
+    private ExamRooms () {
+        Bag<ExamRoom> bag = new Bag<ExamRoom>();
+    }
+
+    public static ExamRooms getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new ExamRooms();
         }
         return INSTANCE;
     }
 
-//    public Iterator<ExamRoom> iterator () { return container.iterator(); }
-//
-//    public void add (ExamRoom examRoom) {
-//        container.add(examRoom);
-//    }
-//
-//    public ExamRoom search (int id) { return bag.search(id); }
-//    public ExamRoom search (String name) {
-//        for (ExamRoom examRoom : bag.getContents()) {
-//            if (examRoom.getName().equalsIgnoreCase(name)) return examRoom;
-//        }
-//        return null;
-//    }
+
+    @Override
+    public int size () { return getInstance().size(); }
+
+    @Override
+    public void add (ExamRoom examRoom) { getInstance().add(examRoom);}
+
+    @Override
+    public ExamRoom pop (ExamRoom examRoom) { return getInstance().pop(examRoom); }
+
+    @Override
+    public void remove (ExamRoom examRoom) { getInstance().remove(examRoom);}
+
+    @Override
+    public Iterator<ExamRoom> iterator () { return getInstance().iterator(); }
+
+    public ExamRoom searchByName (String name) { return getInstance().searchByName(name); }
+
+    public ExamRoom searchById (int id) { return getInstance().searchById(id); }
+
+    public ExamRoom find (String name, int id) { return getInstance().find(name, id); }
 
     public Iterator<ExamRoom> getOpenRooms () {
-        ArrayList<ExamRoom> results = new ArrayList<ExamRoom>();
-        for (NamedEntity ne : container.getContents()) {
-            ExamRoom examRoom = (ExamRoom) ne;
-            if (examRoom.getState().equals(RoomState.EMPTY) && !results.contains(examRoom))
-                results.add(results.size(), examRoom);
+        Predicate<ExamRoom> predicate =  examRoom -> examRoom.getAvailabilty().equals(Availabilty.OPEN);
+            return getInstance().filter(predicate);
+    } // close getOpenRooms
+
+    @Override
+    public Iterator<ExamRoom> filter (Predicate<ExamRoom> predicate) {
+        ArrayList<ExamRoom> matches = new ArrayList<ExamRoom>();
+        Iterator<ExamRoom> iterator = getInstance().iterator();
+        while (iterator().hasNext()) {
+            ExamRoom examRoom = iterator.next();
+            if (predicate.test(examRoom) && !matches.contains(examRoom))
+                matches.add(matches.size(), examRoom);
         }
-        return results.iterator();
-    }
+        return matches.iterator();
+    } // close filter
 } // end class ExamRooms

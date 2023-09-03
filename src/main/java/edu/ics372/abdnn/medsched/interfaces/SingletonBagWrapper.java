@@ -1,14 +1,12 @@
 package edu.ics372.abdnn.medsched.interfaces;
 
-import edu.ics372.abdnn.medsched.abstracts.Entity;
 import edu.ics372.abdnn.medsched.containers.Bag;
 
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public interface BagWrapper<T> {
+public interface SingletonBagWrapper<T> {
     public int size ();
-    public Bag<T> getBag ();
     public void add (T t);
     public T pop (T t);
     public void remove (T t);

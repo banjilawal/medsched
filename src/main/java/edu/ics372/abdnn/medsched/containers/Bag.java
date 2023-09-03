@@ -28,80 +28,105 @@ public class Bag<E>  {
         return contents.indexOf(e);
     } // close getIndex
 
-    public E get(int index) {
-        return contents.get(index);
-    }
+    public E get (E e) {
+        if (contents.contains(e)) return e;
+        return null;
+    } //
 
-//    public boolean contains (E e) {
-//        return (contents.contains(e));
-//    }
-
-    public E search (int id) {
-        return search("", id);
-    } // close search
-
-    public E search (String name) {
-        return search(name, Integer.MIN_VALUE);
-    } // close search
-
-    private E search (String name, int id) {
-        if (!name.isBlank()) {
-            for (E e : contents) {
-                if (e instanceof NamedEntity ne && ne.getName().equalsIgnoreCase(name)) return e;
-//                NamedEntity ne = (NamedEntity) e;
-//                if (ne.getName().equalsIgnoreCase(name)) {
-//                    return e;
-//                }
-            }
-        }
-        if (id >= Constant.MINIMUM_ENTITY_ID) {
-            for (E e : contents) {
-                if (e instanceof Entity et && et.getId() == id) return e;
-//
-//                })
-//                NamedEntity ne = (NamedEntity) e;
-//                if (ne.getId() == id) {
-//                    return e;
-//                }
+    public E namedEntityMatch (String name, int id) {
+        for (E e : contents) {
+            if (e instanceof NamedEntity namedEntity) {
+                if (name.equalsIgnoreCase(namedEntity.getName()) && id == namedEntity.getId())
+                    return e;
             }
         }
         return null;
-    } // close search
+    } // close namedEntityMatch
+
+    public E entityMatch (int id) {
+        for (E e : contents) {
+            if (e instanceof Entity entity) {
+                if (id == entity.getId()) return e;
+            }
+        }
+        return null;
+    } // close entityMatch
+
+    public E find (E e) {
+        if (e instanceof NamedEntity namedEntity) {
+            return namedEntityMatch(namedEntity.getName(), namedEntity.getId());
+        }
+        else if (e instanceof Entity entity) return entityMatch(entity.getId());
+        else return null;
+    } // close find
+
+
+    public void addNamedEntity (E e) {
+        if (e instanceof NamedEntity namedEntity) {
+            if (namedEntityMatch(namedEntity.getName(), namedEntity.getId()) != null) {
+                contents.add(contents.size(), e);
+            }
+        }
+    } // close addNamedEntity
+
+    public void addEntity (E e) {
+        if (!(e instanceof NamedEntity)) {
+            assert e instanceof Entity;
+            Entity entity = (Entity) e;
+            if (entityMatch(entity.getId()) != null) {
+                contents.add(contents.size(), e);
+            }
+        }
+    } // close addEntity
 
     public void add (E e) {
-        if (!contents.contains(e)) contents.add(contents.size(), e);
+        if (e instanceof NamedEntity namedEntity) addNamedEntity(e);
+        else addEntity(e);
     } // close add
 
-    public boolean remove (int id) {
-        return remove("", id);
-    } // close remove
-
-    public boolean remove (String name) {
-        return remove(name, Integer.MIN_VALUE);
-    } // close remove
-
-
-    public E remove (E e) {
-        return contents.remove(contents.indexOf(e));
-    } // close remove
-
-    private boolean remove (String name, int id) {
-        E e = null;
-        if (!name.isBlank()) {
-            e = search(name);
+    public void removeNamedEntity (E e) {
+        if (e instanceof NamedEntity namedEntity) {
+            if (namedEntityMatch(namedEntity.getName(), namedEntity.getId()) != null) {
+                contents.remove(contents.indexOf(e));
+            }
         }
-        if (id >= Constant.MINIMUM_ENTITY_ID ) {
-            e = search(id);
+    } // close removeNamedEntity
+
+    public void removeEntity (E e) {
+        if (!(e instanceof NamedEntity)) {
+            assert e instanceof Entity;
+            Entity entity = (Entity) e;
+            if (entityMatch(entity.getId()) != null) {
+                contents.remove(contents.indexOf(e));
+            }
         }
-        if (e != null) {
-            return contents.remove(e);
+    } // close removeEntity
+
+    public void remove (E e) {
+        if (e instanceof NamedEntity namedEntity) removeNamedEntity(e);
+        else removeEntity(e);
+    } // close removeEntity
+
+    public E pop (E e) {
+        E item = find(e);
+        if (item != null) {
+            contents.remove(contents.indexOf(e));
         }
-        return false;
-    } // close remove
+        return e;
+    } // close pop
 
     public Iterator<E> iterator () {
         return contents.iterator();
-    }
+    } // close iterator
+
+    public Iterator<E> filter (Predicate<E> predicate) {
+        ArrayList<E> matches = new ArrayList<E>();
+        for (E e : contents) {
+            if (predicate.test(e) && !matches.contains(e))
+                matches.add(matches.size(), e);
+        }
+        return matches.iterator();
+    } // close filter
 
     @Override
     public String toString () {
@@ -115,5 +140,13 @@ public class Bag<E>  {
 
     private String getClasName (E e) {
         return e.getClass().getSimpleName();
+    }
+
+    private boolean  namedEntityMatch (NamedEntity namedEntity, String name, int id) {
+        return name.equalsIgnoreCase(namedEntity.getName()) && id == namedEntity.getId();
+    }
+
+    private boolean entityMatch (Entity entity, int id) {
+        return id == entity.getId();
     }
 } // end class Bag

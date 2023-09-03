@@ -1,48 +1,69 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Person;
-import edu.ics372.abdnn.medsched.singletons.Departments;
+import edu.ics372.abdnn.medsched.enums.Availabilty;
 
 import java.util.ArrayList;
 
 public class Provider extends Person  {
-    private ArrayList<String> departments;
+    private final ArrayList<String> departmentNames;
+    private Availabilty availabilty;
+    private ProviderLock lock;
 
-    public Provider (int id, String firstname, String lastname, Department department) {
+    public Provider (int id, String firstname, String lastname) {
         super(id, firstname, lastname);
-        this.departments = new ArrayList<String>();
-    } //
+        this.departmentNames = new ArrayList<String>();
+        this.availabilty = Availabilty.OPEN;
+        this.lock = null;
+    } // close constructor
 
-    public ArrayList<String> getDepartments () {
-        return departments;
+    public ArrayList<String> getDepartmentNames () {
+        return departmentNames;
+    }
+
+    public Availabilty getAvailabilty (DateTimeslot dateTimeslot) {
+        if (lock == null && availabilty.equals(Availabilty.OPEN)) return Availabilty.OPEN;
+        if (lock != null && lock.getDuration().equals(dateTimeslot)) return Availabilty.CLOSED;
+    }
+
+
+    public void setAvailabilty (DateTimeslot dateTimeslot) {
+        if (availabilty.equals(Availabilty.OPEN) && !lock.getDuration().equals(dateTimeslot)) {
+            lock = null;
+            this.availabilty = Availabilty.OPEN;
+        }
+        else {
+            lock = new ProviderLock(dateTimeslot);
+            this.availabilty = Availabilty.CLOSED;
+        }
     }
 
     public void addDepartments (ArrayList<Department> departments) {
-        for (Department department : departments) {
-            addDeparment(department);
-        }
-    } //
+        for (Department department : departments) { addDepartment(department); }
+    } // close addDepartments
 
-    public void addDeparment (Department department) {
-        Departments.INSTANCE.getContainer().add(department);
+    public void addDepartment (Department department) {
         department.addMember(this);
-        if (!departments.contains(department.getName()))
-            departments.add(departments.size(), department.getName());
-    } //
+        if (!departmentNames.contains(department.getName()))
+            departmentNames.add(departmentNames.size(), department.getName());
+    } // close addDepartment
 
     public void removeDepartments (ArrayList<Department> departments) {
-        for (Department department : departments) {
-            removeDeparment(department);
+        for (Department department : departments) { removeDepartment(department); }
+    } // close removeDepartments
 
+
+    public void removeDepartment (Department department) {
+        department.removeMember(this);
+        int arrayIndex = departmentNames.indexOf(department.getName());
+        if (arrayIndex >= 0) departmentNames.remove(arrayIndex);
+    } // close removeDepartment
+
+    public String printDepartmentNames () {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String departmentName: departmentNames) {
+            stringBuilder.append(departmentName).append(", ");
         }
-    } //
-
-
-    public void removeDeparment (Department department) {
-        department.removeMember(this.getId());
-        int arrayIndex = departments.indexOf(department.getName());
-        if (arrayIndex >= 0) {
-            departments.remove(arrayIndex);
-        }
-    }
+        return stringBuilder.delete((stringBuilder.length() - 1), stringBuilder.length()).toString();
+    } // close printDepartmentNames
 } // end class

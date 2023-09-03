@@ -1,11 +1,8 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.AnonymousEntity;
-import edu.ics372.abdnn.medsched.abstracts.Entity;
-import edu.ics372.abdnn.medsched.abstracts.NamedEntity;
 
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.Objects;
 
 public class Timeslot extends AnonymousEntity {
@@ -15,7 +12,7 @@ public class Timeslot extends AnonymousEntity {
     public Timeslot (LocalTime start, LocalTime end) {
         this.start = start;
         this.end = end;
-    }
+    } //
 
     public LocalTime getStart () {
         return start;
@@ -24,7 +21,6 @@ public class Timeslot extends AnonymousEntity {
     public LocalTime getEnd () {
         return end;
     }
-
 
     public void setStart(LocalTime start) {
         this.start = start;
@@ -41,13 +37,12 @@ public class Timeslot extends AnonymousEntity {
             return super.equals(timeslot) && sameTimes(timeslot);
         }
         return false;
-    } //
+    } // close equals
 
     @Override
     public int hashCode () {
         return Objects.hash(super.hashCode(), start, end);
-    } //
-
+    }
 
     @Override
     public String toString () {
