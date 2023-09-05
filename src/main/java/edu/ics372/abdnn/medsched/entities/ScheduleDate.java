@@ -3,19 +3,18 @@ package edu.ics372.abdnn.medsched.entities;
 import edu.ics372.abdnn.medsched.abstracts.Entity;
 import edu.ics372.abdnn.medsched.enums.Availabilty;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
-public class DateTimeslot extends Entity  {
+public class ScheduleDate extends Entity  {
     private Date date;
-    private Timeslot timeslot;
-    private Availabilty availabilty;
+    private ArrayList<Timeslot> timeslots;
 
-    public DateTimeslot (int id, Date date, Timeslot timeslot) {
+    public ScheduleDate (int id, Date date, Timeslot timeslot) {
         super(id);
         this.date = date;
-        this.timeslot = timeslot;
-        this.availabilty = Availabilty.OPEN;
+        this.timeslots = new ArrayList<Timeslot>();
     }
 
     public Date getDate () { return date; }
@@ -36,11 +35,11 @@ public class DateTimeslot extends Entity  {
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof DateTimeslot dateTimeslot) {
-            return super.equals(dateTimeslot)
-                && date.equals(dateTimeslot.getDate())
-                && timeslot.equals(dateTimeslot.getTimeslot())
-                && availabilty.equals(dateTimeslot.getAvailabilty());
+        if (object instanceof ScheduleDate scheduleDate) {
+            return super.equals(scheduleDate)
+                && date.equals(scheduleDate.getDate())
+                && timeslot.equals(scheduleDate.getTimeslot())
+                && availabilty.equals(scheduleDate.getAvailabilty());
         }
         return false;
     } // close equals

@@ -18,14 +18,14 @@ public class Department extends Organization  {
 
     public DateTimesSlots getDateTImeSlots () { return dateTimesSlots; }
 
-    public Iterator<DateTimeslot> openSlots () { return dateTimesSlots.getAvailableDateTimeSlots(); }
+    public Iterator<ScheduleDate> openSlots () { return dateTimesSlots.getAvailableDateTimeSlots(); }
 
     public Iterator<Provider> getAvailableProviders () {
         Predicate<Provider> predicate = provider -> provider.getAvailabilty().equals(Availabilty.OPEN);
         return filterProviders(predicate);
     } // close getAvailableProviders
 
-    public Iterator<DateTimeslot> filterDateTimeslots (Predicate<DateTimeslot> predicate) {
+    public Iterator<ScheduleDate> filterDateTimeslots (Predicate<ScheduleDate> predicate) {
         return dateTimesSlots.filter(predicate);
     }
 
@@ -40,21 +40,21 @@ public class Department extends Organization  {
     } // close filterProviders
 
 
-    public void addDateTimeSlots (ArrayList<DateTimeslot> dateTimesSlots) {
-        for (DateTimeslot dateTimeslot : dateTimesSlots) {
-            addSlot(dateTimeslot);
+    public void addDateTimeSlots (ArrayList<ScheduleDate> dateTimesSlots) {
+        for (ScheduleDate scheduleDate : dateTimesSlots) {
+            addSlot(scheduleDate);
         }
     } // close addDateTimeSlots
 
-    public void addSlot (DateTimeslot dateTimeslot) { dateTimesSlots.getBag().add(dateTimeslot); }
+    public void addSlot (ScheduleDate scheduleDate) { dateTimesSlots.getBag().add(scheduleDate); }
 
-    public void removeDateTimeSlots (ArrayList<DateTimeslot> dateTimesSlots) {
-        for (DateTimeslot dateTimeslot : dateTimesSlots) {
-            removeSlot(dateTimeslot);
+    public void removeDateTimeSlots (ArrayList<ScheduleDate> dateTimesSlots) {
+        for (ScheduleDate scheduleDate : dateTimesSlots) {
+            removeSlot(scheduleDate);
         }
     } // end removeDateTimeSlots
 
-    public void removeSlot (DateTimeslot dateTimeslot) { dateTimesSlots.getBag().add(dateTimeslot); }
+    public void removeSlot (ScheduleDate scheduleDate) { dateTimesSlots.getBag().add(scheduleDate); }
 
     @Override
     public boolean equals (Object object) {

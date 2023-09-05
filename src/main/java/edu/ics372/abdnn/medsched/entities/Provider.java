@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Provider extends Person  {
     private final ArrayList<String> departmentNames;
     private Availabilty availabilty;
-    private ProviderLock lock;
+    private DurationLock lock;
 
     public Provider (int id, String firstname, String lastname) {
         super(id, firstname, lastname);
@@ -21,19 +21,19 @@ public class Provider extends Person  {
         return departmentNames;
     }
 
-    public Availabilty getAvailabilty (DateTimeslot dateTimeslot) {
+    public Availabilty getAvailabilty (ScheduleDate scheduleDate) {
         if (lock == null && availabilty.equals(Availabilty.OPEN)) return Availabilty.OPEN;
-        if (lock != null && lock.getDuration().equals(dateTimeslot)) return Availabilty.CLOSED;
+        if (lock != null && lock.getDuration().equals(scheduleDate)) return Availabilty.CLOSED;
     }
 
 
-    public void setAvailabilty (DateTimeslot dateTimeslot) {
-        if (availabilty.equals(Availabilty.OPEN) && !lock.getDuration().equals(dateTimeslot)) {
+    public void setAvailabilty (ScheduleDate scheduleDate) {
+        if (availabilty.equals(Availabilty.OPEN) && !lock.getDuration().equals(scheduleDate)) {
             lock = null;
             this.availabilty = Availabilty.OPEN;
         }
         else {
-            lock = new ProviderLock(dateTimeslot);
+            lock = new DurationLock(scheduleDate);
             this.availabilty = Availabilty.CLOSED;
         }
     }

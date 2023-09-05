@@ -25,15 +25,15 @@ public class Scheduler {
     } // close getInstance;
 
     public Appointment response (AppointmentRequest appointmentRequest) {
-        DateTimeslot matchedSlot = null;
+        ScheduleDate matchedSlot = null;
         Provider provider = null;
-        Iterator<DateTimeslot> slots = Departments.INSTANCE.get(appointmentRequest.getDepartment()).openSlots();
+        Iterator<ScheduleDate> slots = Departments.INSTANCE.get(appointmentRequest.getDepartment()).openSlots();
         Iterator<Provider> providers = Departments.INSTANCE.get(appointmentRequest.getDepartment()).getAvailableProviders();
 
         while (slots.hasNext() && providers.hasNext()) {
-            DateTimeslot dateTimeslot = slots.next();
+            ScheduleDate scheduleDate = slots.next();
             provider = providers.next();
-            if (slotMatch(appointmentRequest.getDateTimeslot(), dateTimeslot) && providerMatch(appointmentRequest.getProvider(), provider)) {
+            if (slotMatch(appointmentRequest.getDateTimeslot(), scheduleDate) && providerMatch(appointmentRequest.getProvider(), provider)) {
                 if (ExamRooms.getInstance().iterator().hasNext()) {
                     ExamRoom examRoom = ExamRooms.getInstance().iterator().next();
                     if (provider.getAvailabilty(appointmentRequest.getDateTimeslot()).equals(Availabilty.OPEN)) {
@@ -52,6 +52,6 @@ public class Scheduler {
         return null;
     }
 
-    private boolean slotMatch (DateTimeslot a,  DateTimeslot b) { return a.equals(b); }
+    private boolean slotMatch (ScheduleDate a, ScheduleDate b) { return a.equals(b); }
     private boolean providerMatch (Provider a, Provider b) { return a.equals(b); }
 } // end class Scheduler

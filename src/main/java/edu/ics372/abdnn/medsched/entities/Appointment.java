@@ -2,7 +2,6 @@ package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Meeting;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class Appointment extends Meeting {
@@ -11,7 +10,7 @@ public class Appointment extends Meeting {
     private Patient patient;
 
 
-    public Appointment (int id, String name, Department department,  Provider provider, ExamRoom examRoom, DateTimeslot dateTime, Patient patient) {
+    public Appointment (int id, String name, Department department, Provider provider, ExamRoom examRoom, ScheduleDate dateTime, Patient patient) {
         super(id, name, provider, examRoom, dateTime);
         this.department = department;
         this.patient = patient;

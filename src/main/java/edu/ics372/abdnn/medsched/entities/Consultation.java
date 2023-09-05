@@ -10,7 +10,7 @@ public class Consultation extends Meeting {
     private Patient patient;
 
 
-    public Consultation (int id, String name, Department department, Provider provider, ExamRoom examRoom, DateTimeslot dateTime, Patient patient) {
+    public Consultation (int id, String name, Department department, Provider provider, ExamRoom examRoom, ScheduleDate dateTime, Patient patient) {
         super(id, name, provider, examRoom, dateTime);
         this.department = department;
         this.patient = patient;
