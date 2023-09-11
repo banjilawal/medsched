@@ -1,19 +1,21 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Meeting;
+import edu.ics372.abdnn.medsched.abstracts.OwnerLock;
 
 import java.util.Objects;
 
 public class Appointment extends Meeting {
+    private final Department department;
+    private final Patient patient;
+    private final OwnerLock patientLock;
 
-    private Department department;
-    private Patient patient;
 
-
-    public Appointment (int id, String name, Department department, Provider provider, ExamRoom examRoom, ScheduleDate dateTime, Patient patient) {
-        super(id, name, provider, examRoom, dateTime);
+    public Appointment (int id, String name, Department department, Provider provider, ExamRoom examRoom, ScheduleDate appointmentDate, Timeslot timeslot, Patient patient) {
+        super(id, name, provider, examRoom, appointmentDate, timeslot);
         this.department = department;
         this.patient = patient;
+        this.patientLock = new OwnerLock(patient);
     } //
 
     public Department getDepartment () { return department; }
@@ -22,9 +24,7 @@ public class Appointment extends Meeting {
         return patient;
     }
 
-    public void setDepartment (Department department) { this.department = department; }
-
-    public void setPatient (Patient patient) { this.patient = patient; }
+    public OwnerLock getPatientLock () { return patientLock; }
 
     @Override
     public boolean equals (Object object) {

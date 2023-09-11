@@ -34,12 +34,22 @@ public class ScheduleDate extends Entity  {
         return Integer.MIN_VALUE;
     }
 
+
     public void bookTimeSlot (Timeslot timeslot) {
         int arrayIndex = getArrayIndex(timeslot);
-        if (arrayIndex > Integer.MIN_VALUE)  {
-            timeslots.get(arrayIndex).book(date);
+        if (arrayIndex > Integer.MIN_VALUE && isOpen(timeslot))  {
+            timeslots.get(arrayIndex).setAvailabilty(Availabilty.CLOSED);
         }
     }
+
+
+    public void releaseTimeslot (Timeslot timeslot) {
+        int arrayIndex = getArrayIndex(timeslot);
+        if (arrayIndex > Integer.MIN_VALUE && !isOpen(timeslot))  {
+            timeslots.get(arrayIndex).setAvailabilty(Availabilty.OPEN);
+        }
+    }
+
 
     public boolean isOpen (Timeslot timeslot) {
         if (timeslots.contains(timeslot) ) {
@@ -47,6 +57,7 @@ public class ScheduleDate extends Entity  {
         }
         return false;
     }
+
 
     public void setDate (Date date) { this.date = date; }
 
@@ -57,17 +68,8 @@ public class ScheduleDate extends Entity  {
         if (object == null) return false;
         if (object instanceof ScheduleDate scheduleDate) {
             return super.equals(scheduleDate)
-                && date.equals(scheduleDate.getDate());
+                    && date.equals(scheduleDate.getDate());
+        }
         return false;
     } // close equals
-
-//    @Override
-//    public int hashCode () {
-//        return Objects.hash(super.hashCode(), date);
-//    } //
-
-//    @Override
-//    public String toString () {
-//        return super.toString() + "date:" + date;
-//    }
 } // end class Timeslot

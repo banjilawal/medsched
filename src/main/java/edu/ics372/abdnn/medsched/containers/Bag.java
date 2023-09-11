@@ -115,6 +115,12 @@ public class Bag<E>  {
         return e;
     } // close pop
 
+    public E peek (E e) {
+        E item = find(e);
+        if (item != null) return contents.get(contents.indexOf(e));
+        return null;
+    }
+
     public Iterator<E> iterator () {
         return contents.iterator();
     } // close iterator

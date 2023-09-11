@@ -5,14 +5,12 @@ import edu.ics372.abdnn.medsched.entities.ScheduleDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class Person extends Resource {
+public abstract class Person extends NamedEntity {
     private String lastname;
-    private ArrayList<ScheduleDate> appointments;
 
     public Person(int id, String firstname, String lastname) {
         super(id, firstname);
         this.lastname = lastname;
-        this.appointments = new ArrayList<>();
     } //
 
     public String getFirstname () {
@@ -23,7 +21,6 @@ public abstract class Person extends Resource {
         return lastname;
     }
 
-    public ArrayList<ScheduleDate> getAppointments () { return appointments; }
 
     public void setFirstname (String firstname) { super.setName(firstname); }
 

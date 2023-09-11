@@ -2,48 +2,33 @@ package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Meeting;
 
+import java.time.LocalTime;
 import java.util.Objects;
 
-public class Consultation extends Meeting {
+public class Consultation extends Appointment {
+    public LocalTime actualStart;
+    public LocalTime actualEnd;
 
-    private Department department;
-    private Patient patient;
-
-
-    public Consultation (int id, String name, Department department, Provider provider, ExamRoom examRoom, ScheduleDate dateTime, Patient patient) {
-        super(id, name, provider, examRoom, dateTime);
-        this.department = department;
-        this.patient = patient;
-    } //
-
-    public Department getDepartment () { return department; }
-
-    public Patient getPatient () {
-        return patient;
+    public Consultation (
+            int id,
+            String name,
+            Department department,
+            Provider provider,
+            ExamRoom examRoom,
+            ScheduleDate appointmentDate,
+            Timeslot timeslot,
+            Patient patient,
+            LocalTime actualStart,
+            LocalTime actualEnd
+        ) {
+        super(id, name, department, provider, examRoom, appointmentDate, timeslot, patient);
+        this.actualStart = actualStart;
+        this.actualEnd = actualEnd;
     }
 
-    public void setDepartment (Department department) { this.department = department; }
+    public LocalTime getActualStart () { return actualStart; }
+    public LocalTime getActualEnd () { return actualEnd; }
 
-    public void setPatient (Patient patient) { this.patient = patient; }
-
-    @Override
-    public boolean equals (Object object) {
-        if (this == object) return true;
-        if (object == null) return false;
-        if (object instanceof Consultation appointment) {
-            return super.equals(appointment) && department.equals(getDepartment()) && patient.equals(appointment.getPatient());
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode () {
-        return Objects.hash(super.hashCode(), department, patient);
-    }
-
-    @Override
-    public String toString () {
-        return super.toString() + " department: " + department.getName() + patient.toString();
-    }
-
-} // end class
+    public void setActualStart (LocalTime actualStart) { this.actualStart = actualStart; }
+    public void setActualEnd (LocalTime actualEnd) { this.actualEnd = actualEnd; }
+} // end class Consultation

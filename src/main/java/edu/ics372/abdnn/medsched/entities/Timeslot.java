@@ -1,62 +1,46 @@
 package edu.ics372.abdnn.medsched.entities;
 
-import edu.ics372.abdnn.medsched.abstracts.AnonymousEntity;
-import edu.ics372.abdnn.medsched.abstracts.Entity;
-import edu.ics372.abdnn.medsched.abstracts.NamedEntity;
-import edu.ics372.abdnn.medsched.abstracts.Resource;
 import edu.ics372.abdnn.medsched.enums.Availabilty;
 import edu.ics372.abdnn.medsched.interfaces.DurationLockable;
-import edu.ics372.abdnn.medsched.interfaces.IdNumber;
-import javafx.css.converter.DurationConverter;
+import edu.ics372.abdnn.medsched.interfaces.Identified;
+import edu.ics372.abdnn.medsched.interfaces.Named;
+import edu.ics372.abdnn.medsched.interfaces.NamedEntityBag;
 
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.Objects;
 
-public class Timeslot extends NamedEntity implements DurationLockable {
-    private Duration duration;
+public class Timeslot extends Duration implements Identified, Named {
+    private int id;
+    private String name;
     private Availabilty availabilty;
-    private DurationLock durationLock;
 
 
-    public Timeslot (int id, String name,Duration duration) {
-        super(id, name);
-        this.duration = duration;
-        this.durationLock = null;
+    public Timeslot (int id, String name, LocalTime startTime, LocalTime endTime) {
+        super(startTime, endTime);
+        this.id = id;
+        this.name = name;
         this.availabilty = Availabilty.OPEN;
     } //
 
-    public Duration getDuration () {
-        return duration;
-    }
-
-    public void setDuration (Duration duration) {
-        this.duration = duration;
-    }
 
     @Override
+    public int getId () { return id; }
+
+    @Override
+    public String getName () { return name; }
+
+
     public Availabilty getAvailabilty () { return availabilty; }
 
-     @Override
-    public DurationLock getDurationLock () { return durationLock; }
+    public void setAvailabilty (Availabilty availabilty) { this.availabilty = availabilty; }
 
 
     @Override
-    public void book (Date date) {
-        if (durationLock == null && availabilty.equals(Availabilty.OPEN)) {
-            this.durationLock = new DurationLock(date, duration);
-            this.availabilty = Availabilty.CLOSED;
-        }
-    }
+    public void setId (int id) { this.id = id; }
 
     @Override
-    public void cancel () {
-        if (durationLock != null) {
-            this.durationLock = null;
-            this.availabilty = Availabilty.OPEN;
-        }
-    }
-
+    public void setName (String name) { this.name = name; }
 
 
     @Override
@@ -64,18 +48,21 @@ public class Timeslot extends NamedEntity implements DurationLockable {
         if (this == object) return true;
         if (object == null) return false;
         if (object instanceof Timeslot timeslot) {
-            return super.equals(timeslot) && duration.equals(timeslot.getDuration());
+            return super.equals(timeslot)
+                && id == timeslot.getId()
+                && availabilty == timeslot.getAvailabilty()
+                && name.equalsIgnoreCase(timeslot.getName());
         }
         return false;
     } // close equals
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), duration);
+        return Objects.hash(super.hashCode(), id, name, availabilty);
     }
 
     @Override
     public String toString () {
-        return super.toString() + " start:" + duration.getStart().toString() + " end:" + duration.getEnd().toString();
+        return super.toString() + " id:" + id + " name:" + name + " availabe:" + availabilty.toString();
     }
 } // end class Timeslot

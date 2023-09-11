@@ -28,6 +28,4 @@ public abstract class Entity extends AnonymousEntity {
     public String toString () {
             return getClass().getSimpleName() + " id:" + id;
     } // close toString
-
-
 } // end class Entity

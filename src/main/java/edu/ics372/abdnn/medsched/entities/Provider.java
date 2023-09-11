@@ -7,36 +7,16 @@ import java.util.ArrayList;
 
 public class Provider extends Person  {
     private final ArrayList<String> departmentNames;
-    private Availabilty availabilty;
-    private DurationLock lock;
 
     public Provider (int id, String firstname, String lastname) {
         super(id, firstname, lastname);
         this.departmentNames = new ArrayList<String>();
-        this.availabilty = Availabilty.OPEN;
-        this.lock = null;
     } // close constructor
 
     public ArrayList<String> getDepartmentNames () {
         return departmentNames;
     }
 
-    public Availabilty getAvailabilty (ScheduleDate scheduleDate) {
-        if (lock == null && availabilty.equals(Availabilty.OPEN)) return Availabilty.OPEN;
-        if (lock != null && lock.getDuration().equals(scheduleDate)) return Availabilty.CLOSED;
-    }
-
-
-    public void setAvailabilty (ScheduleDate scheduleDate) {
-        if (availabilty.equals(Availabilty.OPEN) && !lock.getDuration().equals(scheduleDate)) {
-            lock = null;
-            this.availabilty = Availabilty.OPEN;
-        }
-        else {
-            lock = new DurationLock(scheduleDate);
-            this.availabilty = Availabilty.CLOSED;
-        }
-    }
 
     public void addDepartments (ArrayList<Department> departments) {
         for (Department department : departments) { addDepartment(department); }
