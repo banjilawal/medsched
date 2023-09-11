@@ -7,9 +7,9 @@ import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public class DateTimesSlots implements BagWrapper<ScheduleDate> {
+public class SscheduleDates implements BagWrapper<ScheduleDate> {
     private final Bag<ScheduleDate> dateTimeSlots;
-    public DateTimesSlots () {
+    public SscheduleDates () {
         dateTimeSlots = new Bag<ScheduleDate>();
     } //
 

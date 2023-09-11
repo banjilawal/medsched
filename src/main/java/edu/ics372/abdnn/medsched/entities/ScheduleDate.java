@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class ScheduleDate extends Entity  {
     private Date date;
-    private ArrayList<Timeslot> timeslots;
+    private final ArrayList<Timeslot> timeslots;
 
     public ScheduleDate (int id, Date date, Timeslot timeslot) {
         super(id);
@@ -19,17 +19,37 @@ public class ScheduleDate extends Entity  {
 
     public Date getDate () { return date; }
 
-    public Timeslot getTimeslot () { return timeslot; }
+    public ArrayList<Timeslot> getTimeslots () { return timeslots; }
 
-    public Availabilty getAvailabilty () { return availabilty; }
+    public Timeslot getFirstOpenTimeSLot () {
+        for (Timeslot timeslot : timeslots) {
+            if (timeslot.getAvailabilty() == Availabilty.OPEN) return timeslot;
+        }
+        return null;
+    }
+
+
+    private int getArrayIndex (Timeslot timeslot) {
+        if (timeslots.contains(timeslot)) return timeslots.indexOf(timeslot);
+        return Integer.MIN_VALUE;
+    }
+
+    public void bookTimeSlot (Timeslot timeslot) {
+        int arrayIndex = getArrayIndex(timeslot);
+        if (arrayIndex > Integer.MIN_VALUE)  {
+            timeslots.get(arrayIndex).book(date);
+        }
+    }
+
+    public boolean isOpen (Timeslot timeslot) {
+        if (timeslots.contains(timeslot) ) {
+            return timeslots.get(timeslots.indexOf(timeslot)).getAvailabilty() == Availabilty.OPEN;
+        }
+        return false;
+    }
 
     public void setDate (Date date) { this.date = date; }
 
-    public void setSTimeslot (Timeslot timeslot)  {
-        this.timeslot = timeslot;
-    }
-
-     public void setAvailabilty (Availabilty availabilty) { this.availabilty = availabilty; }
 
     @Override
     public boolean equals (Object object) {
@@ -37,20 +57,17 @@ public class ScheduleDate extends Entity  {
         if (object == null) return false;
         if (object instanceof ScheduleDate scheduleDate) {
             return super.equals(scheduleDate)
-                && date.equals(scheduleDate.getDate())
-                && timeslot.equals(scheduleDate.getTimeslot())
-                && availabilty.equals(scheduleDate.getAvailabilty());
-        }
+                && date.equals(scheduleDate.getDate());
         return false;
     } // close equals
 
-    @Override
-    public int hashCode () {
-        return Objects.hash(super.hashCode(), date, timeslot, availabilty);
-    } //
+//    @Override
+//    public int hashCode () {
+//        return Objects.hash(super.hashCode(), date);
+//    } //
 
-    @Override
-    public String toString () {
-        return super.toString() + "date:" + date + " " +  timeslot.toString() + " " + availabilty.toString();
-    }
+//    @Override
+//    public String toString () {
+//        return super.toString() + "date:" + date;
+//    }
 } // end class Timeslot
