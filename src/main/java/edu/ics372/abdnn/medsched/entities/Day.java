@@ -2,21 +2,25 @@ package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Entity;
 import edu.ics372.abdnn.medsched.enums.Availability;
+import edu.ics372.abdnn.medsched.global.Constant;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Day extends Entity  {
-    private final Date date;
+    private final LocalDate date;
     private final ArrayList<Timeslot> timeslots;
 
-    public Day (int id, Date date, Timeslot timeslot) {
+    public Day (int id, LocalDate date, Timeslot timeslot) {
         super(id);
         this.date = date;
         this.timeslots = new ArrayList<Timeslot>();
+        addTimeslots();
     }
 
-    public Date getDate () { return date; }
+    public LocalDate getDate () { return date; }
 
     public ArrayList<Timeslot> getTimeslots () { return timeslots; }
 
@@ -63,9 +67,32 @@ public class Day extends Entity  {
         if (this == object) return true;
         if (object == null) return false;
         if (object instanceof Day day) {
-            return super.equals(day)
-                    && date.equals(day.getDate());
+            return super.equals(day) && date.equals(day.getDate());
         }
         return false;
     } // close equals
+
+    private void addTimeslots () {
+        int count = 0;
+        LocalTime startTime = Constant.OPENING_TIME;
+        LocalTime endTime = Constant.OPENING_TIME;
+        while (count < Constant.TOTAL_TIMESLOTS) {
+            endTime = startTime.plusMinutes(Constant.TIMESLOT_MINUTES);
+            timeslots.add(new Timeslot((count + 1), ("T-" + (count + 1)), startTime, endTime));
+            startTime = endTime.plusMinutes(Constant.APPOINTMENT_SWITCH_OVER_TIME);
+            count++;
+        }
+    }
+
+    public String toString () {
+        return super.toString() + " " + date.toString() + printTimeslots();
+    }
+
+    public String printTimeslots () {
+        StringBuilder builder = new StringBuilder();
+        for (Timeslot timeslot : timeslots) {
+            builder.append("\n").append(timeslot.toString());
+        }
+        return builder.toString();
+    }
 } // end class Timeslot
