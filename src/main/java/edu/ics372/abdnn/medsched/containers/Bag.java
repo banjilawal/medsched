@@ -80,9 +80,13 @@ public class Bag<E>  {
     } // close addEntity
 
     public void add (E e) {
-        if (e instanceof NamedEntity namedEntity) addNamedEntity(e);
-        else addEntity(e);
-    } // close add
+        if ()
+    }
+
+//    public void add (E e) {
+//        if (e instanceof NamedEntity namedEntity) addNamedEntity(e);
+//        else addEntity(e);
+//    } // close add
 
     public void removeNamedEntity (E e) {
         if (e instanceof NamedEntity namedEntity) {
@@ -102,17 +106,20 @@ public class Bag<E>  {
         }
     } // close removeEntity
 
-    public void remove (E e) {
-        if (e instanceof NamedEntity namedEntity) removeNamedEntity(e);
-        else removeEntity(e);
-    } // close removeEntity
+    public void remove (E e) { if (contents.contains(e)) contents.remove(contents.indexOf(e)); } // close removeEntity
+
+//    public void remove (E e) {
+//        if (e instanceof NamedEntity namedEntity) removeNamedEntity(e);
+//        else removeEntity(e);
+//    } // close removeEntity
 
     public E pop (E e) {
-        E item = find(e);
-        if (item != null) {
-            contents.remove(contents.indexOf(e));
+        int arrayIndex = contents.indexOf(e);
+        if (arrayIndex >= 0) {
+            contents.remove(arrayIndex);
+            return e;
         }
-        return e;
+        return null;
     } // close pop
 
     public E peek (E e) {

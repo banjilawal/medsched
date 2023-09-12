@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public enum Departments implements SingletonBagWrapper<Department> {
+public enum Departments implements BagWrapper<Department> {
     INSTANCE;
     private final Bag<Department> departments = new Bag<Department>();
 
@@ -30,9 +30,14 @@ public enum Departments implements SingletonBagWrapper<Department> {
     @Override
     public int size () { return departments.size(); }
 
+    @Override
+    public Bag<Department> getBag () {
+        return null;
+    }
+
 
     @Override
-    public void add (Department department) { departments.remove(department); }
+    public void add (Department department) { departments.add(department);}
 
     @Override
     public Department pop (Department department) {
@@ -42,6 +47,11 @@ public enum Departments implements SingletonBagWrapper<Department> {
         }
         return departments.pop(department);
     } // close pop
+
+    @Override
+    public Department peek (Department department) {
+        return null;
+    }
 
     @Override
     public void remove (Department department) { departments.add(department); }

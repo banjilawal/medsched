@@ -1,7 +1,7 @@
 package edu.ics372.abdnn.medsched.services;
 
 import edu.ics372.abdnn.medsched.entities.*;
-import edu.ics372.abdnn.medsched.enums.Availabilty;
+import edu.ics372.abdnn.medsched.enums.Availability;
 import edu.ics372.abdnn.medsched.interfaces.AppointmentRequest;
 import edu.ics372.abdnn.medsched.singletons.Departments;
 import edu.ics372.abdnn.medsched.singletons.ExamRooms;
@@ -25,18 +25,18 @@ public class Scheduler {
     } // close getInstance;
 
     public Appointment response (AppointmentRequest appointmentRequest) {
-        ScheduleDate matchedSlot = null;
+        Day matchedSlot = null;
         Provider provider = null;
-        Iterator<ScheduleDate> slots = Departments.INSTANCE.get(appointmentRequest.getDepartment()).openSlots();
+        Iterator<Day> slots = Departments.INSTANCE.get(appointmentRequest.getDepartment()).openSlots();
         Iterator<Provider> providers = Departments.INSTANCE.get(appointmentRequest.getDepartment()).getAvailableProviders();
 
         while (slots.hasNext() && providers.hasNext()) {
-            ScheduleDate scheduleDate = slots.next();
+            Day day = slots.next();
             provider = providers.next();
-            if (slotMatch(appointmentRequest.getDateTimeslot(), scheduleDate) && providerMatch(appointmentRequest.getProvider(), provider)) {
+            if (slotMatch(appointmentRequest.getDateTimeslot(), day) && providerMatch(appointmentRequest.getProvider(), provider)) {
                 if (ExamRooms.getInstance().iterator().hasNext()) {
                     ExamRoom examRoom = ExamRooms.getInstance().iterator().next();
-                    if (provider.getAvailabilty(appointmentRequest.getDateTimeslot()).equals(Availabilty.OPEN)) {
+                    if (provider.getAvailabilty(appointmentRequest.getDateTimeslot()).equals(Availability.OPEN)) {
                         provider.setAvailabilty(appointmentRequest.getDateTimeslot());
                         return new Appointment(
                             SerialNumberGenerator.INSTANCE.assignNumber(),
@@ -52,6 +52,6 @@ public class Scheduler {
         return null;
     }
 
-    private boolean slotMatch (ScheduleDate a, ScheduleDate b) { return a.equals(b); }
+    private boolean slotMatch (Day a, Day b) { return a.equals(b); }
     private boolean providerMatch (Provider a, Provider b) { return a.equals(b); }
 } // end class Scheduler

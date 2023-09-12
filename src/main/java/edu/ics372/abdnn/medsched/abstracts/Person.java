@@ -1,8 +1,5 @@
 package edu.ics372.abdnn.medsched.abstracts;
 
-import edu.ics372.abdnn.medsched.entities.ScheduleDate;
-
-import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Person extends NamedEntity {

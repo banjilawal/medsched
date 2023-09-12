@@ -2,7 +2,8 @@ package edu.ics372.abdnn.medsched.singletons;
 
 import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.ExamRoom;
-import edu.ics372.abdnn.medsched.enums.Availabilty;
+import edu.ics372.abdnn.medsched.enums.Availability;
+import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
 import edu.ics372.abdnn.medsched.interfaces.SingletonBagWrapper;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 
-public final class ExamRooms implements SingletonBagWrapper<ExamRoom> {
+public final class ExamRooms implements BagWrapper<ExamRoom> {
     private static ExamRooms INSTANCE;
 
     private ExamRooms () {
@@ -29,10 +30,20 @@ public final class ExamRooms implements SingletonBagWrapper<ExamRoom> {
     public int size () { return getInstance().size(); }
 
     @Override
+    public Bag<ExamRoom> getBag () {
+        return null;
+    }
+
+    @Override
     public void add (ExamRoom examRoom) { getInstance().add(examRoom);}
 
     @Override
     public ExamRoom pop (ExamRoom examRoom) { return getInstance().pop(examRoom); }
+
+    @Override
+    public ExamRoom peek (ExamRoom examRoom) {
+        return null;
+    }
 
     @Override
     public void remove (ExamRoom examRoom) { getInstance().remove(examRoom);}
@@ -47,7 +58,7 @@ public final class ExamRooms implements SingletonBagWrapper<ExamRoom> {
     public ExamRoom find (String name, int id) { return getInstance().find(name, id); }
 
     public Iterator<ExamRoom> getOpenRooms () {
-        Predicate<ExamRoom> predicate =  examRoom -> examRoom.getAvailabilty().equals(Availabilty.OPEN);
+        Predicate<ExamRoom> predicate =  examRoom -> examRoom.getAvailabilty().equals(Availability.OPEN);
             return getInstance().filter(predicate);
     } // close getOpenRooms
 

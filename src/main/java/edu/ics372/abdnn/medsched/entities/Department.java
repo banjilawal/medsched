@@ -3,31 +3,22 @@ package edu.ics372.abdnn.medsched.entities;
 import edu.ics372.abdnn.medsched.abstracts.Organization;
 import edu.ics372.abdnn.medsched.abstracts.Person;
 import edu.ics372.abdnn.medsched.containers.SscheduleDates;
-import edu.ics372.abdnn.medsched.enums.Availabilty;
+import edu.ics372.abdnn.medsched.enums.Availability;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
 public class Department extends Organization  {
-    private final SscheduleDates sscheduleDates;
     public Department (int id, String name) {
         super(id, name);
-        this.sscheduleDates = new SscheduleDates();
     } // close constructor
 
-    public SscheduleDates getDateTImeSlots () { return sscheduleDates; }
-
-    public Iterator<ScheduleDate> openSlots () { return sscheduleDates.getAvailableDateTimeSlots(); }
 
     public Iterator<Provider> getAvailableProviders () {
-        Predicate<Provider> predicate = provider -> provider.getAvailabilty().equals(Availabilty.OPEN);
+        Predicate<Provider> predicate = provider -> provider.getAvailabilty().equals(Availability.OPEN);
         return filterProviders(predicate);
     } // close getAvailableProviders
-
-    public Iterator<ScheduleDate> filterDateTimeslots (Predicate<ScheduleDate> predicate) {
-        return sscheduleDates.filter(predicate);
-    }
 
     public Iterator<Provider> filterProviders (Predicate<Provider> predicate) {
         ArrayList<Provider> matches = new ArrayList<Provider>();
@@ -39,22 +30,6 @@ public class Department extends Organization  {
         return matches.iterator();
     } // close filterProviders
 
-
-    public void addDateTimeSlots (ArrayList<ScheduleDate> dateTimesSlots) {
-        for (ScheduleDate scheduleDate : dateTimesSlots) {
-            addSlot(scheduleDate);
-        }
-    } // close addDateTimeSlots
-
-    public void addSlot (ScheduleDate scheduleDate) { sscheduleDates.getBag().add(scheduleDate); }
-
-    public void removeDateTimeSlots (ArrayList<ScheduleDate> dateTimesSlots) {
-        for (ScheduleDate scheduleDate : dateTimesSlots) {
-            removeSlot(scheduleDate);
-        }
-    } // end removeDateTimeSlots
-
-    public void removeSlot (ScheduleDate scheduleDate) { sscheduleDates.getBag().add(scheduleDate); }
 
     @Override
     public boolean equals (Object object) {
@@ -68,7 +43,4 @@ public class Department extends Organization  {
     public int hashCode () {
         return super.hashCode();
     }
-
-    @Override
-    public String toString () { return super.toString() + " Schedule:\n" + sscheduleDates.toString(); }
 } // end class

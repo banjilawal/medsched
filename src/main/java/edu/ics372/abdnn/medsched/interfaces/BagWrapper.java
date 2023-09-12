@@ -11,6 +11,7 @@ public interface BagWrapper<T> {
     public Bag<T> getBag ();
     public void add (T t);
     public T pop (T t);
+    public T peek (T t);
     public void remove (T t);
     public Iterator<T> iterator ();
     public Iterator<T> filter (Predicate<T> predicate);

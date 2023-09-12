@@ -15,13 +15,12 @@ public class Consultation extends Appointment {
             Department department,
             Provider provider,
             ExamRoom examRoom,
-            ScheduleDate appointmentDate,
-            Timeslot timeslot,
+            Period period,
             Patient patient,
             LocalTime actualStart,
             LocalTime actualEnd
         ) {
-        super(id, name, department, provider, examRoom, appointmentDate, timeslot, patient);
+        super(id, name, department, provider, examRoom, period, patient);
         this.actualStart = actualStart;
         this.actualEnd = actualEnd;
     }

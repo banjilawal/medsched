@@ -1,7 +1,6 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Person;
-import edu.ics372.abdnn.medsched.enums.Availabilty;
 
 import java.util.ArrayList;
 

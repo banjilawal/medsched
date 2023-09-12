@@ -1,41 +1,41 @@
 package edu.ics372.abdnn.medsched.containers;
 
-import edu.ics372.abdnn.medsched.entities.ScheduleDate;
-import edu.ics372.abdnn.medsched.enums.Availabilty;
+import edu.ics372.abdnn.medsched.entities.Day;
+import edu.ics372.abdnn.medsched.enums.Availability;
 import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
 
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public class SscheduleDates implements BagWrapper<ScheduleDate> {
-    private final Bag<ScheduleDate> dateTimeSlots;
+public class SscheduleDates implements BagWrapper<Day> {
+    private final Bag<Day> dateTimeSlots;
     public SscheduleDates () {
-        dateTimeSlots = new Bag<ScheduleDate>();
+        dateTimeSlots = new Bag<Day>();
     } //
 
     @Override
     public int size () { return dateTimeSlots.size(); }
 
     @Override
-    public Bag<ScheduleDate> getBag () { return dateTimeSlots; }
+    public Bag<Day> getBag () { return dateTimeSlots; }
 
     @Override
-    public void add (ScheduleDate scheduleDate) { dateTimeSlots.add(scheduleDate); }
+    public void add (Day day) { dateTimeSlots.add(day); }
 
     @Override
-    public ScheduleDate pop (ScheduleDate scheduleDate) { return dateTimeSlots.pop(scheduleDate); }
+    public Day pop (Day day) { return dateTimeSlots.pop(day); }
 
     @Override
-    public void remove (ScheduleDate scheduleDate) { dateTimeSlots.remove(scheduleDate);}
+    public void remove (Day day) { dateTimeSlots.remove(day);}
 
     @Override
-    public Iterator<ScheduleDate> iterator () { return dateTimeSlots.iterator(); }
+    public Iterator<Day> iterator () { return dateTimeSlots.iterator(); }
 
     @Override
-    public Iterator<ScheduleDate> filter (Predicate<ScheduleDate> predicate) { return dateTimeSlots.filter(predicate); }
+    public Iterator<Day> filter (Predicate<Day> predicate) { return dateTimeSlots.filter(predicate); }
 
-    public Iterator<ScheduleDate> getAvailableDateTimeSlots () {
-        Predicate<ScheduleDate> predicate = dateTimeslot -> dateTimeslot.getAvailabilty().equals(Availabilty.OPEN);
+    public Iterator<Day> getAvailableDateTimeSlots () {
+        Predicate<Day> predicate = dateTimeslot -> dateTimeslot.getAvailabilty().equals(Availability.OPEN);
         return filter(predicate);
     } // close getAvailableDateTimeSlots
 } // end class DateTimeSlots

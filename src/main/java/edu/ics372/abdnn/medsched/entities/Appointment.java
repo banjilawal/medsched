@@ -11,8 +11,8 @@ public class Appointment extends Meeting {
     private final OwnerLock patientLock;
 
 
-    public Appointment (int id, String name, Department department, Provider provider, ExamRoom examRoom, ScheduleDate appointmentDate, Timeslot timeslot, Patient patient) {
-        super(id, name, provider, examRoom, appointmentDate, timeslot);
+    public Appointment (int id, String name, Department department, Provider provider, ExamRoom examRoom, Period period, Patient patient) {
+        super(id, name, provider, examRoom, period);
         this.department = department;
         this.patient = patient;
         this.patientLock = new OwnerLock(patient);
@@ -31,7 +31,9 @@ public class Appointment extends Meeting {
         if (this == object) return true;
         if (object == null) return false;
         if (object instanceof Appointment appointment) {
-            return super.equals(appointment) && department.equals(getDepartment()) && patient.equals(appointment.getPatient());
+            return super.equals(appointment)
+                && department.equals(getDepartment())
+                && patient.equals(appointment.getPatient());
         }
         return false;
     }
