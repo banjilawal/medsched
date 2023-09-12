@@ -16,24 +16,27 @@ public enum Departments implements BagWrapper<Department> {
     INSTANCE;
     private final Bag<Department> departments = new Bag<Department>();
 
-    public Department get (Department department) { return departments.get(department); }
+    public Department search (String name) { return departments.search(name); }
+    public Department search (int id) { return departments.search(id); }
 
-    public Iterator<Department> findByName (String name) {
-        Predicate<Department> predicate = department -> name.equalsIgnoreCase(department.getName());
-        return departments.filter(predicate);
-    } //
+    public Department peek (String name) { return departments.peek(search(name)); }
+    public Department peek (int id) { return departments.peek(search(id)); }
 
-    public Iterator<Department> findById (int id) {
-        Predicate<Department> predicate = department -> id == department.getId();
-        return departments.filter(predicate);
-    } //
+    public Department pop (String name) { return departments.pop(departments.search(name)); }
+    public Department pop (int id) { return departments.pop(departments.search(id)); }
+
+    public void remove (String name) { remove(departments.search(name)); }
+    public void remove (int id) { remove(departments.search(id)); }
+
+    public void remove (Department department) {
+        departments.remove(departments.indexOf(department));
+    }
+
     @Override
     public int size () { return departments.size(); }
 
     @Override
-    public Bag<Department> getBag () {
-        return null;
-    }
+    public Bag<Department> getBag () { return departments; }
 
 
     @Override
@@ -48,26 +51,10 @@ public enum Departments implements BagWrapper<Department> {
         return departments.pop(department);
     } // close pop
 
-    @Override
-    public Department peek (Department department) {
-        return null;
-    }
-
-    @Override
-    public void remove (Department department) { departments.add(department); }
 
     @Override
     public Iterator<Department> iterator () { return departments.iterator(); }
 
     @Override
-    public Iterator<Department> filter (Predicate<Department> predicate) {
-        ArrayList<Department> matches = new ArrayList<Department>();
-        Iterator<Department> iterator = departments.iterator();
-        while (iterator().hasNext()) {
-            Department department = iterator.next();
-            if (predicate.test(department) && !matches.contains(department))
-                matches.add(matches.size(), department);
-        }
-        return matches.iterator();
-    } // close filter
+    public Iterator<Department> filter (Predicate<Department> predicate) { return departments.filter(predicate); }
 } // end class Departments

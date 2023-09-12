@@ -11,7 +11,15 @@ public class Appointment extends Meeting {
     private final OwnerLock patientLock;
 
 
-    public Appointment (int id, String name, Department department, Provider provider, ExamRoom examRoom, Period period, Patient patient) {
+    public Appointment (
+            int id,
+            String name,
+            Provider provider,
+            ExamRoom examRoom,
+            Period period,
+            Department department,
+            Patient patient
+    ) {
         super(id, name, provider, examRoom, period);
         this.department = department;
         this.patient = patient;

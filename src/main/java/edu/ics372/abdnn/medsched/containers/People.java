@@ -26,6 +26,11 @@ public class People<Person> implements BagWrapper<Person> {
     public Person pop (Person person) { return bag.pop(person); }
 
     @Override
+    public Person peek (Person person) {
+        return bag.peek(person);
+    }
+
+    @Override
     public void remove (Person person) { bag.remove(person); }
 
     @Override

@@ -1,13 +1,10 @@
 package edu.ics372.abdnn.medsched.entities;
 
-import edu.ics372.abdnn.medsched.abstracts.Meeting;
-
 import java.time.LocalTime;
-import java.util.Objects;
 
 public class Consultation extends Appointment {
-    public LocalTime actualStart;
-    public LocalTime actualEnd;
+    public LocalTime checkInTime;
+    public LocalTime checkOutTime;
 
     public Consultation (
             int id,
@@ -16,18 +13,35 @@ public class Consultation extends Appointment {
             Provider provider,
             ExamRoom examRoom,
             Period period,
-            Patient patient,
-            LocalTime actualStart,
-            LocalTime actualEnd
+            Patient patient
         ) {
-        super(id, name, department, provider, examRoom, period, patient);
-        this.actualStart = actualStart;
-        this.actualEnd = actualEnd;
+        super(id, name, provider, examRoom, period, department, patient);
+        this.checkInTime = LocalTime.now();
+        this.checkOutTime = LocalTime.now();;
     }
 
-    public LocalTime getActualStart () { return actualStart; }
-    public LocalTime getActualEnd () { return actualEnd; }
+    public LocalTime getCheckInTime () { return checkInTime; }
+    public LocalTime getCheckOutTime () { return checkOutTime; }
 
-    public void setActualStart (LocalTime actualStart) { this.actualStart = actualStart; }
-    public void setActualEnd (LocalTime actualEnd) { this.actualEnd = actualEnd; }
+    public void checkIn () { this.checkInTime = LocalTime.now(); }
+    public void checkout (LocalTime checkOutTime) { this.checkOutTime = checkOutTime; }
+
+    @Override
+    public boolean equals (Object object) {
+        if (this == object) return true;
+        if (object == null) return false;
+        if (object instanceof Consultation consultation) {
+            return super.equals(consultation)
+                && checkInTime.equals(consultation.getCheckInTime())
+                && checkOutTime.equals(consultation.getCheckOutTime());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString () {
+        return super.toString()
+            + " check-in:" + checkInTime.toString()
+            + " check-out:" + checkOutTime.toString();
+    }
 } // end class Consultation

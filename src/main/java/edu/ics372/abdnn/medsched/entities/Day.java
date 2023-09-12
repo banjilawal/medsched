@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Day extends Entity  {
-    private Date date;
+    private final Date date;
     private final ArrayList<Timeslot> timeslots;
 
     public Day (int id, Date date, Timeslot timeslot) {
@@ -56,9 +56,6 @@ public class Day extends Entity  {
         }
         return false;
     }
-
-
-    public void setDate (Date date) { this.date = date; }
 
 
     @Override

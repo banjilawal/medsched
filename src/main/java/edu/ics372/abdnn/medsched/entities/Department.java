@@ -31,6 +31,8 @@ public class Department extends Organization  {
     } // close filterProviders
 
 
+
+
     @Override
     public boolean equals (Object object) {
         if (this == object) return true;
