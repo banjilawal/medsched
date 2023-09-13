@@ -10,6 +10,7 @@ public interface BagWrapper<T> {
     public int size ();
     public Bag<T> getBag ();
     public void add (T t);
+    public void remove (T t);
     public T pop (int id);
     public T pop (String name);
     public T peek (int id);

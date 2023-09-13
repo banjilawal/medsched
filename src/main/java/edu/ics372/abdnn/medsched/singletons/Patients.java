@@ -25,9 +25,7 @@ public enum Patients implements BagWrapper<Patient> {
     public void remove (String name) { remove(patients.search(name)); }
     public void remove (int id) { remove(patients.search(id)); }
 
-    public void remove (Patient Patient) {
-        patients.remove(patients.indexOf(Patient));
-    }
+    public void remove (Patient Patient) { patients.remove(patients.indexOf(Patient)); }
 
     @Override
     public int size () { return patients.size(); }
@@ -39,15 +37,6 @@ public enum Patients implements BagWrapper<Patient> {
     @Override
     public void add (Patient Patient) { patients.add(Patient);}
 
-    @Override
-    public Patient pop (Patient Patient) {
-        for (Person person: Patient.getMembers().getPeople()) {
-            Provider provider = (Provider) person;
-            provider.removeDepartment(Patient);
-        }
-        return patients.pop(Patient);
-    } // close pop
-    
 
     @Override
     public Iterator<Patient> iterator () { return patients.iterator(); }

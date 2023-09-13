@@ -14,7 +14,7 @@ public abstract class Organization extends NamedEntity {
         this.members = new People<Person>();
     } // close constructor
 
-    public Iterator<Person> iterator () { return members.getPeople().iterator(); }
+    public Iterator<Person> iterator () { return members.iterator(); }
 
     public People<Person> getMembers () { return members; }
 
@@ -24,17 +24,6 @@ public abstract class Organization extends NamedEntity {
 
     public void removeMember (Person person) { members.remove(person); } //
 
-    public Person find (String firstname, String lastname, int id) {
-        return members.find(firstname, lastname, id);
-    } //
-
-    public Iterator<Person> searchByNames (String firstname, String lastname) {
-        return members.searchByNames(firstname, lastname);
-    } //
-
-    public Iterator<Person> searchById (int id) {
-        return members.searchById(id);
-    }
 
     public Iterator<Person> filter (Predicate<Person> predicate) { return members.filter(predicate); }
 
@@ -43,7 +32,7 @@ public abstract class Organization extends NamedEntity {
         if (this == object) return true;
         if (object == null) return false;
         if (object instanceof Organization org) {
-            return super.equals(org) && sameMembers(org);
+            return super.equals(org);
         }
         return false;
     } // close equals
@@ -58,15 +47,15 @@ public abstract class Organization extends NamedEntity {
         return super.toString() + " Members:\n" + members.toString();
     }
 
-    public boolean sameMembers (Organization organization) {
-        if (this == organization) return false;
-        if (organization == null) return false;
-        if (members.getPeople().size() != organization.getMembers().getPeople().size()) return false;
-        for (Person person : members.getPeople()) {
-            for (Person otherPerson : organization.getMembers().getPeople()) {
-                if (!person.equals(otherPerson)) return false;
-            }
-        }
-        return false;
-    } // close sameMembers
+//    public boolean sameMembers (Organization organization) {
+//        if (this == organization) return false;
+//        if (organization == null) return false;
+//        if (members.getPeople().size() != organization.getMembers().getPeople().size()) return false;
+//        for (Person person : members.getPeople()) {
+//            for (Person otherPerson : organization.getMembers().getPeople()) {
+//                if (!person.equals(otherPerson)) return false;
+//            }
+//        }
+//        return false;
+//    } // close sameMembers
 } // end class Organization

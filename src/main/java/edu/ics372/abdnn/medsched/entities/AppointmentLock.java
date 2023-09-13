@@ -5,16 +5,16 @@ import edu.ics372.abdnn.medsched.abstracts.OwnerLock;
 import edu.ics372.abdnn.medsched.abstracts.Room;
 
 public class AppointmentLock extends LockEntity {
-    PeriodLock periodLock;
-    RoomLock roomLock;
-    OwnerLock lockOwner;
-    PatientLock patientLock;
+    Period period;
+    Room room;
+    Provider provider;
+    Patient patient;
 
-   public AppointmentLock (RoomLock roomLock, PatientLock patientLock) {
-       this.roomLock = roomLock;
-       this.patientLock = patientLock;
+   public AppointmentLock (Period period, Provider provider, Patient patient, Room room) {
+       this.period = period;
+       this.provider = provider;
+       this.patient = patient;
+       this.room = room;
    }
 
-   public RoomLock getRoomLock () { return roomLock; }
-    public PatientLock getPatientLock() { return patientLock();}
 } // end class RoomLock

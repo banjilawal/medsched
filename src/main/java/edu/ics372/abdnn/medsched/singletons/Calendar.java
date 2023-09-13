@@ -39,14 +39,6 @@ public enum Calendar implements BagWrapper<Day> {
     @Override
     public void add (Day day) { calendar.add(day);}
 
-    @Override
-    public Day pop (Day day) {
-        for (Person person: day.getMembers().getPeople()) {
-            Provider provider = (Provider) person;
-            provider.removeDepartment(day);
-        }
-        return calendar.pop(day);
-    } // close pop
     
 
     @Override
@@ -54,4 +46,13 @@ public enum Calendar implements BagWrapper<Day> {
 
     @Override
     public Iterator<Day> filter (Predicate<Day> predicate) { return calendar.filter(predicate); }
+
+    @Override
+    public String toString () {
+        StringBuilder stringBuilder = new StringBuilder("Calendar\n----------\n");
+        for (Day day : calendar.getContents()) {
+            stringBuilder.append(day.toString()).append("\n");
+        }
+        return stringBuilder.toString();
+    }
 } // end class Calendar

@@ -76,12 +76,17 @@ public class Day extends Entity  {
 
 
     private void addTimeslots () {
+        int id;
         int count = 0;
+        String name = "";
         LocalTime startTime = Constant.OPENING_TIME;
         LocalTime endTime = Constant.OPENING_TIME;
+
         while (count < Constant.DAILY_TIMESLOT_TOTAL) {
+            id = count + 1;
+            name = "T-" + id;
             endTime = startTime.plusMinutes(Constant.TIMESLOT_MINUTES);
-            timeslots.add(new Timeslot((count + 1), ("T-" + (count + 1)), startTime, endTime));
+            timeslots.add(new Timeslot(id, name, startTime, endTime));
             startTime = endTime.plusMinutes(Constant.APPOINTMENT_SWITCH_OVER_TIME);
             count++;
         }
@@ -95,7 +100,7 @@ public class Day extends Entity  {
     public String printTimeslots () {
         StringBuilder builder = new StringBuilder();
         for (Timeslot timeslot : timeslots) {
-            builder.append("\n").append(timeslot.toString());
+            builder.append("\n\t").append(timeslot.toString());
         }
         return builder.toString();
     }

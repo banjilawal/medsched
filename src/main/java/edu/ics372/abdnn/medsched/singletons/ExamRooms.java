@@ -50,4 +50,6 @@ public enum ExamRooms implements BagWrapper<ExamRoom> {
 
     @Override
     public Iterator<ExamRoom> filter (Predicate<ExamRoom> predicate) { return examRooms.filter(predicate); }
+
+    public String toString () { return getBag().toString(); }
 } // end class ExamRooms

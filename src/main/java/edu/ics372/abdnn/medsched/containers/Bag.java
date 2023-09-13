@@ -126,15 +126,20 @@ public class Bag<E>  {
 
     @Override
     public String toString () {
-        String string = "";
+        StringBuilder stringBuilder = new StringBuilder();
         for (E e : contents) {
-            NamedEntity ne = (NamedEntity) e;
-            string += "\n" + ne.toString(); //namedEntity.getName() + " " + namedEntity.getId();
+            stringBuilder.append(e.toString()).append("\n");
         }
-        return string;
-    } // close to String
-
-    private String getClasName (E e) {
-        return e.getClass().getSimpleName();
+        return stringBuilder.toString();
     }
+
+    //    @Override
+//    public String toString () {
+//        String string = "";
+//        for (E e : contents) {
+//            NamedEntity ne = (NamedEntity) e;
+//            string += "\n" + ne.toString(); //namedEntity.getName() + " " + namedEntity.getId();
+//        }
+//        return string;
+//    } // close to String
 } // end class Bag

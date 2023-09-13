@@ -22,6 +22,8 @@ public class People<Person> implements BagWrapper<Person> {
     @Override
     public void add (Person person) { bag.add(person); }
 
+
+
     @Override
     public Person pop (int id) { return bag.pop(bag.search(id)); }
 
@@ -39,6 +41,9 @@ public class People<Person> implements BagWrapper<Person> {
 
     @Override
     public void remove (String name) { bag.remove(bag.search(name)); }
+
+    @Override
+    public void remove (Person person) { bag.remove(person); }
 
 
     @Override

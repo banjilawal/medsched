@@ -39,15 +39,6 @@ public enum Providers implements BagWrapper<Provider> {
     @Override
     public void add (Provider Provider) { providers.add(Provider);}
 
-    @Override
-    public Provider pop (Provider Provider) {
-        for (Person person: Provider.getMembers().getPeople()) {
-            Provider provider = (Provider) person;
-            provider.removeDepartment(Provider);
-        }
-        return providers.pop(Provider);
-    } // close pop
-    
 
     @Override
     public Iterator<Provider> iterator () { return providers.iterator(); }

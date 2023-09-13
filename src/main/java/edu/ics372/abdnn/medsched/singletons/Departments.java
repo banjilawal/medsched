@@ -42,9 +42,9 @@ public enum Departments implements BagWrapper<Department> {
     @Override
     public void add (Department department) { departments.add(department);}
 
-    @Override
+
     public Department pop (Department department) {
-        for (Person person: department.getMembers().getPeople()) {
+        for (Person person: department.getMembers().getBag().getContents()) {
             Provider provider = (Provider) person;
             provider.removeDepartment(department);
         }
@@ -57,4 +57,6 @@ public enum Departments implements BagWrapper<Department> {
 
     @Override
     public Iterator<Department> filter (Predicate<Department> predicate) { return departments.filter(predicate); }
+
+    public String toString () { return getBag().toString(); }
 } // end class Departments
