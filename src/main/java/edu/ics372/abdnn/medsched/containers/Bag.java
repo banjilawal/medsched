@@ -22,11 +22,11 @@ public class Bag<E>  {
 
     public int size () {
         return contents.size();
-    } // close size
+    }
 
     public int indexOf (E e) {
         return contents.indexOf(e);
-    } // close getIndex
+    }
 
     public E get(int index) {
         return contents.get(index);
@@ -81,16 +81,8 @@ public class Bag<E>  {
     } // close search
 
 
-    public void add (E e) {
-        if (!contents.contains(e))
-            add(contents.size(), e);
-    } // close add
+    public void add (E e) { if (!contents.contains(e)) contents.add(contents.size(), e); }
 
-    public void add (int index, E e) {
-        if (!contents.contains(e)) {
-            contents.add(index, e);
-        }
-    } // close add
 
     public boolean remove (int id) {
         return remove("", id);

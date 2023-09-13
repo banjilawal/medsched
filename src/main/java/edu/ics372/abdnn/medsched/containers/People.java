@@ -23,38 +23,46 @@ public class People<Person> implements BagWrapper<Person> {
     public void add (Person person) { bag.add(person); }
 
     @Override
-    public Person pop (Person person) { return bag.pop(person); }
+    public Person pop (int id) { return bag.pop(bag.search(id)); }
 
     @Override
-    public Person peek (Person person) {
-        return bag.peek(person);
-    }
+    public Person pop (String firstname) { return bag.pop(bag.search(firstname)); }
 
     @Override
-    public void remove (Person person) { bag.remove(person); }
+    public Person peek (int id) { return bag.peek(bag.search(id)); }
+
+    @Override
+    public Person peek (String name)  { return bag.peek(bag.search(name)); }
+
+    @Override
+    public void remove (int id) { bag.getContents().remove(bag.search(id)); }
+
+    @Override
+    public void remove (String name) { bag.remove(bag.search(name)); }
+
 
     @Override
     public Iterator<Person> iterator () { return bag.iterator(); }
 
-    public ArrayList<Person> getPeople () { return bag.getContents(); }
+//    public ArrayList<Person> getPeople () { return bag.getContents(); }
 
-    public Person find (String firstname, String lastname, int id) {
-        ArrayList<Person> people = bag.getContents();
-        for (Person person : people) {
-            if (match(person, firstname, lastname, id)) return person;
-        }
-        return null;
-    } // close find
+//    public Person find (String firstname, String lastname, int id) {
+//        ArrayList<Person> people = bag.getContents();
+//        for (Person person : people) {
+//            if (match(person, firstname, lastname, id)) return person;
+//        }
+//        return null;
+//    } // close find
 
-    public Iterator<Person> searchById (int id) {
-        Predicate<Person> predicate = person -> person.getId() == id;
-        return filter(predicate);
-    } //
-
-    public Iterator<Person> searchByNames (String firstname, String lastname) {
-        Predicate<Person> predicate = person -> namesMatch(person, firstname, lastname);
-        return filter(predicate);
-    } // close searchByNames
+//    public Iterator<Person> search (int id) {
+//        Predicate<Person> predicate = person -> person.getId() == id;
+//        return filter(predicate);
+//    } //
+//
+//    public Iterator<Person> searchByNames (String firstname, String lastname) {
+//        Predicate<Person> predicate = person -> namesMatch(person, firstname, lastname);
+//        return filter(predicate);
+//    } // close searchByNames
 
     @Override
     public Iterator<Person> filter (Predicate<Person> predicate) { return bag.filter(predicate); }
@@ -81,20 +89,6 @@ public class People<Person> implements BagWrapper<Person> {
         for (Person person : people) add(person);
     } // close addPeople
 
-
-    public void removePeople (ArrayList<Person> people) {
-        for (Person person : people) remove(person);
-    }
-
-    public boolean namesMatch (Person person, String firstname, String lastname) {
-        return firstname.equalsIgnoreCase(person.getFirstname()) && lastname.equalsIgnoreCase(person.getLastname());
-    } // close namesMatch
-
-    public boolean match (Person person, String firstname, String lastname, int id) {
-        return firstname.equalsIgnoreCase(person.getFirstname())
-            && lastname.equalsIgnoreCase(person.getLastname())
-            && id == person.getId();
-    } // close match
 
     @Override
     public String toString () {

@@ -4,13 +4,12 @@ import edu.ics372.abdnn.medsched.abstracts.LockEntity;
 import edu.ics372.abdnn.medsched.abstracts.Person;
 
 public class PatientLock extends LockEntity {
-    private Patient patient;
+    private final Patient patient;
 
-    public PatientLock getPatientLock () {
-        return patientLock;
+    public PatientLock (Patient patient) {
+        super();
+        this.patient = patient;
     }
 
-   public void  () { this.lockOwner = lockOwner; }
-
-    public Person getLockOwner () { return lockOwner; }
+    public Patient getLockOwner () { return patient; }
 } // end class OwnerLock

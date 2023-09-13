@@ -13,7 +13,8 @@ public class Day extends Entity  {
     private final LocalDate date;
     private final ArrayList<Timeslot> timeslots;
 
-    public Day (int id, LocalDate date, Timeslot timeslot) {
+
+    public Day (int id, LocalDate date) {
         super(id);
         this.date = date;
         this.timeslots = new ArrayList<Timeslot>();
@@ -72,17 +73,20 @@ public class Day extends Entity  {
         return false;
     } // close equals
 
+
+
     private void addTimeslots () {
         int count = 0;
         LocalTime startTime = Constant.OPENING_TIME;
         LocalTime endTime = Constant.OPENING_TIME;
-        while (count < Constant.TOTAL_TIMESLOTS) {
+        while (count < Constant.DAILY_TIMESLOT_TOTAL) {
             endTime = startTime.plusMinutes(Constant.TIMESLOT_MINUTES);
             timeslots.add(new Timeslot((count + 1), ("T-" + (count + 1)), startTime, endTime));
             startTime = endTime.plusMinutes(Constant.APPOINTMENT_SWITCH_OVER_TIME);
             count++;
         }
     }
+
 
     public String toString () {
         return super.toString() + " " + date.toString() + printTimeslots();

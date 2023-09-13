@@ -11,10 +11,11 @@ public interface BagWrapper<T> {
     public Bag<T> getBag ();
     public void add (T t);
     public T pop (int id);
-    public T peek (int id);
-    public void remove (int id);
     public T pop (String name);
+    public T peek (int id);
     public T peek (String name);
+    public void remove (int id);
+
     public void remove (String name);
     public Iterator<T> iterator ();
     public Iterator<T> filter (Predicate<T> predicate);
