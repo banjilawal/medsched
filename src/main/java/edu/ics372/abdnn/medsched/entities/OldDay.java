@@ -1,70 +1,40 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Entity;
-import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.enums.Availability;
 import edu.ics372.abdnn.medsched.global.Constant;
 
-import java.io.ObjectStreamClass;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.function.Predicate;
 
-public class Day extends Entity  {
+public class OldDay extends Entity  {
     private final LocalDate date;
-    private final Bag<Timeslot> timeslots;
+    private final ArrayList<Timeslot> timeslots;
 
 
-    public Day (int id, LocalDate date) {
+    public OldDay (int id, LocalDate date) {
         super(id);
         this.date = date;
-        this.timeslots = new Bag<Timeslot>();
+        this.timeslots = new ArrayList<Timeslot>();
         addTimeslots();
     }
 
     public LocalDate getDate () { return date; }
 
-    public ArrayList<Timeslot> getTimeslots () { return timeslots.getContents(); }
+    public ArrayList<Timeslot> getTimeslots () { return timeslots; }
 
     public Timeslot getFirstOpening () {
-        for (Timeslot timeslot : timeslots.getContents()) {
-            if (timeslot.getAvailabilty().equals(Availability.OPEN))
-                return timeslot;
+        for (Timeslot timeslot : timeslots) {
+            if (timeslot.getAvailabilty() == Availability.OPEN) return timeslot;
         }
         return null;
     }
 
-    public Iterator<Timeslot> getOpenings () {
-        Predicate<Timeslot> predicate = timeslot -> {timeslot.getAvailabilty().equals(Availability.OPEN)};
-        return timeslots.filter(predicate);
-    }
 
-    public int getTimeslotIndex (LocalTime start, LocalTime end) {
-        for (Timeslot timeslot : timeslots.getContents()) {
-            if (Objects.equals(timeslot.getStart(), start) && Objects.equals(timeslot.getEnd(), end))
-                return timeslots.indexOf(timeslot);
-        }
+    private int getArrayIndex (Timeslot timeslot) {
+        if (timeslots.contains(timeslot)) return timeslots.indexOf(timeslot);
         return Integer.MIN_VALUE;
-    }
-
-    public int getTimeslotIndex (LocalTime start) {
-        for (Timeslot timeslot : timeslots.getContents()) {
-            if (Objects.equals(timeslot.getStart(), start)
-                return timeslots.indexOf(timeslot);
-        }
-        return Integer.MIN_VALUE;
-    }
-
-    public boolean book (Provider provider, Patient patient, LocalTime start) {
-        int arrayIndex = getTimeslotIndex(start);
-        if (arrayIndex >= 0) {
-            return timeslots.get(arrayIndex).book(date, provider, patient);
-        }
-        return false;
     }
 
 
@@ -96,7 +66,7 @@ public class Day extends Entity  {
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof Day day) {
+        if (object instanceof OldDay day) {
             return super.equals(day) && date.equals(day.getDate());
         }
         return false;

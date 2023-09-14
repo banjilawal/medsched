@@ -7,14 +7,24 @@ import java.util.Date;
 
 public class PeriodLock extends LockEntity {
     private final Period period;
-    private final OwnerLock lockOwner;
+    private final Provider provider;
+    private final Patient patient;
 
-    public PeriodLock (Period period, OwnerLock lockOwner) {
+    public PeriodLock (Period period, Provider provider,  Patient patient) {
         this.period = period;
-        this.lockOwner = lockOwner;
+        this.provider = provider;
+        this.patient = patient;
     } //
 
     public Period getPeriod () { return period; }
 
-    public OwnerLock getLockOwner () { return lockOwner; }
+    public Provider getProvider () { return provider; }
+
+    public Patient getPatient () { return patient; }
+
+    public boolean match (Period targetPeriod,  Provider targetProvider, Patient targetPatient) {
+        return this.period.equals(targetPeriod)
+            && this.provider.equals(targetProvider)
+            && this.patient.equals(targetPatient);
+    }
 }

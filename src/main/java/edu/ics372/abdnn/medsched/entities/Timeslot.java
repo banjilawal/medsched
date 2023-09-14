@@ -1,22 +1,27 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.enums.Availability;
+import edu.ics372.abdnn.medsched.interfaces.DurationLockable;
 import edu.ics372.abdnn.medsched.interfaces.Identified;
 import edu.ics372.abdnn.medsched.interfaces.Named;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.Objects;
 
 public class Timeslot extends Duration implements Identified, Named {
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
     private Availability availability;
+    private PeriodLock periodLock;
 
 
     public Timeslot (int id, String name, LocalTime startTime, LocalTime endTime) {
         super(startTime, endTime);
         this.id = id;
         this.name = name;
+        this.periodLock = null;
         this.availability = Availability.OPEN;
     } //
 
@@ -30,14 +35,35 @@ public class Timeslot extends Duration implements Identified, Named {
 
     public Availability getAvailabilty () { return availability; }
 
-    public void setAvailabilty (Availability availability) { this.availability = availability; }
+    public boolean book (LocalDate date, Provider provider, Patient patient) {
+        Period period = new Period(date, this );
+        if (periodLock != null && periodLock.match(period, provider, patient)) return true;
+        if (periodLock == null) {
+            periodLock = new PeriodLock(new Period(date, this), provider, patient);
+            this.availability = Availability.BOOKED;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean cancel (LocalDate date, Provider provider, Patient patient) {
+        if (periodLock == null) return true;
+        if (periodLock != null && periodLock.match(new Period(date, this), provider, patient)) {
+            periodLock = null;
+            this.availability = Availability.OPEN;
+            return true;
+        }
+        return false;
+    }
+
+//    public void setAvailabilty (Availability availability) { this.availability = availability; }
 
 
     @Override
-    public void setId (int id) { this.id = id; }
+    public void setId (int id) {}
 
     @Override
-    public void setName (String name) { this.name = name; }
+    public void setName (String name) { }
 
 
     @Override
