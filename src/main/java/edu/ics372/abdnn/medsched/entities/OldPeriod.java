@@ -3,17 +3,15 @@ package edu.ics372.abdnn.medsched.entities;
 import edu.ics372.abdnn.medsched.abstracts.AnonymousEntity;
 import edu.ics372.abdnn.medsched.enums.Availability;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
-public class Period extends AnonymousEntity  {
+public class OldPeriod extends AnonymousEntity  {
     private final LocalDate date;
     private final Duration duration;
-//    private Availability availability;
+    private Availability availability;
 
-    public Period (LocalDate date,  Duration duration) {
+    public OldPeriod (LocalDate date, Duration duration) {
         this.date = date;
         this.duration = duration;
     }
@@ -31,7 +29,7 @@ public class Period extends AnonymousEntity  {
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof Period period) {
+        if (object instanceof OldPeriod period) {
             return date.equals(period.getDate()) && duration.equals(period.getDuration());
         }
         return false;

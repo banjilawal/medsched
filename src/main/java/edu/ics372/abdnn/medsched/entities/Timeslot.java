@@ -12,14 +12,14 @@ public class Timeslot extends Duration implements Identified, Named {
     private final int id;
     private final String name;
     private Availability availability;
-    private PeriodLock periodLock;
+//    private PeriodLock periodLock;
 
 
     public Timeslot (int id, String name, LocalTime startTime, LocalTime endTime) {
         super(startTime, endTime);
         this.id = id;
         this.name = name;
-        this.periodLock = null;
+//        this.periodLock = null;
         this.availability = Availability.OPEN;
     } //
 
@@ -33,28 +33,28 @@ public class Timeslot extends Duration implements Identified, Named {
 
     public Availability getAvailability () { return availability; }
 
-    public PeriodLock getPeriodLock () { return periodLock; }
+//    public PeriodLock getPeriodLock () { return periodLock; }
 
-    public boolean book (LocalDate date, Provider provider, Patient patient) {
-        Period period = new Period(date, this );
-        if (periodLock != null && periodLock.match(period, provider, patient)) return true;
-        if (periodLock == null) {
-            periodLock = new PeriodLock(new Period(date, this), provider, patient);
-            this.availability = Availability.BOOKED;
-            return true;
-        }
-        return false;
-    }
+//    public boolean book (LocalDate date, Provider provider, Patient patient) {
+//        Period period = new Period(date, this );
+//        if (periodLock != null && periodLock.match(period, provider, patient)) return true;
+//        if (periodLock == null) {
+//            periodLock = new PeriodLock(new Period(date, this), provider, patient);
+//            this.availability = Availability.BOOKED;
+//            return true;
+//        }
+//        return false;
+//    }
 
-    public boolean cancel (LocalDate date, Provider provider, Patient patient) {
-        if (periodLock == null) return true;
-        if (periodLock != null && periodLock.match(new Period(date, this), provider, patient)) {
-            periodLock = null;
-            this.availability = Availability.OPEN;
-            return true;
-        }
-        return false;
-    }
+//    public boolean cancel (LocalDate date, Provider provider, Patient patient) {
+//        if (periodLock == null) return true;
+//        if (periodLock != null && periodLock.match(new Period(date, this), provider, patient)) {
+//            periodLock = null;
+//            this.availability = Availability.OPEN;
+//            return true;
+//        }
+//        return false;
+//    }
 
 //    public void setAvailabilty (Availability availability) { this.availability = availability; }
 

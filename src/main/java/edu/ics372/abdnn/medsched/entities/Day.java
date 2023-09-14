@@ -66,20 +66,20 @@ public class Day extends Entity  {
     }
 
 
-    public void bookTimeSlot (Timeslot timeslot) {
-        int arrayIndex = getArrayIndex(timeslot);
-        if (arrayIndex > Integer.MIN_VALUE && isOpen(timeslot))  {
-            timeslots.get(arrayIndex).setAvailabilty(Availability.CLOSED);
-        }
-    }
-
-
-    public void releaseTimeslot (Timeslot timeslot) {
-        int arrayIndex = getArrayIndex(timeslot);
-        if (arrayIndex > Integer.MIN_VALUE && !isOpen(timeslot))  {
-            timeslots.get(arrayIndex).setAvailabilty(Availability.OPEN);
-        }
-    }
+//    public void bookTimeSlot (Timeslot timeslot) {
+//        int arrayIndex = getArrayIndex(timeslot);
+//        if (arrayIndex > Integer.MIN_VALUE && isOpen(timeslot))  {
+//            timeslots.get(arrayIndex).setAvailabilty(Availability.CLOSED);
+//        }
+//    }
+//
+//
+//    public void releaseTimeslot (Timeslot timeslot) {
+//        int arrayIndex = getArrayIndex(timeslot);
+//        if (arrayIndex > Integer.MIN_VALUE && !isOpen(timeslot))  {
+//            timeslots.get(arrayIndex).setAvailabilty(Availability.OPEN);
+//        }
+//    }
 
 
     public boolean isOpen (Timeslot timeslot) {
