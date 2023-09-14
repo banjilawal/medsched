@@ -1,13 +1,11 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.enums.Availability;
-import edu.ics372.abdnn.medsched.interfaces.DurationLockable;
 import edu.ics372.abdnn.medsched.interfaces.Identified;
 import edu.ics372.abdnn.medsched.interfaces.Named;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.Objects;
 
 public class Timeslot extends Duration implements Identified, Named {
@@ -33,7 +31,9 @@ public class Timeslot extends Duration implements Identified, Named {
     public String getName () { return name; }
 
 
-    public Availability getAvailabilty () { return availability; }
+    public Availability getAvailability () { return availability; }
+
+    public PeriodLock getPeriodLock () { return periodLock; }
 
     public boolean book (LocalDate date, Provider provider, Patient patient) {
         Period period = new Period(date, this );
@@ -73,7 +73,7 @@ public class Timeslot extends Duration implements Identified, Named {
         if (object instanceof Timeslot timeslot) {
             return super.equals(timeslot)
                 && id == timeslot.getId()
-                && availability == timeslot.getAvailabilty()
+                && availability == timeslot.getAvailability()
                 && name.equalsIgnoreCase(timeslot.getName());
         }
         return false;

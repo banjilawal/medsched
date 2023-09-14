@@ -26,7 +26,7 @@ public class OldDay extends Entity  {
 
     public Timeslot getFirstOpening () {
         for (Timeslot timeslot : timeslots) {
-            if (timeslot.getAvailabilty() == Availability.OPEN) return timeslot;
+            if (timeslot.getAvailability() == Availability.OPEN) return timeslot;
         }
         return null;
     }
@@ -56,7 +56,7 @@ public class OldDay extends Entity  {
 
     public boolean isOpen (Timeslot timeslot) {
         if (timeslots.contains(timeslot) ) {
-            return timeslots.get(timeslots.indexOf(timeslot)).getAvailabilty() == Availability.OPEN;
+            return timeslots.get(timeslots.indexOf(timeslot)).getAvailability() == Availability.OPEN;
         }
         return false;
     }

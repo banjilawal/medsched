@@ -1,6 +1,7 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.AnonymousEntity;
+import edu.ics372.abdnn.medsched.enums.Availability;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.Objects;
 public class Period extends AnonymousEntity  {
     private final LocalDate date;
     private final Duration duration;
+    private Availability availability;
 
     public Period (LocalDate date,  Duration duration) {
         this.date = date;
@@ -17,7 +19,9 @@ public class Period extends AnonymousEntity  {
     }
 
     public LocalDate getDate () { return date; }
-    public Duration getDuration () { return duration; }
+    public Duration getDuration ()  { return duration; }
+
+
 
 //    public void setDate (Date date) { this.date = date; }
 //

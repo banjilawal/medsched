@@ -2,6 +2,7 @@ package edu.ics372.abdnn.medsched.singletons;
 
 import edu.ics372.abdnn.medsched.abstracts.Person;
 import edu.ics372.abdnn.medsched.containers.Bag;
+import edu.ics372.abdnn.medsched.entities.Period;
 import edu.ics372.abdnn.medsched.entities.Provider;
 import edu.ics372.abdnn.medsched.entities.Provider;
 import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
@@ -12,6 +13,8 @@ import java.util.function.Predicate;
 public enum Providers implements BagWrapper<Provider> {
     INSTANCE;
     private final Bag<Provider> providers = new Bag<Provider>();
+
+    public boolean isOpen (Period period, Provider provider) { return true; }
 
     public Provider search (String name) { return providers.search(name); }
     public Provider search (int id) { return providers.search(id); }

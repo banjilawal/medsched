@@ -8,4 +8,6 @@ public interface NumberAssigner {
     public int assignNumber (CalendarPopulator calendarPopulator);
     public int assignNumber (ExamRoomPopulator examRoomPopulator);
     public int assignNumber (DepartmentPopulator departmentPopulator);
+
+    public int appointmentId ();
 } // end interface NumberAssigner

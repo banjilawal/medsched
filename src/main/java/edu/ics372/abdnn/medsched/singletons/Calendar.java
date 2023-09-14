@@ -3,6 +3,7 @@ package edu.ics372.abdnn.medsched.singletons;
 import edu.ics372.abdnn.medsched.abstracts.Person;
 import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.Day;
+import edu.ics372.abdnn.medsched.entities.Period;
 import edu.ics372.abdnn.medsched.entities.Provider;
 import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
 
@@ -12,6 +13,8 @@ import java.util.function.Predicate;
 public enum Calendar implements BagWrapper<Day> {
     INSTANCE;
     private final Bag<Day> calendar = new Bag<Day>();
+
+    public boolean periodIsOpen (Period period) { return true; }
 
     public Day search (String name) { return calendar.search(name); }
     public Day search (int id) { return calendar.search(id); }

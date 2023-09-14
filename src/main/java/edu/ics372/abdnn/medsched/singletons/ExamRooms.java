@@ -4,6 +4,7 @@ import edu.ics372.abdnn.medsched.abstracts.Person;
 import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.ExamRoom;
 import edu.ics372.abdnn.medsched.entities.ExamRoom;
+import edu.ics372.abdnn.medsched.entities.Period;
 import edu.ics372.abdnn.medsched.entities.Provider;
 import edu.ics372.abdnn.medsched.enums.Availability;
 import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
@@ -17,6 +18,10 @@ import java.util.function.Predicate;
 public enum ExamRooms implements BagWrapper<ExamRoom> {
     INSTANCE;
     private final Bag<ExamRoom> examRooms = new Bag<ExamRoom>();
+
+    public boolean isOpen (Period period, ExamRoom examRoom) { return true; }
+
+    public ExamRoom firstOpen (Period period) { return null; }
 
     public ExamRoom search (String name) { return examRooms.search(name); }
     public ExamRoom search (int id) { return examRooms.search(id); }

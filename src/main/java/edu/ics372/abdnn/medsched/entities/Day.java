@@ -5,11 +5,9 @@ import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.enums.Availability;
 import edu.ics372.abdnn.medsched.global.Constant;
 
-import java.io.ObjectStreamClass;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -32,14 +30,14 @@ public class Day extends Entity  {
 
     public Timeslot getFirstOpening () {
         for (Timeslot timeslot : timeslots.getContents()) {
-            if (timeslot.getAvailabilty().equals(Availability.OPEN))
+            if (timeslot.getAvailability().equals(Availability.OPEN))
                 return timeslot;
         }
         return null;
     }
 
     public Iterator<Timeslot> getOpenings () {
-        Predicate<Timeslot> predicate = timeslot -> {timeslot.getAvailabilty().equals(Availability.OPEN)};
+        Predicate<Timeslot> predicate = timeslot -> {timeslot.getAvailability().equals(Availability.OPEN)};
         return timeslots.filter(predicate);
     }
 
@@ -86,7 +84,7 @@ public class Day extends Entity  {
 
     public boolean isOpen (Timeslot timeslot) {
         if (timeslots.contains(timeslot) ) {
-            return timeslots.get(timeslots.indexOf(timeslot)).getAvailabilty() == Availability.OPEN;
+            return timeslots.get(timeslots.indexOf(timeslot)).getAvailability() == Availability.OPEN;
         }
         return false;
     }

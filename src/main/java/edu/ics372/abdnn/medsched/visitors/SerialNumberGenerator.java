@@ -14,7 +14,6 @@ public enum SerialNumberGenerator implements NumberAssigner {
     private int appointmentSerialNumber = 1;
     private int calendarDaySerialNumber = 1;
 
-    public int assignNumber() { return appointmentSerialNumber++; }
 
     @Override
     public int assignNumber (CalendarPopulator calendarPopulator) { return calendarDaySerialNumber++; }
@@ -24,6 +23,9 @@ public enum SerialNumberGenerator implements NumberAssigner {
 
     @Override
     public int assignNumber (DepartmentPopulator departmentPopulator) { return departmentSerialNumber++; }
+
+    @Override
+    public int appointmentId () { return appointmentSerialNumber++; }
 
     public String assignName (AppointmentRequest appointmentRequest) { return appointmentRequest.getPatient().toString(); }
 } // end class SerialNumberGenerator
