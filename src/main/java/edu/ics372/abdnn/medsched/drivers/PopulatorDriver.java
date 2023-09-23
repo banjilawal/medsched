@@ -3,9 +3,9 @@ package edu.ics372.abdnn.medsched.drivers;
 import edu.ics372.abdnn.medsched.populators.CalendarPopulator;
 import edu.ics372.abdnn.medsched.populators.DepartmentPopulator;
 import edu.ics372.abdnn.medsched.populators.ExamRoomPopulator;
-import edu.ics372.abdnn.medsched.singletons.Calendar;
-import edu.ics372.abdnn.medsched.singletons.Departments;
-import edu.ics372.abdnn.medsched.singletons.ExamRooms;
+import edu.ics372.abdnn.medsched.catalogs.Calendar;
+import edu.ics372.abdnn.medsched.catalogs.Departments;
+import edu.ics372.abdnn.medsched.catalogs.ExamRooms;
 
 public class PopulatorDriver {
 

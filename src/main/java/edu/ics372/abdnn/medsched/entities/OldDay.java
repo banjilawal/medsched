@@ -1,7 +1,7 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Entity;
-import edu.ics372.abdnn.medsched.enums.Availability;
+import edu.ics372.abdnn.medsched.enums.Status;
 import edu.ics372.abdnn.medsched.global.Constant;
 
 import java.time.LocalDate;
@@ -26,7 +26,7 @@ public class OldDay extends Entity  {
 
     public Timeslot getFirstOpening () {
         for (Timeslot timeslot : timeslots) {
-            if (timeslot.getAvailability() == Availability.OPEN) return timeslot;
+            if (timeslot.getAvailability() == Status.OPEN) return timeslot;
         }
         return null;
     }
@@ -41,7 +41,7 @@ public class OldDay extends Entity  {
     public void bookTimeSlot (Timeslot timeslot) {
         int arrayIndex = getArrayIndex(timeslot);
         if (arrayIndex > Integer.MIN_VALUE && isOpen(timeslot))  {
-            timeslots.get(arrayIndex).setAvailabilty(Availability.CLOSED);
+            timeslots.get(arrayIndex).setAvailabilty(Status.CLOSED);
         }
     }
 
@@ -49,14 +49,14 @@ public class OldDay extends Entity  {
     public void releaseTimeslot (Timeslot timeslot) {
         int arrayIndex = getArrayIndex(timeslot);
         if (arrayIndex > Integer.MIN_VALUE && !isOpen(timeslot))  {
-            timeslots.get(arrayIndex).setAvailabilty(Availability.OPEN);
+            timeslots.get(arrayIndex).setAvailabilty(Status.OPEN);
         }
     }
 
 
     public boolean isOpen (Timeslot timeslot) {
         if (timeslots.contains(timeslot) ) {
-            return timeslots.get(timeslots.indexOf(timeslot)).getAvailability() == Availability.OPEN;
+            return timeslots.get(timeslots.indexOf(timeslot)).getAvailability() == Status.OPEN;
         }
         return false;
     }

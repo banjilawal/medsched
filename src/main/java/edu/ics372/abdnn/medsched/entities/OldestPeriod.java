@@ -1,16 +1,17 @@
 package edu.ics372.abdnn.medsched.entities;
 
-import edu.ics372.abdnn.medsched.abstracts.*;
+import edu.ics372.abdnn.medsched.abstracts.AnonymousEntity;
+import edu.ics372.abdnn.medsched.enums.Status;
 
-import java.time.*;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Objects;
 
-public class OldPeriod extends AnonymousEntity  {
+public class OldestPeriod extends AnonymousEntity  {
     private final LocalDate date;
     private final Interval interval;
-//    private State availability;
+    private Status status;
 
-    public OldPeriod (LocalDate date, Interval interval) {
+    public OldestPeriod (LocalDate date, Interval interval) {
         this.date = date;
         this.interval = interval;
     }
@@ -28,7 +29,7 @@ public class OldPeriod extends AnonymousEntity  {
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof OldPeriod period) {
+        if (object instanceof OldestPeriod period) {
             return date.equals(period.getDate()) && interval.equals(period.getDuration());
         }
         return false;

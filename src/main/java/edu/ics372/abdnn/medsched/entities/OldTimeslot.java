@@ -1,24 +1,24 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.enums.*;
-import edu.ics372.abdnn.medsched.interfaces.Identified;
-import edu.ics372.abdnn.medsched.interfaces.Named;
+import edu.ics372.abdnn.medsched.interfaces.*;
 
-import java.time.LocalTime;
-import java.util.Objects;
+import java.time.*;
+import java.util.*;
 
-public class Timeslot extends Interval implements Identified, Named {
+public class OldTimeslot extends Interval implements Identified, Named {
     private final int id;
     private final String name;
     private TimeSlotStatus status;
 //    private PeriodLock periodLock;
 
 
-    public Timeslot (int id, String name, LocalTime startTime, LocalTime endTime) {
+    public OldTimeslot (int id, String name, LocalTime startTime, LocalTime endTime) {
         super(startTime, endTime);
         this.id = id;
         this.name = name;
-        this.status = TimeSlotStatus.AVAILABLE;
+//        this.periodLock = null;
+        this.state = Status.OPEN;
     } //
 
 
@@ -28,9 +28,8 @@ public class Timeslot extends Interval implements Identified, Named {
     @Override
     public String getName () { return name; }
 
-    public TimeSlotStatus getStatus () { return status; }
 
-    public void  setStatus (TimeSlotStatus status) { this.status = status; }
+    public Status getAvailability () { return state; }
 
 //    public PeriodLock getPeriodLock () { return periodLock; }
 
@@ -59,13 +58,20 @@ public class Timeslot extends Interval implements Identified, Named {
 
 
     @Override
+    public void setId (int id) {}
+
+    @Override
+    public void setName (String name) { }
+
+
+    @Override
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof Timeslot timeslot) {
+        if (object instanceof OldTimeslot timeslot) {
             return super.equals(timeslot)
                 && id == timeslot.getId()
-                && status.equals(timeslot.getStatus())
+                && state == timeslot.getAvailability()
                 && name.equalsIgnoreCase(timeslot.getName());
         }
         return false;
@@ -73,11 +79,11 @@ public class Timeslot extends Interval implements Identified, Named {
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), id, name, status);
+        return Objects.hash(super.hashCode(), id, name, state);
     }
 
     @Override
     public String toString () {
-        return super.toString() + " id:" + id + " name:" + name + " availabe:" + status.toString();
+        return super.toString() + " id:" + id + " name:" + name + " availabe:" + state.toString();
     }
 } // end class Timeslot

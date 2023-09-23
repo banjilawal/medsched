@@ -1,31 +1,40 @@
 package edu.ics372.abdnn.medsched.abstracts;
 
-import edu.ics372.abdnn.medsched.containers.People;
-
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.function.Predicate;
+import java.util.*;
 
 public abstract class Organization extends NamedEntity {
-    private final People<Person> members;
+    private ArrayList<Integer> memberIds;
 
     public Organization (int id, String name) {
         super(id, name);
-        this.members = new People<Person>();
+        this.memberIds = new ArrayList<>();
     } // close constructor
 
-    public Iterator<Person> iterator () { return members.iterator(); }
 
-    public People<Person> getMembers () { return members; }
+    public ArrayList<Integer> getMemberIds () { return memberIds; }
+    public void addMemberIds (ArrayList<Integer> memberIds) {
+        for (Integer memberId : memberIds) {
+            addMemberId(memberId);
+        }
+    }
 
-    public void addMember (Person member) {
-        members.add(member);
-    } //
+    public void addMemberId (Integer memberId) {
+        if (!memberIds.contains(memberId))
+            memberIds.add(memberIds.size(), memberId);
+    }
 
-    public void removeMember (Person person) { members.remove(person); } //
 
+    public void removeMemberIds (ArrayList<Integer> memberIds) {
+        for (Integer memberId : memberIds) {
+            removeMemberId(memberId);
+        }
+    }
 
-    public Iterator<Person> filter (Predicate<Person> predicate) { return members.filter(predicate); }
+    public void removeMemberId (Integer memberId) {
+        if (memberIds.contains(memberId))
+            memberIds.remove(memberIds.indexOf(memberId));
+    }
+
 
     @Override
     public boolean equals (Object object) {
@@ -37,25 +46,9 @@ public abstract class Organization extends NamedEntity {
         return false;
     } // close equals
 
-    @Override
-    public int hashCode () {
-        return Objects.hash(super.hashCode(), members);
-    }
 
     @Override
     public String toString () {
-        return super.toString() + " Members:\n" + members.toString();
+        return super.toString();
     }
-
-//    public boolean sameMembers (Organization organization) {
-//        if (this == organization) return false;
-//        if (organization == null) return false;
-//        if (members.getPeople().size() != organization.getMembers().getPeople().size()) return false;
-//        for (Person person : members.getPeople()) {
-//            for (Person otherPerson : organization.getMembers().getPeople()) {
-//                if (!person.equals(otherPerson)) return false;
-//            }
-//        }
-//        return false;
-//    } // close sameMembers
 } // end class Organization

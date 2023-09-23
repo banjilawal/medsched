@@ -1,46 +1,55 @@
 package edu.ics372.abdnn.medsched.entities;
 
-import edu.ics372.abdnn.medsched.abstracts.Person;
+import edu.ics372.abdnn.medsched.abstracts.*;
+import edu.ics372.abdnn.medsched.reservations.*;
+import edu.ics372.abdnn.medsched.reserve.*;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.function.*;
 
-public class Provider extends Person  {
-    private final ArrayList<String> departmentNames;
+public class Provider extends Person { // implements Schedule  {
+    private final ArrayList<String> departments;
 
     public Provider (int id, String firstname, String lastname) {
         super(id, firstname, lastname);
-        this.departmentNames = new ArrayList<String>();
+        this.departments = new ArrayList<String>();
     } // close constructor
 
-    public ArrayList<String> getDepartmentNames () {
-        return departmentNames;
+    public ArrayList<String> getDepartments () {
+        return departments;
     }
 
 
-    public void addDepartments (ArrayList<Department> departments) {
-        for (Department department : departments) { addDepartment(department); }
+    public Iterator<ProviderReservation>  getReservationPeriods () {
+        Predicate<ProviderReservation> predicate = reservation -> { return reservation.getProviderId() == getId(); };
+        return ProviderReservations.INSTANCE.filter(predicate);
+    }
+
+
+    public void addMemberships (ArrayList<Department> departments) {
+        for (Department department : departments) { addMembership(department); }
     } // close addDepartments
 
-    public void addDepartment (Department department) {
+    public void addMembership (Department department) {
         department.addMember(this);
-        if (!departmentNames.contains(department.getName()))
-            departmentNames.add(departmentNames.size(), department.getName());
+        if (!departments.contains(department.getName()))
+            departments.add(departments.size(), department.getName());
     } // close addDepartment
 
-    public void removeDepartments (ArrayList<Department> departments) {
-        for (Department department : departments) { removeDepartment(department); }
+    public void removeMemberships (ArrayList<Department> departments) {
+        for (Department department : departments) { removeMembership(department); }
     } // close removeDepartments
 
 
-    public void removeDepartment (Department department) {
+    public void removeMembership (Department department) {
         department.removeMember(this);
-        int arrayIndex = departmentNames.indexOf(department.getName());
-        if (arrayIndex >= 0) departmentNames.remove(arrayIndex);
+        int arrayIndex = departments.indexOf(department.getName());
+        if (arrayIndex >= 0) departments.remove(arrayIndex);
     } // close removeDepartment
 
-    public String printDepartmentNames () {
+    public String printDepartments () {
         StringBuilder stringBuilder = new StringBuilder();
-        for (String departmentName: departmentNames) {
+        for (String departmentName: departments) {
             stringBuilder.append(departmentName).append(", ");
         }
         return stringBuilder.delete((stringBuilder.length() - 1), stringBuilder.length()).toString();

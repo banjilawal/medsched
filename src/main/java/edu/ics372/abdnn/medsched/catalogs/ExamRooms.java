@@ -1,14 +1,10 @@
-package edu.ics372.abdnn.medsched.singletons;
+package edu.ics372.abdnn.medsched.catalogs;
 
-import edu.ics372.abdnn.medsched.abstracts.Person;
 import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.ExamRoom;
-import edu.ics372.abdnn.medsched.entities.ExamRoom;
 import edu.ics372.abdnn.medsched.entities.Period;
-import edu.ics372.abdnn.medsched.entities.Provider;
-import edu.ics372.abdnn.medsched.enums.Availability;
 import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
-import edu.ics372.abdnn.medsched.interfaces.SingletonBagWrapper;
+import edu.ics372.abdnn.medsched.reservations.RoomReservations;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,9 +15,23 @@ public enum ExamRooms implements BagWrapper<ExamRoom> {
     INSTANCE;
     private final Bag<ExamRoom> examRooms = new Bag<ExamRoom>();
 
-    public boolean isOpen (Period period, ExamRoom examRoom) { return true; }
+    public ArrayList<ExamRoom> getOpenRooms (Period period) {
+        ArrayList<ExamRoom> openRooms = new ArrayList<>();
+        ArrayList<Integer> bookedRoomIds = RoomReservations.INSTANCE.getBookedRoomIds(period);
 
-    public ExamRoom firstOpen (Period period) { return null; }
+        for (ExamRoom examRoom : examRooms.getContents()) {
+            if (!bookedRoomIds.contains(examRoom.getId()) && !openRooms.contains(examRoom)) {
+                openRooms.add(openRooms.size(), examRoom);
+            }
+        }
+        return openRooms;
+    }
+
+    public ExamRoom firstOpen (Period period) {
+        ArrayList<ExamRoom> openRooms = getOpenRooms(period);
+        if (!openRooms.isEmpty()) return openRooms.get(0);
+        return null;
+    }
 
     public ExamRoom search (String name) { return examRooms.search(name); }
     public ExamRoom search (int id) { return examRooms.search(id); }

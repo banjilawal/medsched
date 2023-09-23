@@ -1,14 +1,11 @@
-package edu.ics372.abdnn.medsched.singletons;
+package edu.ics372.abdnn.medsched.catalogs;
 
 import edu.ics372.abdnn.medsched.abstracts.Person;
 import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.Department;
-import edu.ics372.abdnn.medsched.entities.ExamRoom;
 import edu.ics372.abdnn.medsched.entities.Provider;
 import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
-import edu.ics372.abdnn.medsched.interfaces.SingletonBagWrapper;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
@@ -46,7 +43,7 @@ public enum Departments implements BagWrapper<Department> {
     public Department pop (Department department) {
         for (Person person: department.getMembers().getBag().getContents()) {
             Provider provider = (Provider) person;
-            provider.removeDepartment(department);
+            provider.removeMembership(department);
         }
         return departments.pop(department);
     } // close pop

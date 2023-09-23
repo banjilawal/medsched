@@ -2,7 +2,7 @@ package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.Entity;
 import edu.ics372.abdnn.medsched.containers.Bag;
-import edu.ics372.abdnn.medsched.enums.Availability;
+import edu.ics372.abdnn.medsched.enums.Status;
 import edu.ics372.abdnn.medsched.global.Constant;
 
 import java.time.LocalDate;
@@ -30,14 +30,14 @@ public class Day extends Entity  {
 
     public Timeslot getFirstOpening () {
         for (Timeslot timeslot : timeslots.getContents()) {
-            if (timeslot.getAvailability().equals(Availability.OPEN))
+            if (timeslot.getAvailability().equals(Status.OPEN))
                 return timeslot;
         }
         return null;
     }
 
     public Iterator<Timeslot> getOpenings () {
-        Predicate<Timeslot> predicate = timeslot -> {timeslot.getAvailability().equals(Availability.OPEN)};
+        Predicate<Timeslot> predicate = timeslot -> {timeslot.getAvailability().equals(Status.OPEN)};
         return timeslots.filter(predicate);
     }
 
@@ -56,20 +56,20 @@ public class Day extends Entity  {
         }
         return Integer.MIN_VALUE;
     }
-
-    public boolean book (Provider provider, Patient patient, LocalTime start) {
-        int arrayIndex = getTimeslotIndex(start);
-        if (arrayIndex >= 0) {
-            return timeslots.get(arrayIndex).book(date, provider, patient);
-        }
-        return false;
-    }
+//
+//    public boolean book (Provider provider, Patient patient, LocalTime start) {
+//        int arrayIndex = getTimeslotIndex(start);
+//        if (arrayIndex >= 0) {
+//            return timeslots.get(arrayIndex).book(date, provider, patient);
+//        }
+//        return false;
+//    }
 
 
 //    public void bookTimeSlot (Timeslot timeslot) {
 //        int arrayIndex = getArrayIndex(timeslot);
 //        if (arrayIndex > Integer.MIN_VALUE && isOpen(timeslot))  {
-//            timeslots.get(arrayIndex).setAvailabilty(Availability.CLOSED);
+//            timeslots.get(arrayIndex).setAvailabilty(State.CLOSED);
 //        }
 //    }
 //
@@ -77,14 +77,14 @@ public class Day extends Entity  {
 //    public void releaseTimeslot (Timeslot timeslot) {
 //        int arrayIndex = getArrayIndex(timeslot);
 //        if (arrayIndex > Integer.MIN_VALUE && !isOpen(timeslot))  {
-//            timeslots.get(arrayIndex).setAvailabilty(Availability.OPEN);
+//            timeslots.get(arrayIndex).setAvailabilty(State.OPEN);
 //        }
 //    }
 
 
     public boolean isOpen (Timeslot timeslot) {
         if (timeslots.contains(timeslot) ) {
-            return timeslots.get(timeslots.indexOf(timeslot)).getAvailability() == Availability.OPEN;
+            return timeslots.get(timeslots.indexOf(timeslot)).getAvailability() == Status.OPEN;
         }
         return false;
     }

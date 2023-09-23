@@ -1,3 +1,10 @@
+/**
+ * Bag
+ *
+ * Creates a consistent framework for doing collection operations on objects in the project. With the <code>Bag</code>
+ * we don't have to duplicate code for adding, removing, searching collections of Medsched objects.
+ */
+
 package edu.ics372.abdnn.medsched.containers;
 
 

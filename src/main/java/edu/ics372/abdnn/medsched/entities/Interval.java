@@ -5,11 +5,11 @@ import edu.ics372.abdnn.medsched.abstracts.AnonymousEntity;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class Duration extends AnonymousEntity {
+public class Interval extends AnonymousEntity {
     private LocalTime start;
     private LocalTime end;
 
-    public Duration (LocalTime start, LocalTime end) {
+    public Interval (LocalTime start, LocalTime end) {
         this.start = start;
         this.end = end;
     } //
@@ -33,7 +33,7 @@ public class Duration extends AnonymousEntity {
     @Override
     public boolean equals (Object object) {
         if (this == object) return true;
-        if (object instanceof Duration timeslot) {
+        if (object instanceof Interval timeslot) {
             return super.equals(timeslot) && sameTimes(timeslot);
         }
         return false;
@@ -49,7 +49,7 @@ public class Duration extends AnonymousEntity {
         return super.toString() + " start:" + start.toString() + " end:" + end.toString();
     }
 
-    public boolean sameTimes (Duration timeslot) {
+    public boolean sameTimes (Interval timeslot) {
         return start.equals(timeslot.getStart()) && end.equals(timeslot.getEnd());
     }
 } // end class Timeslot

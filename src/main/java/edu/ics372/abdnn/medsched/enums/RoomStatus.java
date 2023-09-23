@@ -1,5 +1,6 @@
 package edu.ics372.abdnn.medsched.enums;
 
-public enum RoomState {
-    OCCUPIED, EMPTY
+public enum RoomStatus {
+    AVAILABLE,
+    BOOKED;
 } // end enum

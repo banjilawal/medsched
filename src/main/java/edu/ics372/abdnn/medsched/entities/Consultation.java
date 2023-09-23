@@ -23,8 +23,7 @@ public class Consultation extends Appointment {
     public LocalTime getCheckInTime () { return checkInTime; }
     public LocalTime getCheckOutTime () { return checkOutTime; }
 
-    public void checkIn () { this.checkInTime = LocalTime.now(); }
-    public void checkout (LocalTime checkOutTime) { this.checkOutTime = checkOutTime; }
+
 
     @Override
     public boolean equals (Object object) {

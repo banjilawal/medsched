@@ -1,15 +1,11 @@
 package edu.ics372.abdnn.medsched.populators;
 
-import edu.ics372.abdnn.medsched.entities.Day;
 import edu.ics372.abdnn.medsched.entities.ExamRoom;
 import edu.ics372.abdnn.medsched.global.Constant;
 import edu.ics372.abdnn.medsched.interfaces.Populator;
-import edu.ics372.abdnn.medsched.singletons.Calendar;
-import edu.ics372.abdnn.medsched.singletons.ExamRooms;
+import edu.ics372.abdnn.medsched.catalogs.ExamRooms;
 import edu.ics372.abdnn.medsched.visitors.NameGenerator;
 import edu.ics372.abdnn.medsched.visitors.SerialNumberGenerator;
-
-import java.time.LocalDate;
 
 public enum ExamRoomPopulator implements Populator  {
     INSTANCE;

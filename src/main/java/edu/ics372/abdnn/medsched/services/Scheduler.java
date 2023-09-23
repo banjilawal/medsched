@@ -1,14 +1,5 @@
 package edu.ics372.abdnn.medsched.services;
 
-import edu.ics372.abdnn.medsched.entities.*;
-import edu.ics372.abdnn.medsched.enums.Availability;
-import edu.ics372.abdnn.medsched.interfaces.AppointmentRequest;
-import edu.ics372.abdnn.medsched.singletons.Departments;
-import edu.ics372.abdnn.medsched.singletons.ExamRooms;
-import edu.ics372.abdnn.medsched.visitors.SerialNumberGenerator;
-
-import java.util.Iterator;
-
 public class Scheduler {
 //
 //    private static Scheduler INSTANCE;
@@ -36,7 +27,7 @@ public class Scheduler {
 //            if (slotMatch(appointmentRequest.getDateTimeslot(), day) && providerMatch(appointmentRequest.getProvider(), provider)) {
 //                if (ExamRooms.getInstance().iterator().hasNext()) {
 //                    ExamRoom examRoom = ExamRooms.getInstance().iterator().next();
-//                    if (provider.getAvailabilty(appointmentRequest.getDateTimeslot()).equals(Availability.OPEN)) {
+//                    if (provider.getAvailabilty(appointmentRequest.getDateTimeslot()).equals(State.OPEN)) {
 //                        provider.setAvailabilty(appointmentRequest.getDateTimeslot());
 //                        return new Appointment(
 //                            SerialNumberGenerator.INSTANCE.assignNumber(),

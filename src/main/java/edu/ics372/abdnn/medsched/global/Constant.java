@@ -1,6 +1,5 @@
 package edu.ics372.abdnn.medsched.global;
 
-import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -36,13 +35,15 @@ public final class Constant {
         "Dentistry", "Ophthalmology"
     };
 
+    public static int CALENDAR_SIZE = 5;
     public static int ROOMS_PER_LETTER = 3;
     public static int EXAM_ROOM_CAPACITY = 3;
     public static int MINIMUM_ENTITY_ID = 1;
     public static int DAILY_TIMESLOT_TOTAL = 4;
     public static int TIMESLOT_MINUTES = 50;
     public static int APPOINTMENT_SWITCH_OVER_TIME = 10;
-    public static int CALENDAR_SIZE = 5;
+    public static int LATE_MINUTES_THRESHOLD = 10;
+
     public static LocalTime OPENING_TIME = LocalTime.of(8, 0, 0);
     public static LocalDate INITIAL_CALENDAR_DATE = LocalDate.of(2023, 12, 31);
 } // end class Constant

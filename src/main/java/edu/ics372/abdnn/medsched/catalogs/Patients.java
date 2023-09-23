@@ -1,9 +1,7 @@
-package edu.ics372.abdnn.medsched.singletons;
+package edu.ics372.abdnn.medsched.catalogs;
 
-import edu.ics372.abdnn.medsched.abstracts.Person;
 import edu.ics372.abdnn.medsched.containers.Bag;
 import edu.ics372.abdnn.medsched.entities.Patient;
-import edu.ics372.abdnn.medsched.entities.Provider;
 import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
 
 import java.util.Iterator;

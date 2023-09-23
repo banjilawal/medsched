@@ -1,11 +1,9 @@
 package edu.ics372.abdnn.medsched.populators;
 
 import edu.ics372.abdnn.medsched.entities.Department;
-import edu.ics372.abdnn.medsched.entities.ExamRoom;
 import edu.ics372.abdnn.medsched.global.Constant;
 import edu.ics372.abdnn.medsched.interfaces.Populator;
-import edu.ics372.abdnn.medsched.singletons.Departments;
-import edu.ics372.abdnn.medsched.visitors.NameGenerator;
+import edu.ics372.abdnn.medsched.catalogs.Departments;
 import edu.ics372.abdnn.medsched.visitors.SerialNumberGenerator;
 
 public enum DepartmentPopulator implements Populator  {
