@@ -10,6 +10,7 @@ public class Period extends Entity {
     private final String timeslotName;
     private final int timeslotId;
     private final int departmentId;
+    private final Department department;
     private final LocalDate date;
     private final LocalTime startTime;
     private final LocalTime endTime;
@@ -25,6 +26,7 @@ public class Period extends Entity {
         }
         this.timeslotId = timeslotId;
         this.timeslotName = timeslotName;
+        this.department = department;
         this.departmentId = department.getId();
         this.status = BookingStatus.AVAILABLE;
         this.date = date;
@@ -47,6 +49,8 @@ public class Period extends Entity {
     }
 
     public int getDepartmentId () { return departmentId; }
+
+    public Department getDepartment () { return department; }
 
     public LocalTime getStartTime () {
         return startTime;
@@ -88,7 +92,8 @@ public class Period extends Entity {
 
     @Override
     public String toString () {
-        return super.toString() + " " + date.toString()
+        return department.getName()
+            + " " + super.toString() + " " + date.toString()
             + " timeslotId:" + timeslotId
             + " timeslotName:" + timeslotName
             + " start:" + startTime.toString()

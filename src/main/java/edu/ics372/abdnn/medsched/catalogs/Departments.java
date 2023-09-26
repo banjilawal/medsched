@@ -1,13 +1,11 @@
 package edu.ics372.abdnn.medsched.catalogs;
 
-import edu.ics372.abdnn.medsched.abstracts.Person;
-import edu.ics372.abdnn.medsched.containers.Bag;
-import edu.ics372.abdnn.medsched.entities.Department;
-import edu.ics372.abdnn.medsched.entities.Provider;
-import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
+import edu.ics372.abdnn.medsched.containers.*;
+import edu.ics372.abdnn.medsched.entities.*;
+import edu.ics372.abdnn.medsched.interfaces.*;
 
-import java.util.Iterator;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
 public enum Departments implements BagWrapper<Department> {
     INSTANCE;
@@ -25,10 +23,6 @@ public enum Departments implements BagWrapper<Department> {
     public void remove (String name) { remove(departments.search(name)); }
     public void remove (int id) { remove(departments.search(id)); }
 
-    public void remove (Department department) {
-        departments.remove(departments.indexOf(department));
-    }
-
     @Override
     public int size () { return departments.size(); }
 
@@ -40,13 +34,25 @@ public enum Departments implements BagWrapper<Department> {
     public void add (Department department) { departments.add(department);}
 
 
-    public Department pop (Department department) {
-        for (Person person: department.getMembers().getBag().getContents()) {
-            Provider provider = (Provider) person;
+    public void remove (Department department) {
+        Iterator<Provider> iterator = department.getMembers();
+        while (iterator().hasNext()) {
+            Provider provider = iterator.next();
+            department.removeMember(provider);
             provider.removeMembership(department);
         }
-        return departments.pop(department);
+        departments.remove(departments.indexOf(department));
     } // close pop
+
+//    public Department pop (Department department) {
+//        Iterator<Provider> iterator = department.getMembers();
+//        while (iterator().hasNext()) {
+//            Provider provider = iterator.next();
+//            department.removeMember(provider);
+//            provider.removeMembership(department);
+//        }
+//        departments.
+//    } // close pop
 
 
     @Override

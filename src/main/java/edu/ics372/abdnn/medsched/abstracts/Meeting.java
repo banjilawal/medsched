@@ -5,7 +5,6 @@ import edu.ics372.abdnn.medsched.entities.Period;
 import java.util.Objects;
 
 public abstract class Meeting extends Entity {
-    private OwnerLock hostLock;
     private Location location;
     private Period period;
     private int hostId;
@@ -16,7 +15,6 @@ public abstract class Meeting extends Entity {
         this.hostId = host.getId();
         this.location = location;
         this.period = period;
-        this.hostLock = new OwnerLock(host);
     } // close constructor
 
     public int getHostId() { return hostId; }
@@ -27,7 +25,6 @@ public abstract class Meeting extends Entity {
     }
 
     public Period getPeriod () { return period; }
-    public OwnerLock getHostLock () { return hostLock; }
 
     public void setHostId (int hostId) { this.hostId = hostId; }
 
@@ -36,7 +33,7 @@ public abstract class Meeting extends Entity {
     }
     public void setPeriod (Period period) { this.period = period; }
 //    public void setHostLock () { this.hostLock = new OwnerLock(host); }
-    public void removeHostLock () { this.hostLock = null; }
+
 
     @Override
     public boolean equals (Object object) {
@@ -46,8 +43,7 @@ public abstract class Meeting extends Entity {
             return super.equals(meeting)
                 && hostId == meeting.getHostId()
                 && period.equals((meeting.getPeriod()))
-                && location.equals(meeting.getLocation())
-                && hostLock.equals(meeting.getHostLock());
+                && location.equals(meeting.getLocation());
         }
         return false;
     } // close equals

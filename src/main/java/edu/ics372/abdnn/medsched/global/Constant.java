@@ -3,7 +3,6 @@ package edu.ics372.abdnn.medsched.global;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 public final class Constant {
     public static String[] FIRST_NAMES = {
@@ -39,7 +38,7 @@ public final class Constant {
     public static int ROOMS_PER_LETTER = 3;
     public static int EXAM_ROOM_CAPACITY = 3;
     public static int MINIMUM_ENTITY_ID = 1;
-    public static int DAILY_TIMESLOT_TOTAL = 4;
+    public static int TIMESLOTS_PER_DAY = 4;
     public static int TIMESLOT_MINUTES = 50;
     public static int APPOINTMENT_SWITCH_OVER_TIME = 10;
     public static int LATE_MINUTES_THRESHOLD = 10;

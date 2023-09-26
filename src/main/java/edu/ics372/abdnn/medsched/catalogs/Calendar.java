@@ -1,58 +1,49 @@
 package edu.ics372.abdnn.medsched.catalogs;
 
-import edu.ics372.abdnn.medsched.containers.Bag;
-import edu.ics372.abdnn.medsched.entities.Day;
-import edu.ics372.abdnn.medsched.entities.Period;
-import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
+import edu.ics372.abdnn.medsched.containers.*;
+import edu.ics372.abdnn.medsched.entities.*;
 
-import java.util.Iterator;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
-public enum Calendar implements BagWrapper<Day> {
+public enum Calendar {
     INSTANCE;
-    private final Bag<Day> calendar = new Bag<Day>();
+    private final Bag<Period> calendar = new Bag<>();
 
     public boolean periodIsOpen (Period period) { return true; }
 
-    public Day search (String name) { return calendar.search(name); }
-    public Day search (int id) { return calendar.search(id); }
+    public Period search (int id) { return calendar.search(id); }
 
-    public Day peek (String name) { return calendar.peek(search(name)); }
-    public Day peek (int id) { return calendar.peek(search(id)); }
+    public Period peek (int id) { return calendar.peek(search(id)); }
 
-    public Day pop (String name) { return calendar.pop(calendar.search(name)); }
-    public Day pop (int id) { return calendar.pop(calendar.search(id)); }
+    public Period pop (int id) { return calendar.pop(calendar.search(id)); }
 
-    public void remove (String name) { remove(calendar.search(name)); }
     public void remove (int id) { remove(calendar.search(id)); }
 
-    public void remove (Day day) {
-        calendar.remove(calendar.indexOf(day));
+    public void remove (Period period) {
+        calendar.remove(calendar.indexOf(period));
     }
 
-    @Override
+
     public int size () { return calendar.size(); }
 
-    @Override
-    public Bag<Day> getBag () { return calendar; }
+
+    public Bag<Period> getBag () { return calendar; }
 
 
-    @Override
-    public void add (Day day) { calendar.add(day);}
+    public void add (Period period) { calendar.add(period);}
 
-    
 
-    @Override
-    public Iterator<Day> iterator () { return calendar.iterator(); }
+    public Iterator<Period> iterator () { return calendar.iterator(); }
 
-    @Override
-    public Iterator<Day> filter (Predicate<Day> predicate) { return calendar.filter(predicate); }
+
+    public Iterator<Period> filter (Predicate<Period> predicate) { return calendar.filter(predicate); }
 
     @Override
     public String toString () {
         StringBuilder stringBuilder = new StringBuilder("Calendar\n----------\n");
-        for (Day day : calendar.getContents()) {
-            stringBuilder.append(day.toString()).append("\n");
+        for (Period period : calendar.getContents()) {
+            stringBuilder.append(period.toString()).append("\n");
         }
         return stringBuilder.toString();
     }

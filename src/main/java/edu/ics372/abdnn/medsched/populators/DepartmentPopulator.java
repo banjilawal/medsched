@@ -8,6 +8,7 @@ import edu.ics372.abdnn.medsched.visitors.SerialNumberGenerator;
 
 public enum DepartmentPopulator implements Populator  {
     INSTANCE;
+
     @Override
     public void populate () {
         for (int index = 0; index < Constant.DEPARTMENT_NAMES.length; index++) {
@@ -18,4 +19,4 @@ public enum DepartmentPopulator implements Populator  {
             );
         }
     }
-} // end enum ExamRoomPopulator
+} // end enum DepartmentPopulator

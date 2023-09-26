@@ -1,10 +1,7 @@
 package edu.ics372.abdnn.medsched.visitors;
 
-import edu.ics372.abdnn.medsched.interfaces.AppointmentRequest;
-import edu.ics372.abdnn.medsched.interfaces.NumberAssigner;
-import edu.ics372.abdnn.medsched.populators.CalendarPopulator;
-import edu.ics372.abdnn.medsched.populators.DepartmentPopulator;
-import edu.ics372.abdnn.medsched.populators.ExamRoomPopulator;
+import edu.ics372.abdnn.medsched.interfaces.*;
+import edu.ics372.abdnn.medsched.populators.*;
 
 public enum SerialNumberGenerator implements NumberAssigner {
     INSTANCE;
@@ -26,6 +23,4 @@ public enum SerialNumberGenerator implements NumberAssigner {
 
     @Override
     public int appointmentId () { return appointmentSerialNumber++; }
-
-    public String assignName (AppointmentRequest appointmentRequest) { return appointmentRequest.getPatient().toString(); }
 } // end class SerialNumberGenerator

@@ -12,22 +12,11 @@ public abstract class Organization extends NamedEntity {
 
 
     public ArrayList<Integer> getMemberIds () { return memberIds; }
-    public void addMemberIds (ArrayList<Integer> memberIds) {
-        for (Integer memberId : memberIds) {
-            addMemberId(memberId);
-        }
-    }
 
-    public void addMemberId (Integer memberId) {
+
+    public void addMemberId (int memberId) {
         if (!memberIds.contains(memberId))
             memberIds.add(memberIds.size(), memberId);
-    }
-
-
-    public void removeMemberIds (ArrayList<Integer> memberIds) {
-        for (Integer memberId : memberIds) {
-            removeMemberId(memberId);
-        }
     }
 
     public void removeMemberId (Integer memberId) {

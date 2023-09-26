@@ -12,23 +12,10 @@ public class Department extends Organization  {
     } // close constructor
 
 
-    public void addMembers (ArrayList<Provider> providers) {
-        for (Provider provider : providers) {
-            addMember(provider);
-        }
-    }
-
-
     public void addMember (Provider provider) {
         addMemberId(provider.getId());
     }
 
-
-    public void removeMembers (ArrayList<Provider> members) {
-        for (Provider member : members) {
-            removeMember(member);
-        }
-    }
 
 
     public void removeMember (Provider member) {
