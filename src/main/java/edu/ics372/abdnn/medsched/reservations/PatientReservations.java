@@ -9,13 +9,13 @@ import java.util.function.*;
 public enum PatientReservations {
     INSTANCE;
 
-    private final Bag<PatientReservation> reservations = new Bag<PatientReservation>();
+    private final Bag<RerservationPatient> reservations = new Bag<RerservationPatient>();
 
 
-    public Bag<PatientReservation> getReservations () { return reservations; }
+    public Bag<RerservationPatient> getReservations () { return reservations; }
 
 
-    public PatientReservation search (int id) { return reservations.search(id); }
+    public RerservationPatient search (int id) { return reservations.search(id); }
     
 
 //    public ArrayList<Period>  getReservationPeriods (Patient patient) {
@@ -31,13 +31,13 @@ public enum PatientReservations {
 //        return matches;
 //    }
 
-    public PatientReservation peek (int id) { return reservations.peek(search(id)); }
+    public RerservationPatient peek (int id) { return reservations.peek(search(id)); }
 
-    public PatientReservation pop (int id) { return reservations.pop(reservations.search(id)); }
+    public RerservationPatient pop (int id) { return reservations.pop(reservations.search(id)); }
 
     public void remove (int id) { remove(reservations.search(id)); }
 
-    public void remove (PatientReservation reservation) {
+    public void remove (RerservationPatient reservation) {
         reservations.remove(reservations.indexOf(reservation));
     }
 
@@ -45,13 +45,13 @@ public enum PatientReservations {
     public int size () { return reservations.size(); }
 
     
-    public void add (PatientReservation reservation) { reservations.add(reservation);}
+    public void add (RerservationPatient reservation) { reservations.add(reservation);}
 
     
-    public Iterator<PatientReservation> iterator () { return reservations.iterator(); }
+    public Iterator<RerservationPatient> iterator () { return reservations.iterator(); }
 
 
-    public Iterator<PatientReservation> filter (Predicate<PatientReservation> predicate) { return reservations.filter(predicate); }
+    public Iterator<RerservationPatient> filter (Predicate<RerservationPatient> predicate) { return reservations.filter(predicate); }
 
     public String toString () { return reservations.toString(); }
 } // end class ExamPatientReservations

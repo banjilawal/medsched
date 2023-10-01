@@ -1,8 +1,7 @@
 package edu.ics372.abdnn.medsched.catalogs;
 
 import edu.ics372.abdnn.medsched.containers.Bag;
-import edu.ics372.abdnn.medsched.entities.ExamRoom;
-import edu.ics372.abdnn.medsched.entities.Period;
+import edu.ics372.abdnn.medsched.entities.*;
 import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
 import edu.ics372.abdnn.medsched.reservations.RoomReservations;
 
@@ -11,9 +10,9 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 
-public enum ExamRooms implements BagWrapper<ExamRoom> {
+public enum ExamRooms {
     INSTANCE;
-    private final Bag<ExamRoom> examRooms = new Bag<ExamRoom>();
+    private final ArrayList<ExamRoom> examRooms = new ArrayList<>();
 
     public ArrayList<ExamRoom> getOpenRooms (Period period) {
         ArrayList<ExamRoom> openRooms = new ArrayList<>();
@@ -33,8 +32,23 @@ public enum ExamRooms implements BagWrapper<ExamRoom> {
         return null;
     }
 
-    public ExamRoom search (String name) { return examRooms.search(name); }
-    public ExamRoom search (int id) { return examRooms.search(id); }
+    public ExamRoom search (String name) {
+        for (ExamRoom examRoom: examRoomss) {
+            if (examRoom.getName().equalsIgnoreCase(name))
+                return examRoom;
+        }
+        return null;
+    }
+
+
+    public ExamRoom search (int id) {
+        for (ExamRoom examRoom : examRooms) {
+            if (examRoom.getId() == id)
+                return examRoom;
+        }
+        return null;
+    }
+
 
     public ExamRoom peek (String name) { return examRooms.peek(search(name)); }
     public ExamRoom peek (int id) { return examRooms.peek(search(id)); }

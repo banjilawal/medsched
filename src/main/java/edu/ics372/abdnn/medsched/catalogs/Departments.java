@@ -1,65 +1,60 @@
 package edu.ics372.abdnn.medsched.catalogs;
 
-import edu.ics372.abdnn.medsched.containers.*;
 import edu.ics372.abdnn.medsched.entities.*;
-import edu.ics372.abdnn.medsched.interfaces.*;
 
 import java.util.*;
 import java.util.function.*;
 
-public enum Departments implements BagWrapper<Department> {
+public enum Departments  {
     INSTANCE;
-    private final Bag<Department> departments = new Bag<Department>();
+    private final ArrayList<Department> departments = new ArrayList<>();
 
-    public Department search (String name) { return departments.search(name); }
-    public Department search (int id) { return departments.search(id); }
-
-    public Department peek (String name) { return departments.peek(search(name)); }
-    public Department peek (int id) { return departments.peek(search(id)); }
-
-    public Department pop (String name) { return departments.pop(departments.search(name)); }
-    public Department pop (int id) { return departments.pop(departments.search(id)); }
-
-    public void remove (String name) { remove(departments.search(name)); }
-    public void remove (int id) { remove(departments.search(id)); }
-
-    @Override
-    public int size () { return departments.size(); }
-
-    @Override
-    public Bag<Department> getBag () { return departments; }
-
-
-    @Override
-    public void add (Department department) { departments.add(department);}
-
-
-    public void remove (Department department) {
-        Iterator<Provider> iterator = department.getMembers();
-        while (iterator().hasNext()) {
-            Provider provider = iterator.next();
-            department.removeMember(provider);
-            provider.removeMembership(department);
+    public Department search (String name) {
+        for (Department department : departments) {
+            if (department.getName().equalsIgnoreCase(name))
+                return department;
         }
-        departments.remove(departments.indexOf(department));
-    } // close pop
-
-//    public Department pop (Department department) {
-//        Iterator<Provider> iterator = department.getMembers();
-//        while (iterator().hasNext()) {
-//            Provider provider = iterator.next();
-//            department.removeMember(provider);
-//            provider.removeMembership(department);
-//        }
-//        departments.
-//    } // close pop
+        return null;
+    }
 
 
-    @Override
-    public Iterator<Department> iterator () { return departments.iterator(); }
+    public Department search (int id) {
+        for (Department department : departments) {
+            if (department.getId() == id)
+                return department;
+        }
+        return null;
+    }
 
-    @Override
-    public Iterator<Department> filter (Predicate<Department> predicate) { return departments.filter(predicate); }
 
-    public String toString () { return getBag().toString(); }
+    public boolean add (Department department) {
+        if (search(department.getId()) == null && search(department.getName()) == null) {
+            return departments.add(department);
+        }
+        return false;
+    }
+
+
+    public boolean remove (Department department) {
+        if (search(department.getId()) != null || search(department.getName()) != null) {
+            if (department.canDelete())
+                return departments.remove(department);
+        }
+        return true;
+    }
+
+
+    public Iterator<Department> iterator () {
+        return departments.iterator();
+    }
+
+
+    public Iterator<Department> filter (Predicate predicate) {
+        ArrayList<Department> matches = new ArrayList<>();
+        for (Department department: departments) {
+            if (predicate.test(department) && !matches.contains(department))
+                matches.add(matches.size(), department);
+        }
+        return matches.iterator();
+    }
 } // end class Departments

@@ -1,19 +1,16 @@
 package edu.ics372.abdnn.medsched.entities;
 
-import edu.ics372.abdnn.medsched.abstracts.Meeting;
-import edu.ics372.abdnn.medsched.enums.AppointmentStatus;
+import edu.ics372.abdnn.medsched.abstracts.*;
+import edu.ics372.abdnn.medsched.enums.*;
 import edu.ics372.abdnn.medsched.global.*;
-import edu.ics372.abdnn.medsched.catalogs.Departments;
-import edu.ics372.abdnn.medsched.catalogs.Patients;
-import edu.ics372.abdnn.medsched.catalogs.Providers;
 
 import java.time.*;
-import java.util.Objects;
+import java.util.*;
 
 public class Appointment extends Meeting {
     private AppointmentStatus status;
-    private final int departmentId;
-    private final int patientId;
+    private final Department department;
+    private final Patient patient;
     public LocalTime checkInTime;
     public LocalTime checkOutTime;
 
@@ -28,23 +25,24 @@ public class Appointment extends Meeting {
             Patient patient
     ) {
         super(id, provider, examRoom, period);
-        this.departmentId = department.getId();
-        this.patientId = patient.getId();
+        this.department = department;
+        this.patient= patient;
         this.status = AppointmentStatus.BOOKED;
         this.checkInTime = LocalTime.now();
-        this.checkOutTime = LocalTime.now();;
+        this.checkOutTime = LocalTime.now();
     } //
 
 
-    public int getPatientId () { return patientId; }
-    public int getDepartmentId () { return departmentId; }
+    public Patient getPatient () { return patient; }
+    public Department getDepartment() { return department; }
 
     public LocalTime getCheckInTime () { return checkInTime; }
     public LocalTime getCheckOutTime () { return checkOutTime; }
 
-    public Patient getPatient () { return Patients.INSTANCE.search(patientId); }
-    public Provider getProvider () { return Providers.INSTANCE.search(getHostId()); }
-    public Department getDepartment () { return Departments.INSTANCE.search(departmentId); }
+    public ExamRoom getExamRoom () { return (ExamRoom) getLocation(); }
+
+    public Provider getProvider () { return (Provider) getHost(); }
+
     public AppointmentStatus getStatus () { return status; }
 
 
@@ -75,8 +73,8 @@ public class Appointment extends Meeting {
         if (object == null) return false;
         if (object instanceof Appointment appointment) {
             return super.equals(appointment)
-                && departmentId == appointment.getDepartmentId()
-                && patientId == appointment.getPatientId()
+                && department.equals(appointment.getDepartment())
+                && patient.equals(appointment.getPatient())
                 && checkInTime.equals(appointment.getCheckInTime())
                 && checkOutTime.equals(appointment.getCheckOutTime());
         }
@@ -85,15 +83,15 @@ public class Appointment extends Meeting {
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), departmentId, patientId, departmentId, checkInTime, checkOutTime, status);
+        return Objects.hash(super.hashCode(), department, patient, checkInTime, checkOutTime, status);
     }
 
     @Override
     public String toString () {
         return super.toString()
-            + " department: " + getDepartment().toString()
-            + " patient:" +  getPatient().toString()
-            + " provider:" + getProvider().toString()
+            + " department: " + department.getName()
+            + " patient:" +  patient.getFirstname() + " " + patient.getLastname()
+            + " provider:" + getHost().getFirstname() + " " + getHost().getLastname()
             + " checkin:" + printLocalTime(checkInTime)
             + " checkout:" + printLocalTime(checkOutTime);
     }

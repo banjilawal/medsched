@@ -1,23 +1,23 @@
 package edu.ics372.abdnn.medsched.abstracts;
 
-import edu.ics372.abdnn.medsched.entities.Period;
+import edu.ics372.abdnn.medsched.entities.*;
 
-import java.util.Objects;
+import java.util.*;
 
-public abstract class Meeting extends Entity {
+public abstract class OldMeeting extends Entity {
     private Location location;
     private Period period;
-    private Staff host;
+    private int hostId;
 
 
-    public Meeting (int id, Staff staffMember, Location location, Period period) {
+    public OldMeeting (int id, Person host, Location location, Period period) {
         super(id);
-        this.host = staff;
+        this.hostId = host.getId();
         this.location = location;
         this.period = period;
     } // close constructor
 
-    public Staff getHost () { return host; }
+    public int getHostId() { return hostId; }
 
 
     public Location getLocation () {
@@ -26,21 +26,22 @@ public abstract class Meeting extends Entity {
 
     public Period getPeriod () { return period; }
 
-    public void setStaff (Staff host) { this.host = host; }
+    public void setHostId (int hostId) { this.hostId = hostId; }
 
     public void setLocation (Location location) {
         this.location = location;
     }
     public void setPeriod (Period period) { this.period = period; }
+//    public void setHostLock () { this.hostLock = new OwnerLock(host); }
 
 
     @Override
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof Meeting meeting) {
+        if (object instanceof OldMeeting meeting) {
             return super.equals(meeting)
-                && host == meeting.getHost()
+                && hostId == meeting.getHostId()
                 && period.equals((meeting.getPeriod()))
                 && location.equals(meeting.getLocation());
         }
@@ -49,7 +50,7 @@ public abstract class Meeting extends Entity {
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), host, location, period);
+        return Objects.hash(super.hashCode(), hostId, location, period);
     } // close hashCode
 
 //    @Override

@@ -1,7 +1,11 @@
 package edu.ics372.abdnn.medsched.reservations;
 
-import edu.ics372.abdnn.medsched.containers.*;
+import edu.ics372.abdnn.medsched.catalogs.*;
+import edu.ics372.abdnn.medsched.entities.*;
+import edu.ics372.abdnn.medsched.entities.Period;
+import edu.ics372.abdnn.medsched.enums.*;
 import edu.ics372.abdnn.medsched.reserve.*;
+import edu.ics372.abdnn.medsched.visitors.*;
 
 import java.time.*;
 import java.util.*;
@@ -10,13 +14,94 @@ import java.util.function.*;
 public enum RoomReservations  {
     INSTANCE;
 
-    private final Bag<RoomReservation> reservations = new Bag<RoomReservation>();
+    private ArrayList<RoomReservation> reservations = new ArrayList<>();
 
 
-    public Bag<RoomReservation> getReservations () { return reservations; }
+    public boolean reservationExists (Department department, Period period, ExamRoom examRoom) {
+        return department.periodBooked(period) && examRoom.inUse();
+    }
 
 
-    public RoomReservation search (int id) { return reservations.search(id); }
+    public boolean add (Department department, Period period, ExamRoom examRoom) {
+        Predicate<RoomReservation> predicate = reservation -> {
+            return reservation.getDepartment().equals(department)
+                && reservation.getExamRoom().equals(examRoom)
+                && reservation.getPeriod().equals(period);
+        };
+
+        if (reservations.search(predicate) ==  null && Appointments.INSTANCE.search(examRoom, period) == null)
+            return reservations.add(new RoomReservation(department, period, examRoom));
+//            return reservations.add(new RoomReservation(SerialNumberGenerator.INSTANCE.examRoomId(), period, examRoom));
+        return false;
+    }
+
+
+    public boolean delete (RoomReservation reservation) {
+        if (reservations.contains(reservation))
+            return reservations.remove(reservation);
+        return true;
+    }
+
+
+//    public boolean cancelReservation (RoomReservation target) {
+//        for (RoomReservation reservation : reservations) {
+//            if (reservation.equals(target))
+//                return reservation.cancel();
+//        }
+//        return true;
+//    }
+//
+//
+//    public boolean expireReservation (RoomReservation target) {
+//        for (RoomReservation reservation : reservations) {
+//            if (reservation.equals(target))
+//                return reservation.expire();
+//        }
+//        return true;
+//    }
+
+
+    public RoomReservation search (Appointment appointment) {
+        for (RoomReservation reservation : reservations) {
+            if (reservation.getStatus().equals(ReservationStatus.ACTIVE)
+                && appointment.getPeriod().equals(reservation.getPeriod())
+                && appointment.getExamRoom().equals(reservation.getExamRoom())) {
+                return reservation;
+            }
+        }
+        return null;
+    }
+
+
+    public RoomReservation search (ExamRoom examRoom, Period period) {
+        for (RoomReservation reservation : reservations) {
+            if (reservation.getStatus().equals(ReservationStatus.ACTIVE)
+                && reservation.getExamRoom().equals(examRoom)
+                && reservation.getPeriod().equals(period)) {
+                return reservation;
+            }
+        }
+        return null;
+    }
+
+
+    public RoomReservation search (int id) {
+        for (RoomReservation reservation : reservations) {
+            if (reservation.getId() == id)
+                return reservation;
+        }
+        return null;
+    }
+
+
+    public ArrayList<RoomReservation> search (Predicate<RoomReservation> predicate) {
+        ArrayList<RoomReservation> matches = new ArrayList<>();
+        for (RoomReservation reservation : reservations) {
+            if (predicate.test(reservation) && !matches.contains(reservation))
+                matches.add(matches.size(), reservation);
+        }
+        return matches;
+    }
 
 
     public ArrayList<Integer>  getRoomIds (LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
@@ -44,27 +129,20 @@ public enum RoomReservations  {
         return matches;
     }
 
-    public RoomReservation peek (int id) { return reservations.peek(search(id)); }
 
-    public RoomReservation pop (int id) { return reservations.pop(reservations.search(id)); }
-
-    public void remove (int id) { remove(reservations.search(id)); }
-
-    public void remove (RoomReservation reservation) {
-        reservations.remove(reservations.indexOf(reservation));
-    }
-
-
-    public int size () { return reservations.size(); }
-
-
-    public void add (RoomReservation reservation) { reservations.add(reservation);}
 
 
     public Iterator<RoomReservation> iterator () { return reservations.iterator(); }
 
 
-    public Iterator<RoomReservation> filter (Predicate<RoomReservation> predicate) { return reservations.filter(predicate); }
 
-    public String toString () { return reservations.toString(); }
+
+    public Iterator<RoomReservation> filter (Predicate<RoomReservation> predicate) {
+        ArrayList<RoomReservation> matches = new ArrayList<>();
+        for (RoomReservation reservation : reservations) {
+            if (predicate.test(reservation) && !matches.contains(reservation))
+                matches.add(matches.size(), reservation);
+        }
+        return matches.iterator();
+    }
 } // end class ExamRoomReservations

@@ -3,7 +3,7 @@ package edu.ics372.abdnn.medsched.abstracts;
 import java.util.Objects;
 
 public abstract class Entity extends AnonymousEntity {
-    private int id;
+    private final int id;
 
     public Entity (int id) {
         this.id = id;
@@ -11,7 +11,6 @@ public abstract class Entity extends AnonymousEntity {
 
     public int getId () { return id; }
 
-    public void setId (int id) { this.id = id; }
 
     @Override
     public boolean equals (Object object) {

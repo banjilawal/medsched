@@ -1,75 +1,109 @@
 package edu.ics372.abdnn.medsched.catalogs;
 
-import edu.ics372.abdnn.medsched.containers.Bag;
-import edu.ics372.abdnn.medsched.entities.Appointment;
-import edu.ics372.abdnn.medsched.entities.Patient;
 import edu.ics372.abdnn.medsched.entities.Period;
-import edu.ics372.abdnn.medsched.entities.Provider;
-import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
+import edu.ics372.abdnn.medsched.entities.*;
 
-import java.util.Iterator;
-import java.util.function.Predicate;
+import java.time.*;
+import java.util.*;
+import java.util.function.*;
 
-public enum Appointments implements BagWrapper<Appointment> {
+public enum Appointments {
     INSTANCE;
-    private final Bag<Appointment> appointments = new Bag<Appointment>();
+    private final ArrayList<Appointment> appointments = new ArrayList<>();
 
-    public Appointment search (String name) { return appointments.search(name); }
-    public Appointment search (int id) { return appointments.search(id); }
-
-    public Appointment search (Patient patient, Period period) {
-        for (Appointment appointment : appointments.getContents()) {
-            if (appointment.getPatientId() == patient.getId() && appointment.getPeriod().equals(period))
+    public Appointment search (Department department, LocalDate date, LocalTime startTime) {
+        for (Appointment appointment : appointments) {
+            if (appointment.getDepartment().equals(department) && appointment.getPeriod().withinRange(date,startTime))
                 return appointment;
         }
         return null;
     }
 
-    public Appointment search (Provider provider, Period period) {
-        for (Appointment appointment : appointments.getContents()) {
-            if (appointment.getHostId() == provider.getId() && appointment.getPeriod().equals(period))
+
+    public Appointment search (ExamRoom examRoom, Period period) {
+        for (Appointment appointment : appointments) {
+            if (appointment.getExamRoom().equals(examRoom) && appointment.getPeriod().equals(period))
                 return appointment;
         }
         return null;
     }
 
-    public Iterator<Appointment> getPatientAppointments (Patient patient) {
-        Predicate<Appointment> predicate = appointment -> appointment.getPatientId() == patient.getId();
-        return appointments.filter(predicate);
+
+    public Appointment search (int id) {
+        for (Appointment appointment : appointments) {
+            if (appointment.getId() == id)
+                return appointment;
+        }
+        return null;
     }
 
 
-
-    public Appointment peek (String name) { return appointments.peek(search(name)); }
-    public Appointment peek (int id) { return appointments.peek(search(id)); }
-
-    public Appointment pop (String name) { return appointments.pop(appointments.search(name)); }
-    public Appointment pop (int id) { return appointments.pop(appointments.search(id)); }
-
-    public void remove (String name) { remove(appointments.search(name)); }
-    public void remove (int id) { remove(appointments.search(id)); }
-
-    public void remove (Appointment appointment) {
-        appointments.remove(appointments.indexOf(appointment));
+    public Appointment search (Department department, Patient patient, Period period) {
+        for (Appointment appointment : appointments) {
+            if (appointment.getDepartment().equals(department)
+                && appointment.getPatient().equals(patient)
+                && appointment.getPeriod().equals(period)) {
+                return appointment;
+            }
+        }
+        return null;
     }
 
-    @Override
-    public int size () { return appointments.size(); }
 
-    @Override
-    public Bag<Appointment> getBag () { return appointments; }
+    public ArrayList<Appointment> search (Patient patient, LocalDate startDate, LocalDate endDate) {
+        Predicate<Appointment> predicate = appointment -> {
+            return appointment.getPatient().equals(patient)
+                && appointment.getPeriod().getDate().isAfter(startDate.minusDays(1))
+                && appointment.getPeriod().getDate().isBefore(endDate.plusDays(1));
+        };
+        return search(predicate);
+    }
+
+    public ArrayList<Appointment> search (Provider provider, LocalDate startDate, LocalDate endDate) {
+        Predicate<Appointment> predicate = appointment -> {
+            return appointment.getProvider().equals(provider)
+                && appointment.getPeriod().getDate().isAfter(startDate.minusDays(1))
+                && appointment.getPeriod().getDate().isBefore(endDate.plusDays(1));
+        };
+        return search(predicate);
+    }
 
 
-    @Override
-    public void add (Appointment Appointment) { appointments.add(Appointment);}
+    public ArrayList<Appointment> search (Provider provider, Period period) {
+        Predicate<Appointment> predicate = appointment -> {
+            return appointment.getProvider().equals(provider) && appointment.getPeriod().equals(period);
+        };
+        return search(predicate);
+    }
 
 
+    public boolean add (Appointment appointment) {
+        if (!appointments.contains(appointment)) {
+            return appointments.add(appointment);
+        }
+        return true;
+    }
 
-    @Override
+
     public Iterator<Appointment> iterator () { return appointments.iterator(); }
 
-    @Override
-    public Iterator<Appointment> filter (Predicate<Appointment> predicate) { return appointments.filter(predicate); }
 
-    public String toString () { return getBag().toString(); }
+    public ArrayList<Appointment> search (Predicate<Appointment> predicate) {
+        ArrayList<Appointment> matches = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (predicate.test(appointment) && !matches.contains(appointment))
+                matches.add(matches.size(), appointment);
+        }
+        return matches;
+    }
+
+
+    public Iterator<Appointment> filter (Predicate<Appointment> predicate) {
+        ArrayList<Appointment> matches = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (predicate.test(appointment) && !matches.contains(appointment))
+                matches.add(matches.size(), appointment);
+        }
+        return matches.iterator();
+    }
 } // end class Appointments

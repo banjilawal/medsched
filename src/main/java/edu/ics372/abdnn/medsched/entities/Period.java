@@ -6,28 +6,18 @@ import edu.ics372.abdnn.medsched.enums.*;
 import java.time.*;
 import java.util.*;
 
-public class Period extends Entity {
-    private final String timeslotName;
-    private final int timeslotId;
-    private final int departmentId;
-    private final Department department;
+public class Period extends AnonymousEntity {
     private final LocalDate date;
     private final LocalTime startTime;
     private final LocalTime endTime;
     private BookingStatus status;
 
 
-//    private State availability;
-
-    public Period (int id, int timeslotId, String timeslotName, Department department, LocalDate date,  LocalTime startTime, LocalTime endTime) {
+    public Period (LocalDate date,  LocalTime startTime, LocalTime endTime) {
         super(id);
         if (startTime.isAfter(endTime)) {
             throw new IllegalArgumentException("Period 22: startTime cannot be later than endTime");
         }
-        this.timeslotId = timeslotId;
-        this.timeslotName = timeslotName;
-        this.department = department;
-        this.departmentId = department.getId();
         this.status = BookingStatus.AVAILABLE;
         this.date = date;
         this.startTime = startTime;
@@ -40,17 +30,6 @@ public class Period extends Entity {
         return status;
     }
 
-    public String getTimeslotName () {
-        return timeslotName;
-    }
-
-    public int getTimeslotId () {
-        return timeslotId;
-    }
-
-    public int getDepartmentId () { return departmentId; }
-
-    public Department getDepartment () { return department; }
 
     public LocalTime getStartTime () {
         return startTime;
@@ -63,22 +42,16 @@ public class Period extends Entity {
     public void setStatus (BookingStatus status) {
         this.status = status;
     }
-//    public void setDate (Date date) { this.date = date; }
-//
-//    public void setDuration  (Duration duration) { this.duration = duration; }
+
 
     @Override
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
         if (object instanceof Period period) {
-            return getId() == period.getId()
-                && timeslotId == period.getTimeslotId()
-                && departmentId == period.getDepartmentId()
+            return date.equals(period.getDate())
                 && startTime.equals(period.getStartTime())
-                && endTime.equals(period.getEndTime())
-                && date.equals(period.getDate())
-                && timeslotName.equalsIgnoreCase(period.getTimeslotName());
+                && endTime.equals(period.getEndTime());
         }
         return false;
     }
@@ -86,17 +59,28 @@ public class Period extends Entity {
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), timeslotName, timeslotId, departmentId, date, startTime, endTime, status);
+        return Objects.hash(super.hashCode(), date, startTime, endTime, status);
     }
 
 
     @Override
     public String toString () {
-        return department.getName()
-            + " " + super.toString() + " " + date.toString()
-            + " timeslotId:" + timeslotId
-            + " timeslotName:" + timeslotName
-            + " start:" + startTime.toString()
-            + " :" + endTime.toString();
+        return super.toString() + " " + date.toString() + " start:" + startTime.toString()
+            + " end:" + endTime.toString();
     }
+
+
+    public boolean withinRange (LocalDate date,  LocalTime time) {
+        LocalTime target = initialTime.minusHours(1);
+        return this.date.isEqual(date) && startTime.isAfter(target) && endTime.isBefore(target);
+    }
+
+
+    public boolean withinRange (LocalDate startDate, LocalDate endDate, LocalTime beginning, LocalTime end) {
+        LocalDate a = startDate.minusDays(1);
+        LocalDate b = endDate.plusDays(1);
+        LocalTime timeX = beginning.minusHours(1);
+        LocalTime timeZ = end.plusHours(1);
+        return day.isAfter(a) && day.isBefore(b) && startTime.isAfter(timeX) && end.isBefore(timeZ);
+    } //
 } // end class Period

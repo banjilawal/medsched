@@ -1,28 +1,35 @@
 package edu.ics372.abdnn.medsched.reserve;
 
-import edu.ics372.abdnn.medsched.entities.ExamRoom;
-import edu.ics372.abdnn.medsched.entities.Period;
-import edu.ics372.abdnn.medsched.catalogs.ExamRooms;
+import edu.ics372.abdnn.medsched.entities.*;
+import edu.ics372.abdnn.medsched.enums.*;
 
 import java.util.*;
 
-public class RoomReservation extends Reservation {
+public class RoomReservation extends Rerservation {
 
-    private final int examRoomId;
+    private final ExamRoom examRoom;
 
-    public RoomReservation (int id, Period period, ExamRoom examRoom) {
-        super(id, period);
-        this.examRoomId = examRoom.getId();
-    }
-
-
-    public int getExamRoomId () {
-        return examRoomId;
+    public RoomReservation (Department department,  Period period, ExamRoom examRoom) { // (int id, Department department,  Period period, ExamRoom examRoom) {
+//        super(id, department, period);
+        super(department, period);
+        this.examRoom = examRoom;
     }
 
 
     public ExamRoom getExamRoom () {
-        return ExamRooms.INSTANCE.search(examRoomId);
+        return examRoom;
+    }
+
+
+    public boolean cancel () {
+        setStatus(ReservationStatus.CANCELLED);
+        return getStatus().equals(ReservationStatus.CANCELLED);
+    }
+
+
+    public boolean expire () {
+        setStatus(ReservationStatus.EXPIRED);
+        return getStatus().equals(ReservationStatus.EXPIRED);
     }
 
 
@@ -30,8 +37,8 @@ public class RoomReservation extends Reservation {
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof RoomReservation roomReservation) {
-            return super.equals(roomReservation) && examRoomId == roomReservation.getExamRoomId();
+        if (object instanceof RoomReservation reservation) {
+            return super.equals(roomReservation) && examRoom.equals(reservation.getExamRoom());
         }
         return false;
     }
@@ -39,7 +46,7 @@ public class RoomReservation extends Reservation {
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), examRoomId);
+        return Objects.hash(super.hashCode(), examRoom);
     }
 
     @Override

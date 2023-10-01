@@ -2,20 +2,20 @@ package edu.ics372.abdnn.medsched.reserve;
 
 import edu.ics372.abdnn.medsched.entities.Period;
 import edu.ics372.abdnn.medsched.entities.Provider;
-import edu.ics372.abdnn.medsched.catalogs.Providers;
 
 import java.util.*;
 
-public class ProviderReservation extends Reservation {
-    private final int providerId;
+public class RerservationProvider extends Rerservation {
+    private final Provider provider;
 
-    public ProviderReservation (int id, Period period, Provider provider) {
+    public RerservationProvider (int id, Period period, Provider provider) {
         super(id, period);
-        this.providerId = provider.getId();;
+        this.provider = provider;;
     }
 
-    public int getProviderId () {
-        return providerId;
+
+    public Provider getProvider () {
+        return provider;
     }
 
 
@@ -23,8 +23,8 @@ public class ProviderReservation extends Reservation {
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof ProviderReservation providerReservation) {
-            return super.equals(providerReservation) && providerId == providerReservation.getProviderId();
+        if (object instanceof RerservationProvider reservation) {
+            return super.equals(reservation) && provider.equals(reservation.getProvider());
         }
         return false;
     }
@@ -33,10 +33,6 @@ public class ProviderReservation extends Reservation {
     @Override
     public int hashCode () {
         return Objects.hash(super.hashCode(), providerId);
-    }
-
-    public Provider getProvider () {
-        return Providers.INSTANCE.search(providerId);
     }
 
 

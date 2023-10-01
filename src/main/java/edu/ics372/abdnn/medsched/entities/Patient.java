@@ -1,21 +1,44 @@
 package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.*;
+import edu.ics372.abdnn.medsched.catalogs.*;
 import edu.ics372.abdnn.medsched.reservations.*;
 import edu.ics372.abdnn.medsched.reserve.*;
 
+import java.time.*;
 import java.util.*;
 import java.util.function.*;
 
 public class Patient extends Person { //implements Request, ServiceRequest {
 
-
     public Patient (int id, String firstname, String lastname) {
         super(id, firstname, lastname);
     }
 
-    public Iterator<PatientReservation> getReservations () {
-        Predicate<PatientReservation> predicate = patientReservation -> patientReservation.getPatientId() == getId();
+
+    @Override
+    public boolean equals (Object object) {
+        if (this == object) return true;
+        if (object == null) return false;
+        if (object instanceof Patient patient) {
+            return super.equals(patient);
+        }
+        return false;
+    }
+
+
+    public Iterator<Appointment> getBookings (LocalDate startDate, LocalDate endDate) {
+        Predicate<Appointment> predicate = appointment -> {
+            return appointment.getPatient().equals(this)
+                && appointment.getPeriod().getDate().isAfter(startDate.minusDays(1))
+                && appointment.getPeriod().getDate().isBefore(endDate.plusDays(1));
+        };
+        return Appointments.INSTANCE.filter(predicate);
+    }
+
+
+    public Iterator<RerservationPatient> getReservations () {
+        Predicate<RerservationPatient> predicate = patientReservation -> patientReservation.getPatientId() == getId();
         return PatientReservations.INSTANCE.filter(predicate);
     }
 //

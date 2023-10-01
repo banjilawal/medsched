@@ -2,28 +2,27 @@ package edu.ics372.abdnn.medsched.reserve;
 
 import edu.ics372.abdnn.medsched.entities.Patient;
 import edu.ics372.abdnn.medsched.entities.Period;
-import edu.ics372.abdnn.medsched.catalogs.Patients;
 
 import java.util.*;
 
-public class PatientReservation extends Reservation {
-    private final int patientId;
+public class RerservationPatient extends Rerservation {
+    private final Patient patient;
 
-    public PatientReservation (int id, Period period, Patient patient) {
+    public RerservationPatient (int id, Period period, Patient patient) {
         super(id, period);
-        this.patientId = patient.getId();;
+        this.patient = patient;
     }
 
 
-    public int getPatientId () { return patientId; }
+    public Patient getPatient() { return patient; }
 
 
     @Override
     public boolean equals (Object object) {
         if (this == object) return true;
         if (object == null) return false;
-        if (object instanceof PatientReservation patientReservation) {
-            return super.equals(patientReservation) && patientId == patientReservation.getId();
+        if (object instanceof RerservationPatient reservation) {
+            return super.equals(reservation) && patient.equals(reservation.getPatient());
         }
         return false;
     }
@@ -42,7 +41,4 @@ public class PatientReservation extends Reservation {
             + " " + getPatient().getFirstname()
             + " " + getPatient().getLastname();
     }
-
-
-    public Patient getPatient () { return Patients.INSTANCE.search(patientId); }
 } // end class ExamRoomReservation

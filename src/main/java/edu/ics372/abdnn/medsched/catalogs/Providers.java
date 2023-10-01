@@ -1,49 +1,45 @@
 package edu.ics372.abdnn.medsched.catalogs;
 
-import edu.ics372.abdnn.medsched.containers.Bag;
-import edu.ics372.abdnn.medsched.entities.Period;
-import edu.ics372.abdnn.medsched.entities.Provider;
-import edu.ics372.abdnn.medsched.interfaces.BagWrapper;
+import edu.ics372.abdnn.medsched.entities.*;
 
-import java.util.Iterator;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
-public enum Providers implements BagWrapper<Provider> {
+public enum Providers {
     INSTANCE;
-    private final Bag<Provider> providers = new Bag<Provider>();
+    private final ArrayList<Provider> providers = new ArrayList<>();
 
-    public boolean isOpen (Period period, Provider provider) { return true; }
-
-    public Provider search (String name) { return providers.search(name); }
-    public Provider search (int id) { return providers.search(id); }
-
-    public Provider peek (String name) { return providers.peek(search(name)); }
-    public Provider peek (int id) { return providers.peek(search(id)); }
-
-    public Provider pop (String name) { return providers.pop(providers.search(name)); }
-    public Provider pop (int id) { return providers.pop(providers.search(id)); }
-
-    public void remove (String name) { remove(providers.search(name)); }
-    public void remove (int id) { remove(providers.search(id)); }
-
-    public void remove (Provider Provider) {
-        providers.remove(providers.indexOf(Provider));
+    Iterator<Provider> iterator () {
+        return providers.iterator();
     }
 
-    @Override
-    public int size () { return providers.size(); }
-
-    @Override
-    public Bag<Provider> getBag () { return providers; }
 
 
-    @Override
-    public void add (Provider Provider) { providers.add(Provider);}
+
+    public Iterator<Provider> search(String firstname, String lastname) {
+        Predicate<Provider> predicate = provider -> {
+            return provider.getFirstname().equalsIgnoreCase(firstname)
+                && provider.getLastname().equalsIgnoreCase(lastname);
+        };
+        return filter(predicate);
+    }
 
 
-    @Override
-    public Iterator<Provider> iterator () { return providers.iterator(); }
+    public Provider search (int id) {
+        for (Provider provider : providers) {
+            if (provider.getId() == id)
+                return provider;
+        }
+        return null;
+    }
 
-    @Override
-    public Iterator<Provider> filter (Predicate<Provider> predicate) { return providers.filter(predicate); }
+
+    public Iterator<Provider> filter (Predicate<Provider> predicate) {
+        ArrayList<Provider> matches = new ArrayList<>();
+        for (Provider provider : providers) {
+            if (predicate.test(provider) && !matches.contains(provider))
+                matches.add(matches.size(), provider);
+        }
+        return matches.iterator();
+    }
 } // end class providers

@@ -1,6 +1,5 @@
 package edu.ics372.abdnn.medsched.abstracts;
 
-import edu.ics372.abdnn.medsched.containers.*;
 import edu.ics372.abdnn.medsched.entities.*;
 
 import java.net.*;
@@ -8,41 +7,46 @@ import java.util.*;
 public abstract class Room extends Location {
 
     private int occupantCapacity;
-    private final People<Person> occupants;
-//    private BookingStatus status;
+    private ArrayList<Person> occupants;
 
     public Room(int id, String name, int occupantCapacity) {
         super(id, name);
         this.occupantCapacity = occupantCapacity;
-        this.occupants = new People<Person>();
-//        this.status = BookingStatus.AVAILABLE;
+        this.occupants = new ArrayList<>();
     } // close constructor
 
     public int getOccupantCapacity () {
         return occupantCapacity;
     }
 
-//    public ArrayList<Person> getOccupants () {
-//        return occupants.getPeople();
-//    }
+    public ArrayList<Person> getOccupants () {
+        return occupants;
+    }
 
-    public Iterator<Person> getOccupants () { return occupants.iterator(); }
 
     public void setOccupantCapacity(int occupantCapacity) {
         this.occupantCapacity = occupantCapacity;
     }
 
-    public void addOccupants (ArrayList<Person> people) {
-        for (Person person : people) { addOccupant(person); }
-    } // close
 
-    public void addOccupant (Person person) { occupants.add(person); }
+    public boolean addOccupant (Person person) {
+        if (!occupants.contains(person) && occupants.size() < occupantCapacity)
+            return occupants.add(person);
+        else if (occupants.contains(person))
+            return true;
+        else
+            return false;
+    }
 
-    public void removeOccupants (ArrayList<Person> occupants) {
-        for (Person occupant : occupants) { removeOccupant(occupant); }
-    } // close
 
-    public void removeOccupant (Person occupant) { occupants.remove(occupant); }
+    public boolean removeOccupant (Person occupant) {
+        if (occupants.contains(person))
+            return occupants.remove(person);
+        else if (!occupants.contains(person))
+            return true;
+        else
+            return false;
+    }
 
     @Override
     public boolean equals (Object object) {
@@ -52,14 +56,12 @@ public abstract class Room extends Location {
         return false;
     }
 
-    public void request (Authenticator.RequestorType requestor, Period period) {
-
-    }
 
     @Override
     public int hashCode () {
         return Objects.hash(super.hashCode(), occupantCapacity, occupants);
     }
+
 
     @Override
     public String toString () {
