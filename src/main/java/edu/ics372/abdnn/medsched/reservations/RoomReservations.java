@@ -5,7 +5,6 @@ import edu.ics372.abdnn.medsched.entities.*;
 import edu.ics372.abdnn.medsched.entities.Period;
 import edu.ics372.abdnn.medsched.enums.*;
 import edu.ics372.abdnn.medsched.reserve.*;
-import edu.ics372.abdnn.medsched.visitors.*;
 
 import java.time.*;
 import java.util.*;
@@ -18,7 +17,7 @@ public enum RoomReservations  {
 
 
     public boolean reservationExists (Department department, Period period, ExamRoom examRoom) {
-        return department.periodBooked(period) && examRoom.inUse();
+        return department.isPeriodBooked(period) && examRoom.inUse();
     }
 
 

@@ -2,12 +2,10 @@ package edu.ics372.abdnn.medsched.entities;
 
 import edu.ics372.abdnn.medsched.abstracts.*;
 import edu.ics372.abdnn.medsched.catalogs.*;
-import edu.ics372.abdnn.medsched.catalogs.Calendar;
 import edu.ics372.abdnn.medsched.enums.*;
 import edu.ics372.abdnn.medsched.global.*;
-import edu.ics372.abdnn.medsched.visitors.*;
 
-import java.lang.reflect.*;
+import java.nio.*;
 import java.time.*;
 import java.util.*;
 import java.util.function.*;
@@ -38,15 +36,18 @@ public class Department extends Organization {
     }
 
 
-    public boolean periodBooked (Period period) {
+    public boolean isPeriodBooked (Period period) {
         return calendar.contains(period)
             && calendar.get(calendar.indexOf(period)).getStatus().equals(BookingStatus.OPEN);
     }
+
 
     public Status getStatus () { return status; }
 
 
     public boolean addMember (Staff member) {
+        if (status.equals(Status.DELETED))
+            throw new IllegalArgumentException("Cannot add members to deleted department");
         if (!members.contains(staff)) {
             return members.add(member);
         }
@@ -67,43 +68,54 @@ public class Department extends Organization {
     }
 
 
-    public ArrayList<Appointment> getAppointments () { return appointments; }
+    @Override
+    public boolean equals (Object object) {
+        if (this == object) return true;
+        if (object == null) return false;
+        if (object instanceof Department department) return super.equals(department);
+        return false;
+    } // close equals
 
 
-    public ArrayList<Period> getOpenings (Provider provider) {
-        ArrayList<Period> matches = new ArrayList<>();
-        if
-        for (Appointment appointment : appointments) {
-            if (!provider.equals(appointment.getProvider()) && !matches.contains(appointment.getPeriod()))
-                matches.add(matches.size(), period);
+    public ArrayList<Appointment> getAppointments (LocalDate startDate, LocalDate endDate) {
+        Predicate<Appointment> predicate = appointment -> {
+            return appointment.getDepartment().equals(this)
+                && appointment.getPeriod().getDate().isAfter(startDate.minusDays(1))
+                && appointment.getPeriod().getDate().isBefore(endDate.plusDays(1));
+        };
+        return Appointments.INSTANCE.search(predicate);
+    }
+
+
+    public ArrayList<Period> getOpenings (LocalDate startDate, LocalDate endDate, LocalTime timeFloor, LocalTime timeCeiling) {
+        Predicate<Period> predicate = period -> {
+            return period.getStatus().equals(BookingStatus.OPEN)
+                && period.inDateTimeRange(startDate, endDate, timeFloor, timeCeiling);
+        };
+        return filterCalendar(predicate);
+    }
+
+
+    public Map<Period, ArrayList<Provider>> openTimeslotProviderMatches (LocalDate startDate, LocalDate endDate, LocalTime timeFloor, LocalTime timeCeiling) {
+        HashMap<Period, ArrayList<Provider>> map = new HashMap<>();
+
+        for (Period opening : getOpenings(startDate, endDate,timeFloor, timeCeiling)) {
+            map.put(opening, new ArrayList<Provider>());
+            for (Staff staff : members) {
+                if (staff instanceof Provider provider)
+                    if (provider.getOpenings(startDate, endDate).contains(opening) && !map.get(opening).contains(provider))
+                        map.get(opening).add(map.get(opening).size(), provider);
+            }
         }
-        return matches;
+        return map;
     }
 
 
-    public ArrayList<Period> getOpenings (LocalDate startDate, LocalDate endDate, LocalTime beginning, LocalTime end) {
-        LocalDate a = startDate.minusDays(1);
-        LocalDate b = endDate.plusDays(1);
-
-        LocalTime t0 = beginning.minusHours(1);
-        LocalTime tN = end.plusHours(1);
-        Predicate<Period> predicate = period -> {
-            return period.getStatus().equals(BookingStatus.OPEN) && period.withinRange(a, b, t0, tN);
-        };
-        return filterCalendar(predicate);
-    }
-
-
-    public ArrayList<Period> getBookings (LocalDate startDate, LocalDate endDate, LocalTime beginning, LocalTime end) {
-        LocalDate a = startDate.minusDays(1);
-        LocalDate b = endDate.plusDays(1);
-
-        LocalTime t0 = beginning.minusHours(1);
-        LocalTime tN = end.plusHours(1);
-        Predicate<Period> predicate = period -> {
-            return period.getStatus().equals(BookingStatus.BOOKED) && period.withinRange(a, b, t0, tN);
-        };
-        return filterCalendar(predicate);
+    public ArrayList<Period> getProviderOpenings (Provider provider, LocalDate startDate, LocalDate endDate) {
+        if (isMember(provider)) {
+            return provider.getOpenings(startDate, endDate);
+        }
+        return null;
     }
 
 
@@ -178,11 +190,5 @@ public class Department extends Organization {
 
 
 
-//    @Override
-//    public boolean equals (Object object) {
-//        if (this == object) return true;
-//        if (object == null) return false;
-//        if (object instanceof Department department) return super.equals(department);
-//        return false;
-//    } // close equals
+
 } // end class

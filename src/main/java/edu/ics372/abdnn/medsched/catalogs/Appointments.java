@@ -13,7 +13,7 @@ public enum Appointments {
 
     public Appointment search (Department department, LocalDate date, LocalTime startTime) {
         for (Appointment appointment : appointments) {
-            if (appointment.getDepartment().equals(department) && appointment.getPeriod().withinRange(date,startTime))
+            if (appointment.getDepartment().equals(department) && appointment.getPeriod().inDateTimeRange(date,startTime))
                 return appointment;
         }
         return null;

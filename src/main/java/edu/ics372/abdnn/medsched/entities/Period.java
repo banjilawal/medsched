@@ -16,7 +16,11 @@ public class Period extends AnonymousEntity {
     public Period (LocalDate date,  LocalTime startTime, LocalTime endTime) {
         super(id);
         if (startTime.isAfter(endTime)) {
-            throw new IllegalArgumentException("Period 22: startTime cannot be later than endTime");
+            throw new IllegalArgumentException("Period 19: startTime cannot be later than endTime");
+        }
+
+        if (startTime.equals(endTime)) {
+            throw new IllegalArgumentException("Period 23: startTime and endTime cannot be the same");
         }
         this.status = BookingStatus.AVAILABLE;
         this.date = date;
@@ -70,17 +74,16 @@ public class Period extends AnonymousEntity {
     }
 
 
-    public boolean withinRange (LocalDate date,  LocalTime time) {
+    public boolean inDateTimeRange (LocalDate date, LocalTime time) {
         LocalTime target = initialTime.minusHours(1);
         return this.date.isEqual(date) && startTime.isAfter(target) && endTime.isBefore(target);
     }
 
 
-    public boolean withinRange (LocalDate startDate, LocalDate endDate, LocalTime beginning, LocalTime end) {
-        LocalDate a = startDate.minusDays(1);
-        LocalDate b = endDate.plusDays(1);
-        LocalTime timeX = beginning.minusHours(1);
-        LocalTime timeZ = end.plusHours(1);
-        return day.isAfter(a) && day.isBefore(b) && startTime.isAfter(timeX) && end.isBefore(timeZ);
-    } //
+    public boolean inDateTimeRange (LocalDate startDate, LocalDate endDate, LocalTime timeFloor, LocalTime timeCeiling) {
+        return period.getDate().isAfter(startDate.minusDays(1))
+            && period.getDate().isBefore(endDate.plusDays(1))
+            && period.getStartTime().isAfter(timeFloor.minusHours(1))
+            && period.getEndTime().isBefore(timeCeiling.plusHours(1));
+    }
 } // end class Period

@@ -52,7 +52,7 @@ public class Provider extends Staff {
     public ArrayList<Period> getOpenings (LocalDate startDate, LocalDate endDate) {
         ArrayList<Period> matches = new ArrayList<>();
         for (Department department : getDepartments()) {
-            for (Appointment appointment : department.getAppointments()) {
+            for (Appointment appointment : department.getAppointments(startDate, endDate)) {
                 if (!this.equals(appointment.getProvider()) && !matches.contains(appointment.getPeriod()))
                     matches.add(matches.size(), period);
             }
