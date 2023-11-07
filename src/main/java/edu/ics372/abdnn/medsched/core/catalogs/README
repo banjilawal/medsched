@@ -1,0 +1,9 @@
+INTRODUCTION
+The catalogs provide one point of contact for collections necessary for the application to work. Items can be put into
+the collection but are never deleted to assure no side effects.  To maintain ACID items in the collection have their state
+changed from Status.ACTIVE to Status.DELETED. except for Appointments whose status changes from AppointmentStatus.BOOKED
+to AppointmentStatus.CANCELLED
+
+TODOS
+    - Create an interface so all collections in catalogs package implement
+

@@ -7,16 +7,16 @@ import java.util.*;
 
 public class RoomReservation extends Rerservation {
 
-    private final ExamRoom examRoom;
+    private final Examroom examRoom;
 
-    public RoomReservation (Department department,  Period period, ExamRoom examRoom) { // (int id, Department department,  Period period, ExamRoom examRoom) {
+    public RoomReservation (Department department,  Period period, Examroom examRoom) { // (int id, Department department,  Period period, ExamRoom examRoom) {
 //        super(id, department, period);
         super(department, period);
         this.examRoom = examRoom;
     }
 
 
-    public ExamRoom getExamRoom () {
+    public Examroom getExamRoom () {
         return examRoom;
     }
 

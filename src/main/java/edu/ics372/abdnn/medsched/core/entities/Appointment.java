@@ -19,7 +19,7 @@ public class Appointment extends Meeting {
     public Appointment (
             int id,
             Provider provider,
-            ExamRoom examRoom,
+            Examroom examRoom,
             Period period,
             Department department,
             Patient patient
@@ -39,7 +39,7 @@ public class Appointment extends Meeting {
     public LocalTime getCheckInTime () { return checkInTime; }
     public LocalTime getCheckOutTime () { return checkOutTime; }
 
-    public ExamRoom getExamRoom () { return (ExamRoom) getLocation(); }
+    public Examroom getExamRoom () { return (Examroom) getLocation(); }
 
     public Provider getProvider () { return (Provider) getHost(); }
 

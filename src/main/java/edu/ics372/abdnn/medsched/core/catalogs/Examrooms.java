@@ -5,14 +5,14 @@ import edu.ics372.abdnn.medsched.core.entities.*;
 import java.util.ArrayList;
 
 
-public enum ExamRooms {
+public enum Examrooms {
     INSTANCE;
-    private final ArrayList<ExamRoom> examRooms = new ArrayList<>();
+    private final ArrayList<Examroom> examrooms = new ArrayList<>();
 
-    public ArrayList<ExamRoom> getOpenRooms (Period period) {
-        ArrayList<ExamRoom> openRooms = new ArrayList<>();
+    public ArrayList<Examroom> getOpenRooms (Period period) {
+        ArrayList<Examroom> openRooms = new ArrayList<>();
 
-        for (ExamRoom examRoom : examRooms) {
+        for (Examroom examRoom : examrooms) {
             if (Appointments.INSTANCE.search(examRoom, period) == null
                 && RoomReservations.INSTANCE.search(examRoom, period) == null
                 && !openRooms.contains(examRoom)
@@ -24,8 +24,8 @@ public enum ExamRooms {
     }
 
 
-    public ExamRoom search (String name) {
-        for (ExamRoom examRoom: examRoomss) {
+    public Examroom search (String name) {
+        for (Examroom examRoom: examRoomss) {
             if (examRoom.getName().equalsIgnoreCase(name))
                 return examRoom;
         }
@@ -33,8 +33,8 @@ public enum ExamRooms {
     }
 
 
-    public ExamRoom search (int id) {
-        for (ExamRoom examRoom : examRooms) {
+    public Examroom search (int id) {
+        for (Examroom examRoom : examrooms) {
             if (examRoom.getId() == id)
                 return examRoom;
         }
@@ -47,14 +47,14 @@ public enum ExamRooms {
      * @param examRoom
      * @return
      */
-    public boolean remove (ExamRoom examRoom) {
+    public boolean remove (Examroom examRoom) {
        return false;
     }
 
 
-    public boolean  add (ExamRoom examRoom) {
-        if (!examRooms.contains(examRoom))
-            return examRooms.add(examRoom);
+    public boolean  add (Examroom examRoom) {
+        if (!examrooms.contains(examRoom))
+            return examrooms.add(examRoom);
         return true;
     }
 } // end class ExamRooms

@@ -10,6 +10,7 @@ public enum SerialNumberGenerator implements NumberAssigner {
     private int departmentSerialNumber = 1;
     private int appointmentSerialNumber = 1;
     private int patientSerialNumber = 1;
+    private int providerSerialNumber = 1;
 
 
     @Override
@@ -23,7 +24,13 @@ public enum SerialNumberGenerator implements NumberAssigner {
         return appointmentSerialNumber++;
     }
 
+    @Override
     public int patientId() {
         return patientSerialNumber++;
+    }
+
+    @Override
+    public int providerId() {
+        return providerSerialNumber++;
     }
 } // end class SerialNumberGenerator

@@ -8,9 +8,9 @@ import java.time.*;
 import java.util.*;
 import java.util.function.*;
 
-public class ExamRoom extends Room {
+public class Examroom extends Room {
 
-    public ExamRoom (int id, String name) {
+    public Examroom (int id, String name) {
         super(id, name, Constant.EXAM_ROOM_CAPACITY);
     }
 

@@ -8,4 +8,7 @@ public interface NumberAssigner {
     public int assignNumber (DepartmentPopulator departmentPopulator);
 
     public int appointmentId ();
+
+    public int patientId ();
+    public int providerId ();
 } // end interface NumberAssigner

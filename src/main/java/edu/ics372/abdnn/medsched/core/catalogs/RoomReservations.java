@@ -18,7 +18,7 @@ public enum RoomReservations  {
     }
 
 
-    public boolean reservationExists (Department department, Period period, ExamRoom examRoom) {
+    public boolean reservationExists (Department department, Period period, Examroom examRoom) {
         return department.isPeriodBooked(period) && examRoom.inUse();
     }
 
@@ -30,7 +30,7 @@ public enum RoomReservations  {
     }
 
 
-    public boolean add (Department department, Period period, ExamRoom examRoom) {
+    public boolean add (Department department, Period period, Examroom examRoom) {
         Predicate<RoomReservation> predicate = reservation -> {
             return reservation.getDepartment().equals(department)
                 && reservation.getExamRoom().equals(examRoom)
@@ -45,7 +45,7 @@ public enum RoomReservations  {
 
 
 
-    public RoomReservation search (ExamRoom examRoom, Period period) {
+    public RoomReservation search (Examroom examRoom, Period period) {
         for (RoomReservation reservation : reservations) {
             if (reservation.getStatus().equals(ReservationStatus.ACTIVE)
                 && reservation.getExamRoom().equals(examRoom)

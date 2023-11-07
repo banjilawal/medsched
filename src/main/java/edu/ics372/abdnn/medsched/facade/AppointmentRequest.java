@@ -9,7 +9,7 @@ import edu.ics372.abdnn.medsched.core.visitors.*;
 public class AppointmentRequest extends AnonymousEntity {
     private Department department;
     private Provider provider;
-    private ExamRoom examRoom;
+    private Examroom examRoom;
     private Patient patient;
     private Period period;
 
@@ -18,7 +18,7 @@ public class AppointmentRequest extends AnonymousEntity {
     private RoomReservation roomReservation;
 
 
-    public AppointmentRequest (Department department, Provider provider, ExamRoom examRoom, Patient patient, Period period) {
+    public AppointmentRequest (Department department, Provider provider, Examroom examRoom, Patient patient, Period period) {
         this.department = department;
         this.provider = provider;
         this.examRoom = examRoom;
