@@ -4,11 +4,11 @@ import edu.ics372.abdnn.medsched.core.entities.*;
 
 import java.util.*;
 
-public class PatientReservation extends Rerservation {
+public class PatientReservation extends Reservation {
     private final Patient patient;
 
-    public PatientReservation (Department department, Period period, Patient patient) {
-        super(department, period);
+    public PatientReservation (Department department, Timeslot timeSlot, Patient patient) {
+        super(department, timeSlot);
         this.patient = patient;
     }
 
@@ -29,15 +29,12 @@ public class PatientReservation extends Rerservation {
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), patientId);
+        return Objects.hash(super.hashCode(), patient.hashCode());
     }
 
 
     @Override
     public String toString () {
-        return super.toString()
-            + " patient:" + patientId
-            + " " + getPatient().getFirstname()
-            + " " + getPatient().getLastname();
+        return super.toString() + " patient:" + patient.getFirstname() + " " + patient.getLastname();
     }
 } // end class ExamRoomReservation

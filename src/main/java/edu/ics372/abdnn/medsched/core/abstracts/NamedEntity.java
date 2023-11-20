@@ -1,4 +1,9 @@
+/**
+ * extends <code>Entity</code>
+ */
 package edu.ics372.abdnn.medsched.core.abstracts;
+
+import edu.ics372.abdnn.medsched.core.abstracts.*;
 
 import java.util.Objects;
 
@@ -8,13 +13,18 @@ public class NamedEntity extends Entity {
     public NamedEntity(int id, String name) {
         super(id);
         this.name = name;
-    } //
+    }
+
 
     public String getName() {
         return name;
     }
 
-    public void setName (String name) { this.name = name; }
+
+    public void setName (String name) {
+        this.name = name;
+    }
+
 
     @Override
     public boolean equals (Object object) {
@@ -26,10 +36,12 @@ public class NamedEntity extends Entity {
         return false;
     } // close equals
 
+
     @Override
     public int hashCode () {
         return Objects.hash(super.hashCode(), name);
     }
+
 
     @Override
     public String toString () {

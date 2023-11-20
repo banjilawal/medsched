@@ -23,17 +23,28 @@ public enum Patients {
         return null;
     }
 
-
-    public Patient search (String firstname, String lastname, int id) {
+    public Patient search (String email) {
         for (Patient patient : patients) {
-            if (patient.getFirstname().equalsIgnoreCase(firstname) && patient.getLastname().equalsIgnoreCase(lastname) && patient.getId() == id)
+            if (patient.getEmail().equalsIgnoreCase(email))
                 return patient;
         }
         return null;
     }
 
 
-    public boolean delete (Patient Patient) {
+    public Patient search (String firstname, String lastname, int id) {
+        for (Patient patient : patients) {
+            if (patient.getFirstname().equalsIgnoreCase(firstname)
+                && patient.getLastname().equalsIgnoreCase(lastname)
+                && patient.getId() == id) {
+                return patient;
+            }
+        }
+        return null;
+    }
+
+
+    public boolean delete (Patient patient) {
         int index = patients.indexOf(patient);
         if (index < 0) return true;
         if (index >= 0) {
@@ -43,7 +54,7 @@ public enum Patients {
     }
 
 
-    public boolean add (Patient Patient) {
+    public boolean add (Patient patient) {
         if (!patients.contains(patient))
             return patients.add(patient);
         return true;
@@ -54,8 +65,13 @@ public enum Patients {
         ArrayList<Patient> matches = new ArrayList<>();
         for (Patient patient : patients) {
             if (predicate.test(patient) && !matches.contains(patient))
-                matches.add(matches.size(), patient)
+                matches.add(matches.size(), patient);
         }
         return matches;
+    }
+
+    public Patient rand () {
+        int index = (int) (Math.random() * (patients.size() - 1));
+        return patients.get(index);
     }
 } // end class patients

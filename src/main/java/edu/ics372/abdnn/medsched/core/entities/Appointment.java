@@ -19,12 +19,12 @@ public class Appointment extends Meeting {
     public Appointment (
             int id,
             Provider provider,
-            Examroom examRoom,
-            Period period,
+            ExamRoom examRoom,
+            Timeslot timeSlot,
             Department department,
             Patient patient
     ) {
-        super(id, provider, examRoom, period);
+        super(id, provider, examRoom, timeSlot);
         this.department = department;
         this.patient= patient;
         this.status = AppointmentStatus.BOOKED;
@@ -39,7 +39,7 @@ public class Appointment extends Meeting {
     public LocalTime getCheckInTime () { return checkInTime; }
     public LocalTime getCheckOutTime () { return checkOutTime; }
 
-    public Examroom getExamRoom () { return (Examroom) getLocation(); }
+    public ExamRoom getExamRoom () { return (ExamRoom) getLocation(); }
 
     public Provider getProvider () { return (Provider) getHost(); }
 
@@ -102,7 +102,7 @@ public class Appointment extends Meeting {
     }
 
     private boolean isLateCheckIn () {
-        LocalTime time = getPeriod().getStartTime().plusMinutes(Constant.LATE_MINUTES_THRESHOLD);
+        LocalTime time = getTimeslot().getStartTime().plusMinutes(Constant.LATE_MINUTES_THRESHOLD);
         return checkInTime.isAfter(time);
     }
 } // end class

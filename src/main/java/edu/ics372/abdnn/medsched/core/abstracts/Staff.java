@@ -1,3 +1,11 @@
+/**
+ *  @Author Banji Lawal
+ *
+ *  <code>Staff</code> is an abstract child of  <code>Person</code>. Instances of <code>Staff</code> represent people
+ *  who are employees.
+ *
+ */
+
 package edu.ics372.abdnn.medsched.core.abstracts;
 
 public abstract class Staff extends Person {

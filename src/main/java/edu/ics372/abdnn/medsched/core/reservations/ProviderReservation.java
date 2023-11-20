@@ -4,11 +4,11 @@ import edu.ics372.abdnn.medsched.core.entities.*;
 
 import java.util.*;
 
-public class ProviderReservation extends Rerservation {
+public class ProviderReservation extends Reservation {
     private final Provider provider;
 
-    public ProviderReservation (Department department, Period period, Provider provider) {
-        super(department, period);
+    public ProviderReservation (Department department, Timeslot timeSlot, Provider provider) {
+        super(department, timeSlot);
         this.provider = provider;;
     }
 
@@ -31,15 +31,11 @@ public class ProviderReservation extends Rerservation {
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), providerId);
+        return Objects.hash(super.hashCode(), provider);
     }
-
 
     @Override
     public String toString () {
-        return super.toString()
-            + " provider:" + providerId
-            + " " + getProvider().getFirstname()
-            + " " + getProvider().getLastname();
+        return super.toString() + " provider:" + provider.getFirstname() + " " + provider.getLastname();
     }
 } // end class ExamRoomReservation

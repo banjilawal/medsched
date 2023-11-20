@@ -35,11 +35,12 @@
 
 package edu.ics372.abdnn.medsched.core.catalogs;
 
-import edu.ics372.abdnn.medsched.core.entities.Period;
+import edu.ics372.abdnn.medsched.core.entities.Timeslot;
 import edu.ics372.abdnn.medsched.core.entities.*;
 
 import java.time.*;
 import java.util.*;
+import java.util.function.*;
 
 public enum Appointments {
     INSTANCE;
@@ -55,7 +56,7 @@ public enum Appointments {
      */
     public Appointment search (Department department, LocalDate date, LocalTime startTime) {
         for (Appointment appointment : appointments) {
-            if (appointment.getDepartment().equals(department) && appointment.getPeriod().inDateTimeRange(date,startTime))
+            if (appointment.getDepartment().equals(department) && appointment.getTimeslot().inDateTimeRange(date, startTime))
                 return appointment;
         }
         return null;
@@ -66,12 +67,12 @@ public enum Appointments {
      * Returns null if <code>examRoom</code> is not assigned to an <code>Appointment</code> during <code>period</code>.
      * otherwise returns the appointment.
      * @param examRoom Examroom
-     * @param period Period
+     * @param timeslot Period
      * @return Appointment
      */
-    public Appointment search (Examroom examRoom, Period period) {
+    public Appointment search (ExamRoom examRoom, Timeslot timeslot) {
         for (Appointment appointment : appointments) {
-            if (appointment.getExamRoom().equals(examRoom) && appointment.getPeriod().equals(period))
+            if (appointment.getExamRoom().equals(examRoom) && appointment.getTimeslot().equals(timeslot))
                 return appointment;
         }
         return null;
@@ -96,14 +97,14 @@ public enum Appointments {
      * return it, otherwise return null
      * @param department Department
      * @param patient Patient
-     * @param period Period
+     * @param timeslot Period
      * @return ArrayList
      */
-    public Appointment search (Department department, Patient patient, Period period) {
+    public Appointment search (Department department, Patient patient, Timeslot timeslot) {
         for (Appointment appointment : appointments) {
             if (appointment.getDepartment().equals(department)
                 && appointment.getPatient().equals(patient)
-                && appointment.getPeriod().equals(period)) {
+                && appointment.getTimeslot().equals(timeslot)) {
                 return appointment;
             }
         }
@@ -116,12 +117,12 @@ public enum Appointments {
      * <code>search</code>. Might take longer than <code>search(Department department, Patient patient, Period period)</code>
      * returns null if no appointment exists for <code>patient</code> at <code>period</code>
      * @param patient Patient
-     * @param period Period
+     * @param timeslot Period
      * @return Appointment
      */
-    public Appointment search (Patient patient, Period period) {
+    public Appointment search (Patient patient, Timeslot timeslot) {
         for (Appointment appointment : appointments) {
-            if (appointment.getPatient().equals(patient) && appointment.getPeriod().equals(period))
+            if (appointment.getPatient().equals(patient) && appointment.getTimeslot().equals(timeslot))
                 return appointment;
         }
         return null;
@@ -131,12 +132,12 @@ public enum Appointments {
     /**
      * If an appointment exists for <code>provider</code> at <code>period</code> return it, otherwise return null
      * @param provider Provider
-     * @param period Period
+     * @param timeslot Period
      * @return Appointment
      */
-    public Appointment search (Provider provider, Period period) {
+    public Appointment search (Provider provider, Timeslot timeslot) {
         for (Appointment appointment : appointments) {
-            if (appointment.getProvider().equals(provider) && appointment.getPeriod().equals(period))
+            if (appointment.getProvider().equals(provider) && appointment.getTimeslot().equals(timeslot))
                 return appointment;
         }
         return null;
@@ -156,8 +157,8 @@ public enum Appointments {
         for (Appointment appointment : appointments) {
             if (
                 appointment.getDepartment().equals(department)
-                && appointment.getPeriod().getDate().isAfter(startDate.minusDays(1))
-                && appointment.getPeriod().getDate().isBefore(endDate.plusDays(1))
+                && appointment.getTimeslot().getDate().isAfter(startDate.minusDays(1))
+                && appointment.getTimeslot().getDate().isBefore(endDate.plusDays(1))
                 && !matches.contains(appointment)
             )
                 matches.add(matches.size(), appointment);
@@ -179,8 +180,8 @@ public enum Appointments {
         for (Appointment appointment : appointments) {
             if (
                 appointment.getProvider().equals(provider)
-                    && appointment.getPeriod().getDate().isAfter(startDate.minusDays(1))
-                    && appointment.getPeriod().getDate().isBefore(endDate.plusDays(1))
+                    && appointment.getTimeslot().getDate().isAfter(startDate.minusDays(1))
+                    && appointment.getTimeslot().getDate().isBefore(endDate.plusDays(1))
                     && !matches.contains(appointment)
             )
                 matches.add(matches.size(), appointment);
@@ -202,8 +203,23 @@ public enum Appointments {
         for (Appointment appointment : appointments) {
             if (
                 appointment.getPatient().equals(patient)
-                    && appointment.getPeriod().getDate().isAfter(startDate.minusDays(1))
-                    && appointment.getPeriod().getDate().isBefore(endDate.plusDays(1))
+                    && appointment.getTimeslot().getDate().isAfter(startDate.minusDays(1))
+                    && appointment.getTimeslot().getDate().isBefore(endDate.plusDays(1))
+                    && !matches.contains(appointment)
+            )
+                matches.add(matches.size(), appointment);
+        }
+        return matches;
+    }
+
+
+    public ArrayList<Appointment> getBookings (ExamRoom examRoom, LocalDate startDate, LocalDate endDate) {
+        ArrayList<Appointment> matches = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (
+                appointment.getExamRoom().equals(examRoom)
+                    && appointment.getTimeslot().getDate().isAfter(startDate.minusDays(1))
+                    && appointment.getTimeslot().getDate().isBefore(endDate.plusDays(1))
                     && !matches.contains(appointment)
             )
                 matches.add(matches.size(), appointment);
@@ -228,16 +244,6 @@ public enum Appointments {
     }
 
 
-//    public ArrayList<Appointment> search (Predicate<Appointment> predicate) {
-//        ArrayList<Appointment> matches = new ArrayList<>();
-//        for (Appointment appointment : appointments) {
-//            if (predicate.test(appointment) && !matches.contains(appointment))
-//                matches.add(matches.size(), appointment);
-//        }
-//        return matches;
-//    }
-
-
     /**
      * This method is a helper when deleting/disabling a <code>Patient</code> instance.  This should really a method in
      * <code>Patient</code>. BUt appointments are canceled in <code>Appointments</code>. If all the future appointments for
@@ -257,11 +263,21 @@ public enum Appointments {
     public boolean cancelAppointments (Patient patient) {
         boolean successfulCancellation = true;
         while (appointments.iterator().hasNext() && successfulCancellation) {
-            Appointment appointment = appointments.next();
-            if (appointment.getPatient().equals(patient) && appointment.getPeriod().getDate().isAfter(LocalDate.now())) {
+            Appointment appointment = appointments.iterator().next();
+            if (appointment.getPatient().equals(patient) && appointment.getTimeslot().getDate().isAfter(LocalDate.now())) {
                 successfulCancellation = appointments.remove(appointment);
             }
         }
         return successfulCancellation;
+    }
+
+
+    public ArrayList<Appointment> filter (Predicate<Appointment> predicate) {
+        ArrayList<Appointment> matches = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            if (predicate.test(appointment) && !matches.contains(appointment))
+                matches.add(matches.size(), appointment);
+        }
+        return matches;
     }
 } // end class Appointments

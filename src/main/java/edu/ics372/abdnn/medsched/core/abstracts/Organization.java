@@ -4,7 +4,7 @@ public abstract class Organization extends NamedEntity {
 
     public Organization (int id, String name) {
         super(id, name);
-    } // close constructor
+    }
 
 
     @Override
@@ -15,11 +15,11 @@ public abstract class Organization extends NamedEntity {
             return super.equals(organization);
         }
         return false;
-    } // close equals
+    }
 
 
     @Override
     public String toString () {
         return super.toString();
     }
-} // end class Organization
+}

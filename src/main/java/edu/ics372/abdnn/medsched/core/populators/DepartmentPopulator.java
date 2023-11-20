@@ -12,11 +12,15 @@ public enum DepartmentPopulator implements Populator  {
     @Override
     public void populate () {
         for (int index = 0; index < Constant.DEPARTMENT_NAMES.length; index++) {
-            Departments.INSTANCE.add(
-                new Department(
-                    SerialNumberGenerator.INSTANCE.assignNumber(this),
-                    Constant.DEPARTMENT_NAMES[index])
-            );
+            Department department = new Department(
+                SerialNumberGenerator.INSTANCE.departmentId(),
+                Constant.DEPARTMENT_NAMES[index]);
+//            System.out.println(department.toString());
+            if (Departments.INSTANCE.add(department)) {
+                System.out.println(department.toString());
+            } else {
+                System.out.println("Could not add department " + department.getName());
+            }
         }
     }
 } // end enum DepartmentPopulator

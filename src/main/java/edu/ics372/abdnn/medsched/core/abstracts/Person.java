@@ -1,3 +1,15 @@
+/**
+ *  @Author Banji Lawal
+ *
+ *  A <code>Person</code> abstract class represents a person with their firstname, lastname, and status in the application
+ *
+ *
+ *   Fields
+ *  -------
+ *  @param lastname <code>String</code>
+ *  @status <code>Status</code>
+ */
+
 package edu.ics372.abdnn.medsched.core.abstracts;
 
 import edu.ics372.abdnn.medsched.core.enums.*;

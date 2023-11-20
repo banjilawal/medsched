@@ -1,3 +1,9 @@
+/**
+ *  @Author Banji Lawal
+ *
+ *  <code>Location</code> is the parent of all physical locations
+ */
+
 package edu.ics372.abdnn.medsched.core.abstracts;
 
 public abstract class Location extends NamedEntity {

@@ -48,6 +48,10 @@ public enum Departments  {
     INSTANCE;
     private final ArrayList<Department> departments = new ArrayList<>();
 
+    public ArrayList<Department> getDepartments () {
+        return departments;
+    }
+
 
     /**
      * If a <code>Department</code> with <code>name</code> exists return it, otherwise return null.
@@ -114,5 +118,24 @@ public enum Departments  {
                 matches.add(matches.size(), department);
         }
         return matches.iterator();
+    }
+
+
+    @Override
+    public String toString () {
+        String string = "";
+        for (Department department : Departments.INSTANCE.getDepartments()) {
+            string += department.toString() + "\n";
+        }
+        return string;
+    }
+
+    /**
+     * Static method used for testing returns a r
+     * @return
+     */
+    public Department rand () {
+        int index = (int) (Math.random() * (departments.size() - 1));
+        return departments.get(index);
     }
 } // end class Departments

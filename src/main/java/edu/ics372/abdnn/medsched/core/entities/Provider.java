@@ -2,11 +2,15 @@ package edu.ics372.abdnn.medsched.core.entities;
 
 import edu.ics372.abdnn.medsched.core.abstracts.*;
 import edu.ics372.abdnn.medsched.core.catalogs.*;
+import edu.ics372.abdnn.medsched.core.enums.*;
+import edu.ics372.abdnn.medsched.core.global.*;
+import edu.ics372.abdnn.medsched.core.interfaces.*;
 
 import java.time.*;
 import java.util.*;
 
 public class Provider extends Staff {
+
 
     public Provider (int id, String firstname, String lastname) {
         super(id, firstname, lastname);
@@ -26,10 +30,10 @@ public class Provider extends Staff {
 
     public ArrayList<Department> getDepartments () {
         ArrayList<Department> matches = new ArrayList<>();
-        Iterator<Department> iterator = Departments.INSTANCE.iterator();
+        Iterator<Department> iterator = Departments.INSTANCE.getDepartments().iterator();
         while (iterator.hasNext()) {
             Department department = iterator.next();
-            if (department.isMember(this) && !matches.contains(department))
+            if (department.getMembers().contains(this) && !matches.contains(department))
                 matches.add(matches.size(),department);
         }
         return matches;
@@ -37,7 +41,7 @@ public class Provider extends Staff {
 
 
     public boolean addDepartment (Department department) {
-        return department.addMember(this);
+            return department.addMember(this);
     }
 
 
@@ -46,14 +50,14 @@ public class Provider extends Staff {
     }
 
 
-    public ArrayList<Period> getOpenings (LocalDate startDate, LocalDate endDate) {
-        ArrayList<Period> matches = new ArrayList<>();
-        for (Department department : getDepartments()) {
-            for (Appointment appointment : department.getAppointments(startDate, endDate)) {
-                if (!this.equals(appointment.getProvider()) && !matches.contains(appointment.getPeriod()))
-                    matches.add(matches.size(), period);
+    public ArrayList<Timeslot> getOpenings (LocalDate startDate, LocalDate endDate) {
+        ArrayList<Timeslot> timeslots = Timeslot.getTimeslots(startDate, endDate,Constant.OPENING_TIME, Constant.CLOSING_TIME);
+        for (Appointment appointment : Appointments.INSTANCE.getBookings(this, startDate, endDate)) {
+            Timeslot appointmentTimeslot = appointment.getTimeslot();
+            if (timeslots.contains(appointmentTimeslot)) {
+                timeslots.remove(timeslots.indexOf(appointmentTimeslot));
             }
         }
-        return matches;
+        return timeslots;
     }
 } // end class Provider

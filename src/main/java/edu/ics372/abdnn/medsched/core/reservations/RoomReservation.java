@@ -5,31 +5,18 @@ import edu.ics372.abdnn.medsched.core.enums.*;
 
 import java.util.*;
 
-public class RoomReservation extends Rerservation {
+public class RoomReservation extends Reservation {
 
-    private final Examroom examRoom;
+    private final ExamRoom examRoom;
 
-    public RoomReservation (Department department,  Period period, Examroom examRoom) { // (int id, Department department,  Period period, ExamRoom examRoom) {
-//        super(id, department, period);
-        super(department, period);
+    public RoomReservation (Department department, Timeslot timeSlot, ExamRoom examRoom) {
+        super(department, timeSlot);
         this.examRoom = examRoom;
     }
 
 
-    public Examroom getExamRoom () {
+    public ExamRoom getExamRoom () {
         return examRoom;
-    }
-
-
-    public boolean cancel () {
-        setStatus(ReservationStatus.CANCELLED);
-        return getStatus().equals(ReservationStatus.CANCELLED);
-    }
-
-
-    public boolean expire () {
-        setStatus(ReservationStatus.EXPIRED);
-        return getStatus().equals(ReservationStatus.EXPIRED);
     }
 
 
@@ -38,7 +25,7 @@ public class RoomReservation extends Rerservation {
         if (this == object) return true;
         if (object == null) return false;
         if (object instanceof RoomReservation reservation) {
-            return super.equals(roomReservation) && examRoom.equals(reservation.getExamRoom());
+            return super.equals(reservation) && examRoom.equals(reservation.getExamRoom());
         }
         return false;
     }
@@ -51,6 +38,6 @@ public class RoomReservation extends Rerservation {
 
     @Override
     public String toString () {
-        return super.toString() + " room:" + getExamRoom().getName();
+        return super.toString() + " examRoom:" + examRoom.getName();
     }
 } // end class ExamRoomReservation

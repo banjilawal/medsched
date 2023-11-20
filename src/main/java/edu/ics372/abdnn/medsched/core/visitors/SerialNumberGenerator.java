@@ -20,6 +20,16 @@ public enum SerialNumberGenerator implements NumberAssigner {
     public int assignNumber (DepartmentPopulator departmentPopulator) { return departmentSerialNumber++; }
 
     @Override
+    public int examroomId () {
+        return examRoomSerialNumber++;
+    }
+
+    @Override
+    public int departmentId () {
+        return departmentSerialNumber++;
+    }
+
+    @Override
     public int appointmentId () {
         return appointmentSerialNumber++;
     }
