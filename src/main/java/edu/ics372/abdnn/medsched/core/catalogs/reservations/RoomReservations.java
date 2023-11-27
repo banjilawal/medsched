@@ -12,13 +12,10 @@
 
 package edu.ics372.abdnn.medsched.core.catalogs.reservations;
 
-import edu.ics372.abdnn.medsched.core.abstracts.*;
 import edu.ics372.abdnn.medsched.core.catalogs.*;
-import edu.ics372.abdnn.medsched.core.entities.*;
-import edu.ics372.abdnn.medsched.core.entities.Timeslot;
-import edu.ics372.abdnn.medsched.core.enums.*;
-import edu.ics372.abdnn.medsched.core.reservations.*;
-import javafx.css.*;
+import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.entity.Timeslot;
+import edu.ics372.abdnn.medsched.core.reservation.*;
 
 import java.util.*;
 import java.util.function.*;

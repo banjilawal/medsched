@@ -11,8 +11,8 @@
 package edu.ics372.abdnn.medsched.core.catalogs.reservations;
 
 import edu.ics372.abdnn.medsched.core.catalogs.*;
-import edu.ics372.abdnn.medsched.core.entities.*;
-import edu.ics372.abdnn.medsched.core.reservations.*;
+import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.reservation.*;
 
 import java.util.*;
 import java.util.function.*;

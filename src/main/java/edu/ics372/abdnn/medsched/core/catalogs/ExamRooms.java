@@ -1,7 +1,7 @@
 package edu.ics372.abdnn.medsched.core.catalogs;
 
 import edu.ics372.abdnn.medsched.core.catalogs.reservations.*;
-import edu.ics372.abdnn.medsched.core.entities.*;
+import edu.ics372.abdnn.medsched.core.entity.*;
 
 import java.util.ArrayList;
 

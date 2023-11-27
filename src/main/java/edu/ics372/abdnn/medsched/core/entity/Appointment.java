@@ -1,4 +1,4 @@
-package edu.ics372.abdnn.medsched.core.entities;
+package edu.ics372.abdnn.medsched.core.entity;
 
 import edu.ics372.abdnn.medsched.core.abstracts.*;
 import edu.ics372.abdnn.medsched.core.enums.*;
@@ -33,17 +33,36 @@ public class Appointment extends Meeting {
     } //
 
 
-    public Patient getPatient () { return patient; }
-    public Department getDepartment() { return department; }
+    public Patient getPatient () {
+        return patient;
+    }
 
-    public LocalTime getCheckInTime () { return checkInTime; }
-    public LocalTime getCheckOutTime () { return checkOutTime; }
+    public Department getDepartment() {
+        return department;
+    }
 
-    public ExamRoom getExamRoom () { return (ExamRoom) getLocation(); }
 
-    public Provider getProvider () { return (Provider) getHost(); }
+    public LocalTime getCheckInTime () {
+        return checkInTime;
+    }
 
-    public AppointmentStatus getStatus () { return status; }
+
+    public LocalTime getCheckOutTime () {
+        return checkOutTime;
+    }
+
+    public ExamRoom getExamRoom () {
+        return (ExamRoom) getLocation();
+    }
+
+
+    public Provider getProvider () {
+        return (Provider) getHost();
+    }
+
+    public AppointmentStatus getStatus () {
+        return status;
+    }
 
 
     public void checkIn (LocalTime checkInTime) {
@@ -95,6 +114,7 @@ public class Appointment extends Meeting {
             + " checkin:" + printLocalTime(checkInTime)
             + " checkout:" + printLocalTime(checkOutTime);
     }
+
 
     private String printLocalTime (LocalTime localTime) {
         if (localTime == null) return "";

@@ -36,9 +36,10 @@
  * A method which prevents adding staff or appointments after a cutoff period. After the cutoff staff are removed and
  * the department's status is changed to <code>Status.DELETED</code>
  */
+
 package edu.ics372.abdnn.medsched.core.catalogs;
 
-import edu.ics372.abdnn.medsched.core.entities.*;
+import edu.ics372.abdnn.medsched.core.entity.*;
 import edu.ics372.abdnn.medsched.core.enums.*;
 
 import java.util.*;
@@ -64,6 +65,15 @@ public enum Departments  {
                 return department;
         }
         return null;
+    }
+
+
+    public ArrayList<String> getNames () {
+        ArrayList<String> names = new ArrayList<>();
+        for (Department department : departments) {
+            names.add(names.size(), department.getName());
+        }
+        return names;
     }
 
 

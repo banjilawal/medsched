@@ -1,6 +1,6 @@
-package edu.ics372.abdnn.medsched.core.populators;
+package edu.ics372.abdnn.medsched.core.populator;
 
-import edu.ics372.abdnn.medsched.core.entities.Department;
+import edu.ics372.abdnn.medsched.core.entity.Department;
 import edu.ics372.abdnn.medsched.core.global.Constant;
 import edu.ics372.abdnn.medsched.core.interfaces.Populator;
 import edu.ics372.abdnn.medsched.core.catalogs.Departments;

@@ -1,4 +1,4 @@
-package edu.ics372.abdnn.medsched.core.entities;
+package edu.ics372.abdnn.medsched.core.entity;
 
 import edu.ics372.abdnn.medsched.core.abstracts.*;
 import edu.ics372.abdnn.medsched.core.catalogs.*;
@@ -53,7 +53,7 @@ public class Department extends Organization {
         int index = calendar.indexOf(timeSlot);
         if (index < 0)
             throw new IllegalArgumentException("42: Period does not exist in department calendar");
-        return calendar.get(index).getStatus().equals(BookingStatus.OPEN);
+        return calendar.get(index).getStatus().equals(TimeslotStatus.OPEN);
     }
 
 
@@ -99,7 +99,7 @@ public class Department extends Organization {
 
     public ArrayList<Timeslot> getOpenings (LocalDate startDate, LocalDate endDate, LocalTime timeFloor, LocalTime timeCeiling) {
         Predicate<Timeslot> predicate = timeslot -> {
-            return timeslot.getStatus().equals(BookingStatus.OPEN)
+            return timeslot.getStatus().equals(TimeslotStatus.OPEN)
                 && Timeslot.inDateTimeRange(timeslot,startDate,endDate,timeFloor,timeCeiling);
         };
         return filterCalendar(predicate);

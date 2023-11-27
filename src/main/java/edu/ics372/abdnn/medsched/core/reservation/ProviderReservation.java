@@ -1,6 +1,6 @@
-package edu.ics372.abdnn.medsched.core.reservations;
+package edu.ics372.abdnn.medsched.core.reservation;
 
-import edu.ics372.abdnn.medsched.core.entities.*;
+import edu.ics372.abdnn.medsched.core.entity.*;
 
 import java.util.*;
 

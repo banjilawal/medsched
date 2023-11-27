@@ -1,7 +1,7 @@
 package edu.ics372.abdnn.medsched.core.drivers;
 
 import edu.ics372.abdnn.medsched.core.catalogs.*;
-import edu.ics372.abdnn.medsched.core.populators.*;
+import edu.ics372.abdnn.medsched.core.populator.*;
 
 public class PopulatorDriver {
 

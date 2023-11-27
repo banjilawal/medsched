@@ -35,8 +35,8 @@
 
 package edu.ics372.abdnn.medsched.core.catalogs;
 
-import edu.ics372.abdnn.medsched.core.entities.Timeslot;
-import edu.ics372.abdnn.medsched.core.entities.*;
+import edu.ics372.abdnn.medsched.core.entity.Timeslot;
+import edu.ics372.abdnn.medsched.core.entity.*;
 
 import java.time.*;
 import java.util.*;
