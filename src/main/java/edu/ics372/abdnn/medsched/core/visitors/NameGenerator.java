@@ -1,7 +1,7 @@
 package edu.ics372.abdnn.medsched.core.visitors;
 
 import edu.ics372.abdnn.medsched.core.interfaces.NameAssigner;
-import edu.ics372.abdnn.medsched.core.populator.ExamRoomPopulator;
+import edu.ics372.abdnn.medsched.test.populator.ExamRoomPopulator;
 
 public enum NameGenerator implements NameAssigner {
     INSTANCE;

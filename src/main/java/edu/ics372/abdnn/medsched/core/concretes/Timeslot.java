@@ -13,7 +13,7 @@
  *  @param endTime <code>LocalTime</code> Occurs after startTine
  */
 
-package edu.ics372.abdnn.medsched.core.entity;
+package edu.ics372.abdnn.medsched.core.concretes;
 
 import edu.ics372.abdnn.medsched.core.abstracts.*;
 import edu.ics372.abdnn.medsched.core.enums.*;

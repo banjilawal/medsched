@@ -9,7 +9,7 @@ public class CancelAppointmentRequest {
     private LocalDate date;
     private LocalTime startTime;
 
-    private CancelAppointmentRequest (String patientEmail, String departmentName, LocalDate date, LocalTime startTime) {
+    public CancelAppointmentRequest (String patientEmail, String departmentName, LocalDate date, LocalTime startTime) {
         this.patientEmail = patientEmail;
         this.departmentName = departmentName;
         this.date = date;

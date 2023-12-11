@@ -7,7 +7,7 @@ public class DeleteProviderRequest extends Request {
     private final int id;
 
 
-    private DeleteProviderRequest (String firstname, String lastname, int id) {
+    public DeleteProviderRequest (String firstname, String lastname, int id) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.id = id;

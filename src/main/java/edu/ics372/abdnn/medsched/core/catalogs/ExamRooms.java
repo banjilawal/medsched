@@ -1,7 +1,7 @@
 package edu.ics372.abdnn.medsched.core.catalogs;
 
 import edu.ics372.abdnn.medsched.core.catalogs.reservations.*;
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 
 import java.util.ArrayList;
 
@@ -54,14 +54,15 @@ public enum ExamRooms {
 
 
     public boolean  add (ExamRoom examRoom) {
-        if (!examRooms.contains(examRoom))
+        if (!examRooms.contains(examRoom)) {
             return examRooms.add(examRoom);
+        }
         return true;
     }
 
     @Override
     public String toString () {
-        String string = "";
+        String string = "ExamRooms\n--------\n";
         for (ExamRoom examroom : examRooms)
             string += examroom.toString() + "\n";
         return string;

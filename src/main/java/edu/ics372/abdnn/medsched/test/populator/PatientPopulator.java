@@ -1,10 +1,12 @@
-package edu.ics372.abdnn.medsched.core.populator;
+package edu.ics372.abdnn.medsched.test.populator;
 
 import edu.ics372.abdnn.medsched.core.catalogs.*;
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 import edu.ics372.abdnn.medsched.core.global.*;
 import edu.ics372.abdnn.medsched.core.interfaces.*;
 import edu.ics372.abdnn.medsched.core.visitors.*;
+import edu.ics372.abdnn.medsched.facade.request.*;
+import edu.ics372.abdnn.medsched.facade.response.*;
 
 public enum PatientPopulator implements Populator  {
     INSTANCE;
@@ -14,18 +16,12 @@ public enum PatientPopulator implements Populator  {
         for (int index = 0; index < Constant.MINIMUM_PATIENT_COUNT; index++) {
             String firstname = Constant.randomFirstname();
             String lastname = Constant.randomLastname();
+            String password = Constant.LETTERS[0];
             String email = Constant.randomEmail(firstname, lastname);
-            Patient patient = new Patient(
-                SerialNumberGenerator.INSTANCE.patientId(),
-                firstname,
-                lastname,
-                email
-            );
-            if (Patients.INSTANCE.add(patient)) {
-                System.out.println(patient.toString());
-            } else {
-                System.out.print("Could not add patient " + patient);
-
+            Response response = new Response();
+            Patient patient = response.response(new CreatePatientRequest(firstname, lastname, password, email));
+            if (patient == null) {
+                System.out.print("Could not add patient " + patient.getEmail());
             }
         }
     }

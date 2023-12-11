@@ -75,11 +75,11 @@ public final class Constant {
     public static String randomEmail (String firstname, String lastname) {
         String domain = randomArrayEntry(DOMAINS);
         String separator = randomArrayEntry(SEPARATORS);
-        return firstname + separator + lastname + "@" + domain + ".com";
+        return (firstname + separator + lastname + "@" + domain + ".com").toLowerCase();
     }
 
     private static String randomArrayEntry (String[] stringArray) {
-        int index = (int) (Math.random() * (stringArray.length - 1));
+        int index = (int) (Math.random() * (stringArray.length));
         return stringArray[index];
     } // close randomStringArrayEntryName
 } // end class Constant

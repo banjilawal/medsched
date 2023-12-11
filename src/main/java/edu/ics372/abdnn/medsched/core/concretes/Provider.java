@@ -8,7 +8,7 @@
  *
  */
 
-package edu.ics372.abdnn.medsched.core.entity;
+package edu.ics372.abdnn.medsched.core.concretes;
 
 import edu.ics372.abdnn.medsched.core.abstracts.*;
 import edu.ics372.abdnn.medsched.core.catalogs.*;
@@ -20,9 +20,34 @@ import java.util.*;
 
 public class Provider extends Staff implements Openings {
 
+    private String username;
+    private String password;
 
-    public Provider (int id, String firstname, String lastname) {
+
+    public Provider (int id, String firstname, String lastname, String username, String password) {
         super(id, firstname, lastname);
+        this.password = password;
+        this.username = username;
+    }
+
+
+    public String getUsername () {
+        return username;
+    }
+
+
+    public String getPassword () {
+        return password;
+    }
+
+
+    public void setUsername (String username) {
+        this.username = username;
+    }
+
+
+    public void setPassword (String password) {
+        this.password = password;
     }
 
 
@@ -31,12 +56,16 @@ public class Provider extends Staff implements Openings {
         if (this == object) return true;
         if (object == null) return false;
         if (object instanceof Provider provider) {
-            return super.equals(provider);
+            return super.equals(provider) && username.equalsIgnoreCase(provider.getUsername());
         }
         return false;
     }
 
 
+    @Override
+    public int hashCode () {
+        return Objects.hash(super.hashCode(), username, password);
+    }
 
     /**
      * A provider can be in multiple departments so they can have schedules in different departments so we need to get
@@ -77,5 +106,11 @@ public class Provider extends Staff implements Openings {
             }
         }
         return timeslots;
+    }
+
+
+    @Override
+    public String toString () {
+        return super.toString() + " username:" + username;
     }
 } // end class Provider

@@ -1,6 +1,6 @@
 package edu.ics372.abdnn.medsched.core.interfaces;
 
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 
 import java.time.*;
 import java.util.*;

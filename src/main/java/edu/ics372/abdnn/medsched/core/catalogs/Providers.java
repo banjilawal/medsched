@@ -24,7 +24,7 @@
 
 package edu.ics372.abdnn.medsched.core.catalogs;
 
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 
 import java.util.*;
 import java.util.function.*;
@@ -44,20 +44,20 @@ public enum Providers {
         return false;
     }
 
-    public boolean add (int id, String firstname, String lastname) {
-        if (search(id) == null) {
-            return providers.add(new Provider(id, firstname, lastname));
+//    public boolean add (int id, String firstname, String lastname, String username, String password) {
+//        if (search(id) == null) {
+//            return providers.add(new Provider(id, firstname, lastname, username, password));
+//        }
+//        return false;
+//    }
+
+
+    public Provider search(String username) {
+        for (Provider provider : providers) {
+            if (provider.getUsername() == username)
+                return provider;
         }
-        return false;
-    }
-
-
-    public Iterator<Provider> search(String firstname, String lastname) {
-        Predicate<Provider> predicate = provider -> {
-            return provider.getFirstname().equalsIgnoreCase(firstname)
-                && provider.getLastname().equalsIgnoreCase(lastname);
-        };
-        return filter(predicate);
+        return null;
     }
 
 
@@ -70,6 +70,16 @@ public enum Providers {
     }
 
 
+    public Iterator<Provider> search(String firstname, String lastname) {
+        Predicate<Provider> predicate = provider -> {
+            return provider.getFirstname().equalsIgnoreCase(firstname)
+                && provider.getLastname().equalsIgnoreCase(lastname);
+        };
+        return filter(predicate);
+    }
+
+
+
     public Iterator<Provider> filter (Predicate<Provider> predicate) {
         ArrayList<Provider> matches = new ArrayList<>();
         for (Provider provider : providers) {
@@ -77,6 +87,15 @@ public enum Providers {
                 matches.add(matches.size(), provider);
         }
         return matches.iterator();
+    }
+
+
+    @Override
+    public String toString () {
+        String string = "Providers\n----------\n";
+        for (Provider provider : providers)
+            string += provider.toString() + "\n";
+        return string;
     }
 
 

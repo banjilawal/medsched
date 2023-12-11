@@ -33,7 +33,7 @@
  */
 package edu.ics372.abdnn.medsched.core.abstracts;
 
-import edu.ics372.abdnn.medsched.core.entity.Timeslot;
+import edu.ics372.abdnn.medsched.core.concretes.Timeslot;
 
 import java.util.Objects;
 

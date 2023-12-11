@@ -11,8 +11,8 @@
 package edu.ics372.abdnn.medsched.core.catalogs.reservations;
 
 import edu.ics372.abdnn.medsched.core.catalogs.*;
-import edu.ics372.abdnn.medsched.core.entity.*;
-import edu.ics372.abdnn.medsched.core.reservation.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
+import edu.ics372.abdnn.medsched.core.concretes.reservation.*;
 
 import java.util.*;
 import java.util.function.*;
@@ -27,6 +27,10 @@ public enum PatientReservations {
         return reservations;
     }
 
+    public void add (PatientReservation reservation) {
+        if (!reservations.contains(reservation))
+            reservations.add(reservations.size(), reservation);
+    }
 
 
     /**
@@ -67,6 +71,9 @@ public enum PatientReservations {
         }
         return false;
     }
+
+
+
 
 
 

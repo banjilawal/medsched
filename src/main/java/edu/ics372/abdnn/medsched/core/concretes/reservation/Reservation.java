@@ -1,7 +1,7 @@
-package edu.ics372.abdnn.medsched.core.reservation;
+package edu.ics372.abdnn.medsched.core.concretes.reservation;
 
 import edu.ics372.abdnn.medsched.core.abstracts.*;
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 
 import java.util.*;
 
@@ -46,6 +46,6 @@ public abstract class Reservation extends AnonymousEntity { // Entity  {
 
     @Override
     public String toString () {
-        return super.toString()  +  "department:" + department.getName() +   " timeslot:" + timeSlot.toString();
+        return super.toString()  +  " department:" + department.getName() +   " timeslot:" + timeSlot.toString();
     }
 } // end class Reservation

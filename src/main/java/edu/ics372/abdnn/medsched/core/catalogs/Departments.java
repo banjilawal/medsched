@@ -39,7 +39,7 @@
 
 package edu.ics372.abdnn.medsched.core.catalogs;
 
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 import edu.ics372.abdnn.medsched.core.enums.*;
 
 import java.util.*;
@@ -97,8 +97,9 @@ public enum Departments  {
      * @return boolean
      */
     public boolean add (Department department) {
-        if (!departments.contains(department))
+        if (!departments.contains(department)) {
             return departments.add(department);
+        }
         return false;
     }
 
@@ -133,8 +134,8 @@ public enum Departments  {
 
     @Override
     public String toString () {
-        String string = "";
-        for (Department department : Departments.INSTANCE.getDepartments()) {
+        String string = "Departments\n----------\n";
+        for (Department department : departments) {
             string += department.toString() + "\n";
         }
         return string;

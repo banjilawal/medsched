@@ -1,7 +1,7 @@
 package edu.ics372.abdnn.medsched.facade.request;
 
 import edu.ics372.abdnn.medsched.core.catalogs.*;
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 
 import java.time.*;
 
@@ -11,6 +11,11 @@ public final class SearchRequest extends Request {
 
     public static Patient patientSearchRequest (String patientEmail) {
         return Patients.INSTANCE.search(patientEmail);
+    }
+
+
+    public static Provider providerSearchRequest (String providerUsername) {
+        return Providers.INSTANCE.search(providerUsername);
     }
 
 

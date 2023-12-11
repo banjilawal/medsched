@@ -1,4 +1,4 @@
-package edu.ics372.abdnn.medsched.core.entity;
+package edu.ics372.abdnn.medsched.core.concretes;
 
 import edu.ics372.abdnn.medsched.core.abstracts.*;
 import edu.ics372.abdnn.medsched.core.catalogs.*;
@@ -10,16 +10,28 @@ import java.time.*;
 import java.util.*;
 
 public class Patient extends Person implements Openings {
+    private String password;
     private String email;
 
-    public Patient (int id, String firstname, String lastname, String email) {
+
+    public Patient (int id, String firstname, String lastname, String password, String email) {
         super(id, firstname, lastname);
+        this.password = password;
         this.email = email;
+    }
+
+    public String getPassword () {
+        return password;
     }
 
 
     public String getEmail () {
         return email;
+    }
+
+
+    public void setPassword (String password) {
+        this.password = password;
     }
 
 

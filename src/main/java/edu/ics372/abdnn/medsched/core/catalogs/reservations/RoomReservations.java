@@ -13,9 +13,9 @@
 package edu.ics372.abdnn.medsched.core.catalogs.reservations;
 
 import edu.ics372.abdnn.medsched.core.catalogs.*;
-import edu.ics372.abdnn.medsched.core.entity.*;
-import edu.ics372.abdnn.medsched.core.entity.Timeslot;
-import edu.ics372.abdnn.medsched.core.reservation.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
+import edu.ics372.abdnn.medsched.core.concretes.Timeslot;
+import edu.ics372.abdnn.medsched.core.concretes.reservation.*;
 
 import java.util.*;
 import java.util.function.*;
@@ -29,7 +29,10 @@ public enum RoomReservations  {
         return reservations;
     }
 
-
+    public void add (RoomReservation reservation) {
+        if (!reservations.contains(reservation))
+            reservations.add(reservations.size(), reservation);
+    }
 
     /**
      * Takes the parameters needed to add a <code>ExamReservation</code> to the collection and returns the new instance back.

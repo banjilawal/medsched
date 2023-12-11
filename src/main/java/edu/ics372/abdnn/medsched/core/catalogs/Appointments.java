@@ -35,8 +35,8 @@
 
 package edu.ics372.abdnn.medsched.core.catalogs;
 
-import edu.ics372.abdnn.medsched.core.entity.Timeslot;
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.Timeslot;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 
 import java.time.*;
 import java.util.*;
@@ -46,6 +46,26 @@ public enum Appointments {
     INSTANCE;
     private final ArrayList<Appointment> appointments = new ArrayList<>();
 
+
+    /**
+     * Adds a new appointment to the catalog if it does not exist. Consistency, Isolation and Durability are maintained
+     * with <code>AppointmentRequest</code>. To assure ACID <code>add</code> returns <code>false</code> if the operation
+     * fails. True otherwise
+     *
+     * @param appointment
+     * @return boolean
+     */
+    public boolean add (Appointment appointment) {
+        if (!appointments.contains(appointment)) {
+//            System.out.println("Appointments L244: Catalog does not contain appointmentId --> "
+//                + appointment.getId()
+//                + " Adding " + appointment.toString());
+            return appointments.add(appointment);
+        }
+        return false;
+    }
+
+
     /**
      * Returns an <code>ArrayList</code> of appointments booked with a department on <code>date</code>
      * between <code>startTime</code> and closing time. If no appointments are found returns null.
@@ -54,6 +74,10 @@ public enum Appointments {
      * @param startTime LocalTime
      * @return ArrayList<Appointment><
      */
+
+    public ArrayList<Appointment> getAppointments () {
+        return appointments;
+    }
     public Appointment search (Department department, LocalDate date, LocalTime startTime) {
         for (Appointment appointment : appointments) {
             if (appointment.getDepartment().equals(department) && appointment.getTimeslot().inDateTimeRange(date, startTime))
@@ -228,20 +252,7 @@ public enum Appointments {
     }
 
 
-    /**
-     * Adds a new appointment to the catalog if it does not exist. Consistency, Isolation and Durability are maintained
-     * with <code>AppointmentRequest</code>. To assure ACID <code>add</code> returns <code>false</code> if the operation
-     * fails. True otherwise
-     *
-     * @param appointment
-     * @return boolean
-     */
-    public boolean add (Appointment appointment) {
-        if (!appointments.contains(appointment)) {
-            return appointments.add(appointment);
-        }
-        return true;
-    }
+
 
 
     /**
@@ -279,5 +290,15 @@ public enum Appointments {
                 matches.add(matches.size(), appointment);
         }
         return matches;
+    }
+
+
+    @Override
+    public String toString () {
+        String string = "Appointments\n----------\n";
+        for (Appointment appointment : appointments) {
+            string += appointment.toString() + "\n";
+        }
+        return string;
     }
 } // end class Appointments

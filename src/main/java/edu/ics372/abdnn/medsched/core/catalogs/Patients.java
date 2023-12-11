@@ -1,6 +1,6 @@
 package edu.ics372.abdnn.medsched.core.catalogs;
 
-import edu.ics372.abdnn.medsched.core.entity.*;
+import edu.ics372.abdnn.medsched.core.concretes.*;
 
 import java.util.*;
 import java.util.function.*;
@@ -55,8 +55,9 @@ public enum Patients {
 
 
     public boolean add (Patient patient) {
-        if (!patients.contains(patient))
+        if (!patients.contains(patient)) {
             return patients.add(patient);
+        }
         return true;
     }
 
@@ -70,6 +71,14 @@ public enum Patients {
         return matches;
     }
 
+
+    @Override
+    public String toString () {
+        String string = "Patients\n--------\n";
+        for (Patient patient : patients)
+            string += patient.toString() + "\n";
+        return string;
+    }
     public Patient rand () {
         int index = (int) (Math.random() * (patients.size() - 1));
         return patients.get(index);

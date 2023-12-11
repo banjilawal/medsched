@@ -7,7 +7,7 @@ public class DeletePatientRequest extends Request {
     private final String email;
     private final int id;
 
-    private DeletePatientRequest (String firstname, String lastname, String email, int id) {
+    public DeletePatientRequest (String firstname, String lastname, String email, int id) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
