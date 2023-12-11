@@ -1,0 +1,5 @@
+INTRODUCTION
+We can have multiple people trying to make appointments at the same time. We can have race conditions. To prevent that
+and assure appointments are created successfully we need to reserve an examroom, patient, provider, and timeSlot. If all
+the resources cannot be acquired for booking an appointment the reservation is removed.
+

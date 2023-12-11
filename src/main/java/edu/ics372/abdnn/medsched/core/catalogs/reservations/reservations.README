@@ -1,0 +1,34 @@
+Reservations.Package README
+-----------------------------
+
+1. Introduction
+----------------
+With multiple users we could have inconsistent state because two or ore requests could come in for the same resource at
+the same.  To avoid this we use the reservations to assure
+
+    * Atomicity - Each appointment request either succeeds or fails. If the resources needed to create an appointment are
+        not reserved the appointment is not created.
+    * Consistency - Appointments are invariant. Once they have been created they cannot be removed. The reservations catalogs
+        are necessary for consistency but not sufficient.
+    * Isolation - The reservations make sure each appointment request is isolated even if they are concurrent.
+    * Durable - Reservations do not guarantee durability. We need serialization to assure durability.
+
+1.1 Nesting the Reservations Package
+-------------------------------------
+Nesting reservations inside catalogs.reservations make the package hierarchy deeper but makes it easier to comprehend because the
+each PatientReservations, ProviderReservations, and RoomReservations have such a different function than Providers, Patients,
+and ExamRooms.
+
+
+2. Function of Reservations Catalogs
+--------------------------------------
+1. The reservations are used to Prevent double booking of a resource. A resource is an item needed to create an appointment.
+    * Resource classes: Patient, Provider, ExamRoom, Timeslot
+2. Once a response is received for the appointment request the reservations are removed. If the appointment was made successfully
+the resource are still locked.  If the request failed because one or more resources was not available all the other resources
+need to be released.
+
+
+
+
+

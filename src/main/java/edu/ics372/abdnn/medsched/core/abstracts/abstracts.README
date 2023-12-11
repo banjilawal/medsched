@@ -1,0 +1,12 @@
+Abstracts.Package README
+--------------------------
+
+
+1. Introduction
+-----------------
+Abstracts package contains parent classes of all the concrete classes. Some package members have abstract methods
+
+2. ABout the Organization, Person, Staff, and Room Classes
+------------------------------------------------------------
+We cannot delete resources and users from the system unless because of cascading side effects. Instead we change the 
+status from active to deleted.
