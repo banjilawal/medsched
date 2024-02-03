@@ -2,6 +2,7 @@ package edu.ics372.abdnn.medsched.test.populator;
 
 import edu.ics372.abdnn.medsched.core.catalogs.*;
 import edu.ics372.abdnn.medsched.core.concretes.*;
+import edu.ics372.abdnn.medsched.core.exceptions.*;
 import edu.ics372.abdnn.medsched.core.global.*;
 import edu.ics372.abdnn.medsched.core.interfaces.*;
 import edu.ics372.abdnn.medsched.facade.request.*;
@@ -19,17 +20,27 @@ public enum AppointmentPopulator implements Populator  {
             ExamRoom examRoom = ExamRooms.INSTANCE.rand();
             Timeslot timeslot = department.randTimeslot();
             Response response = new Response();
-            Appointment appointment = response.response(
-                new CreateAppointmentRequest(
-                    department,
-                    provider,
-                    examRoom,
-                    patient,
-                    timeslot
-                ));
-            if (appointment == null) {
-                System.out.println("AppointmentPopulator:L28 Appointment creation failed null returned");
+            Appointment appointment = null;
+            try {
+                appointment = response.response(
+                    new CreateAppointmentRequest(
+                        department,
+                        provider,
+                        examRoom,
+                        patient,
+                        timeslot
+                    ));
+            } catch (
+                ReservationRejectionException
+                | FailedRecordDeletionException
+                | RecordAdditionFailedException
+                | AppointmentCreationFailedException e
+            ) {
+                throw new RuntimeException(e);
             }
+//            if (appointment == null) {
+//                System.out.println("AppointmentPopulator:L28 Appointment creation failed null returned");
+//            }
         }
     }
 } // end enum DepartmentPopulator

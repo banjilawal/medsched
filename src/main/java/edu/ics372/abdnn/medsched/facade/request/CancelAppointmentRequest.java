@@ -15,4 +15,20 @@ public class CancelAppointmentRequest {
         this.date = date;
         this.startTime = startTime;
     }
+
+    public String getPatientEmail () {
+        return patientEmail;
+    }
+
+    public String getDepartmentName () {
+        return departmentName;
+    }
+
+    public LocalDate getDate () {
+        return date;
+    }
+
+    public LocalTime getStartTime () {
+        return startTime;
+    }
 } // end class CancelAppointmentRequest

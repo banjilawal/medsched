@@ -2,6 +2,7 @@ package edu.ics372.abdnn.medsched.core.concretes;
 
 import edu.ics372.abdnn.medsched.core.abstracts.*;
 import edu.ics372.abdnn.medsched.core.enums.*;
+import edu.ics372.abdnn.medsched.core.exceptions.*;
 import edu.ics372.abdnn.medsched.core.global.*;
 
 import java.time.*;
@@ -11,6 +12,11 @@ public class Appointment extends Meeting {
     private AppointmentStatus status;
     private final Department department;
     private final Patient patient;
+    private final LocalTime lateArrivalThreshold;
+    private final LocalTime expectedCheckInTime;
+    private final LocalTime expectedCheckOutTime;
+    private LocalTime actualCheckInTime;
+    private LocalTime actualCheckOutTime;
     public LocalTime checkInTime;
     public LocalTime checkOutTime;
 
@@ -28,9 +34,14 @@ public class Appointment extends Meeting {
         this.department = department;
         this.patient= patient;
         this.status = AppointmentStatus.BOOKED;
-        this.checkInTime = LocalTime.now();
-        this.checkOutTime = LocalTime.now();
-    } //
+        this.expectedCheckInTime = timeSlot.getStartTime().minusMinutes(Constant.APPOINTMENT_SWITCH_OVER_TIME);
+        this.expectedCheckOutTime = timeSlot.getEndTime().minusMinutes(Constant.APPOINTMENT_SWITCH_OVER_TIME);
+        this.lateArrivalThreshold = timeSlot.getStartTime().plusMinutes(Constant.LATE_MINUTES_THRESHOLD);
+        this.checkInTime = null;
+        this.checkOutTime = null;
+        this.actualCheckInTime = null;
+        this.actualCheckOutTime = null;
+    }
 
 
     public Patient getPatient () {
@@ -41,34 +52,70 @@ public class Appointment extends Meeting {
         return department;
     }
 
-
-    public LocalTime getCheckInTime () {
-        return checkInTime;
+    public Provider getProvider () {
+        return (Provider) getHost();
     }
 
-
-    public LocalTime getCheckOutTime () {
-        return checkOutTime;
-    }
 
     public ExamRoom getExamRoom () {
         return (ExamRoom) getLocation();
     }
 
 
-    public Provider getProvider () {
-        return (Provider) getHost();
-    }
-
     public AppointmentStatus getStatus () {
         return status;
     }
 
+    public LocalTime getLateArrivalThreshold () {
+        return lateArrivalThreshold;
+    }
 
-    public void checkIn (LocalTime checkInTime) {
-        if (checkInTime == null)
-            throw new IllegalArgumentException("Appointment 55: Cannot set checkinTime to null");
+    public LocalTime getExpectedCheckInTime () {
+        return expectedCheckInTime;
+    }
 
+    public LocalTime getExpectedCheckOutTime () {
+        return expectedCheckOutTime;
+    }
+
+    public LocalTime getActualCheckInTime () {
+        return actualCheckInTime;
+    }
+
+    public LocalTime getActualCheckOutTime () {
+        return actualCheckOutTime;
+    }
+
+
+    public void setActualCheckInTime (LocalTime actualCheckInTime) {
+        this.actualCheckInTime = actualCheckInTime;
+        if (actualCheckInTime.isAfter(this.lateArrivalThreshold)) {
+            this.status = AppointmentStatus.CANCELLED;
+        }
+        else {
+            this.status = AppointmentStatus.IN_PROGRESS;
+        }
+    }
+
+    public void setActualCheckOutTime (LocalTime actualCheckOutTime) {
+        this.actualCheckOutTime = actualCheckOutTime;
+        completed();
+    }
+
+
+    public void setStatus (AppointmentStatus status) throws AppointStatusException {
+        if (!status.equals(AppointmentStatus.IN_PROGRESS) && this.status.equals(AppointmentStatus.IN_PROGRESS)) {
+            throw new AppointStatusException("Cannot change the status of an appointment in progress before it's completed");
+        }
+        if (!status.equals(AppointmentStatus.CANCELLED) && this.status.equals(AppointmentStatus.BOOKED)) {
+            throw new AppointStatusException("COnly booked, late or no-show appointments can be cancelled");
+        }
+        this.status = status;
+    }
+
+    
+
+    public void setCheckInTime (LocalTime checkInTime) {
         this.checkInTime = checkInTime;
         if (isLateCheckIn()) {
             checkOutTime = checkInTime;
@@ -78,7 +125,7 @@ public class Appointment extends Meeting {
     }
 
 
-    public void checkout (LocalTime checkOutTime) {
+    public void setCheckOutTime (LocalTime checkOutTime) {
         if (checkOutTime == null)
             throw new IllegalArgumentException("Appointment 66: Cannot set checkOutTime to null");
         this.checkOutTime = checkOutTime;
@@ -93,16 +140,18 @@ public class Appointment extends Meeting {
         if (object instanceof Appointment appointment) {
             return super.equals(appointment)
                 && department.equals(appointment.getDepartment())
-                && patient.equals(appointment.getPatient())
-                && checkInTime.equals(appointment.getCheckInTime())
-                && checkOutTime.equals(appointment.getCheckOutTime());
+                && patient.equals(appointment.getPatient());
+            // expectedCheckinTime, expectedCheckOutTime and lateArrivalThreshold are derived from timeslot.startTime()
+            // we don't need them for equality check
+//                && expectedCheckInTime.equals(appointment.getExpectedCheckInTime())
+//                && expectedCheckOutTime.equals(appointment.getExpectedCheckInTime())
         }
         return false;
     }
 
     @Override
     public int hashCode () {
-        return Objects.hash(super.hashCode(), department, patient, checkInTime, checkOutTime, status);
+        return Objects.hash(super.hashCode(), department, patient, status, expectedCheckInTime, expectedCheckOutTime);
     }
 
     @Override
@@ -111,8 +160,8 @@ public class Appointment extends Meeting {
             + " department: " + department.getName()
             + " patient:" +  patient.getFirstname() + " " + patient.getLastname()
             + " provider:" + getHost().getFirstname() + " " + getHost().getLastname()
-            + " checkin:" + printLocalTime(checkInTime)
-            + " checkout:" + printLocalTime(checkOutTime);
+            + " date:" + getTimeslot().getDate().toString()
+            + " checkin time:" + checkInTime.toString();
     }
 
 

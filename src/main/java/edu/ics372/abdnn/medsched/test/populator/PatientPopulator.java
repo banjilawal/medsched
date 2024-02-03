@@ -2,6 +2,7 @@ package edu.ics372.abdnn.medsched.test.populator;
 
 import edu.ics372.abdnn.medsched.core.catalogs.*;
 import edu.ics372.abdnn.medsched.core.concretes.*;
+import edu.ics372.abdnn.medsched.core.exceptions.*;
 import edu.ics372.abdnn.medsched.core.global.*;
 import edu.ics372.abdnn.medsched.core.interfaces.*;
 import edu.ics372.abdnn.medsched.core.visitors.*;
@@ -19,10 +20,15 @@ public enum PatientPopulator implements Populator  {
             String password = Constant.LETTERS[0];
             String email = Constant.randomEmail(firstname, lastname);
             Response response = new Response();
-            Patient patient = response.response(new CreatePatientRequest(firstname, lastname, password, email));
-            if (patient == null) {
-                System.out.print("Could not add patient " + patient.getEmail());
+            Patient patient = null;
+            try {
+                patient = response.response(new CreatePatientRequest(firstname, lastname, password, email));
+            } catch (UserCreationFailureException | RecordAdditionFailedException e) {
+                throw new RuntimeException(e);
             }
+//            if (patient == null) {
+//                System.out.print("Could not add patient " + patient.getEmail());
+//            }
         }
     }
 } // end enum PatientPopulator

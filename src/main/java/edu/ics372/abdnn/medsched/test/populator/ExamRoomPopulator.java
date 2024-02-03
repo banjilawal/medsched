@@ -1,6 +1,7 @@
 package edu.ics372.abdnn.medsched.test.populator;
 
 import edu.ics372.abdnn.medsched.core.concretes.ExamRoom;
+import edu.ics372.abdnn.medsched.core.exceptions.*;
 import edu.ics372.abdnn.medsched.core.global.Constant;
 import edu.ics372.abdnn.medsched.core.interfaces.Populator;
 import edu.ics372.abdnn.medsched.core.catalogs.ExamRooms;
@@ -20,9 +21,11 @@ public enum ExamRoomPopulator implements Populator  {
                 String letter = Constant.LETTERS[letterIndex];
                 String name = NameGenerator.INSTANCE.assignName(this, letter, numberIndex);
                 Response response = new Response();
-                ExamRoom examroom = response.response(new CreateExamRoomRequest(name));
-                if (examroom == null) {
-                    System.out.println("exam room " + name + " not created");
+                ExamRoom examroom = null;
+                try {
+                    examroom = response.response(new CreateExamRoomRequest(name));
+                } catch (DuplicateEntityException | RecordAdditionFailedException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }

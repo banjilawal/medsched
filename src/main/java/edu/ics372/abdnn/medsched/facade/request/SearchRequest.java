@@ -4,6 +4,7 @@ import edu.ics372.abdnn.medsched.core.catalogs.*;
 import edu.ics372.abdnn.medsched.core.concretes.*;
 
 import java.time.*;
+import java.util.*;
 
 
 public final class SearchRequest extends Request {
